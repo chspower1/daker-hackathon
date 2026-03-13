@@ -20,5 +20,7 @@ pnpm dev
 
 ## 참고 문서
 
+- 병렬 작업 허브: `docs/index.md`
+- 병렬 작업 시작점: `docs/workstreams/parallel-overview.md`
 - 개발 스펙: `docs/development-spec.md`
 - 다국어 개발 가이드: `docs/i18n-guide.md`

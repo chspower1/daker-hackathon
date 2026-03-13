@@ -1,5 +1,10 @@
 # 기능 상세: 해커톤 상세
 
+## 0. 병렬 작업 시작점
+
+- 해커톤 트랙 병렬 착수는 [`docs/workstreams/hackathon.md`](../workstreams/hackathon.md)에서 시작한다.
+- 해커톤-캠프 인터페이스 고정값은 [`docs/workstreams/parallel-overview.md`](../workstreams/parallel-overview.md)만 따른다.
+
 ## 1. 라우트
 
 `/hackathons/[slug]`
@@ -62,7 +67,8 @@
 ### 5.6 Teams
 
 - 현재 해커톤 연동 모집글 목록
-- `/camp?hackathon={slug}` 이동
+- 목록 데이터는 `localStorage.teams` 병합 결과를 우선 사용한다.
+- `/camp?hackathon={slug}` 이동 (공개 계약 링크)
 - 모집글 생성 진입
 - 작성 전 로컬 프로필 확인
 - 로컬 생성 모집글에는 작성 시점의 프로필 스냅샷을 저장
@@ -110,3 +116,4 @@
 - 로컬 상태와 모델 규칙: `docs/common/data-and-state.md`
 - 공통 수용 기준: `docs/common/acceptance.md`
 - 구현 구조 제약: `docs/common/implementation-architecture.md`
+- 병렬 공유 계약: `docs/workstreams/parallel-overview.md`

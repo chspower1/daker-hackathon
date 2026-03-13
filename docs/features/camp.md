@@ -1,5 +1,10 @@
 # 기능 상세: 캠프
 
+## 0. 병렬 작업 시작점
+
+- 이 화면의 독립 실행 진입점은 [`docs/workstreams/camp.md`](../workstreams/camp.md)다.
+- 공통 계약은 [`docs/workstreams/parallel-overview.md`](../workstreams/parallel-overview.md)만 필수로 읽는다.
+
 ## 1. 라우트
 
 `/camp`
@@ -60,6 +65,6 @@
 
 ## 9. 연계 규칙
 
-- 상세 Teams 섹션과 링크 연계: `docs/features/hackathon-detail.md`
+- 상세 화면 CTA와의 연계 계약: `docs/workstreams/parallel-overview.md`의 `Hackathon -> Camp` 인터페이스
 - 상태 모델: `docs/common/data-and-state.md`
 - 수용 기준: `docs/common/acceptance.md`

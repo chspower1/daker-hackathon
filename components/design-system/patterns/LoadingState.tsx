@@ -1,9 +1,13 @@
 import { Skeleton } from "@/components/design-system/primitives/Skeleton";
 
-export function LoadingState() {
+interface LoadingStateProps {
+  label?: string;
+}
+
+export function LoadingState({ label = "콘텐츠를 불러오는 중" }: LoadingStateProps) {
   return (
     <div className="w-full space-y-4 py-8" aria-live="polite" aria-busy="true">
-      <span className="sr-only">콘텐츠를 불러오는 중</span>
+      <span className="sr-only">{label}</span>
       <Skeleton className="h-8 w-1/3" />
       <div className="space-y-2">
         <Skeleton className="h-4 w-full" />

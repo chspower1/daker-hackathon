@@ -1,5 +1,9 @@
 # 기능 상세: 해커톤 목록
 
+## 0. 병렬 작업 시작점
+
+- 해커톤 목록은 트랙 진입점이 [`docs/workstreams/hackathon.md`](../workstreams/hackathon.md)이며, 상세 페이지 연동은 최소 계약만 따른다.
+
 ## 1. 라우트
 
 `/hackathons`
@@ -41,5 +45,5 @@
 
 - 공통 범위: `docs/common/product-and-scope.md`
 - 데이터 모델: `docs/common/data-and-state.md`
-- 상세 구현은 `docs/features/hackathon-detail.md`
+- 상세 구현은 `docs/workstreams/hackathon.md`의 목록-상세 인터페이스를 따른다.
 - 수용 기준: `docs/common/acceptance.md`
