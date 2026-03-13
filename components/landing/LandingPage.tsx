@@ -1,9 +1,14 @@
+"use client";
+
 import { Button } from "@/components/design-system/primitives/Button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/design-system/primitives/Card";
 import { Badge } from "@/components/design-system/primitives/Badge";
 import { DataTable, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/design-system/primitives/DataTable";
+import { toLanguageTag } from "@/lib/i18n/config";
+import { useI18n } from "@/lib/i18n/I18nProvider";
+import { useDocumentMetadata } from "@/lib/i18n/useDocumentMetadata";
 import { DepthScene } from "./DepthScene";
-import { landingContent } from "./content";
+import { LanguageSwitcher } from "./LanguageSwitcher";
 import { cn } from "@/lib/cn";
 
 function AnchorButton({ href, variant = "primary", size = "lg", className, children }: { href: string; variant?: "primary" | "outline"; size?: "lg" | "sm"; className?: string; children: React.ReactNode }) {
@@ -31,6 +36,11 @@ function AnchorButton({ href, variant = "primary", size = "lg", className, child
 }
 
 export function LandingPage() {
+  const { dict, locale } = useI18n();
+  const languageTag = toLanguageTag(locale);
+
+  useDocumentMetadata(dict.metadata);
+
   return (
     <DepthScene className="bg-surface-muted text-content-base font-sans overflow-x-hidden selection:bg-primary-subtle selection:text-primary-content">
       <nav className="fixed top-0 w-full z-50 border-b border-border-base/50 bg-surface-base/80 backdrop-blur-md">
@@ -40,11 +50,14 @@ export function LandingPage() {
             HackPlatform
           </div>
           <div className="hidden md:flex gap-6 text-sm font-medium text-content-muted">
-            <a href="#discover" className="hover:text-primary-base transition-colors">Discover</a>
-            <a href="#team" className="hover:text-primary-base transition-colors">Teams</a>
-            <a href="#rankings" className="hover:text-primary-base transition-colors">Rankings</a>
+            <a href="#discover" className="hover:text-primary-base transition-colors">{dict.nav.discover}</a>
+            <a href="#team" className="hover:text-primary-base transition-colors">{dict.nav.teams}</a>
+            <a href="#rankings" className="hover:text-primary-base transition-colors">{dict.nav.rankings}</a>
           </div>
-          <AnchorButton href="#discover" size="sm">Get Started</AnchorButton>
+          <div className="flex items-center gap-4">
+            <LanguageSwitcher />
+            <AnchorButton href="#discover" size="sm">{dict.nav.getStarted}</AnchorButton>
+          </div>
         </div>
       </nav>
 
@@ -60,19 +73,19 @@ export function LandingPage() {
         
         <div className="grid lg:grid-cols-2 gap-12 items-center z-10">
           <div className="space-y-8 animate-slide-up">
-            <Badge variant="info" className="px-3 py-1 text-sm border-primary-base/20">Welcome to the arena</Badge>
+            <Badge variant="info" className="px-3 py-1 text-sm border-primary-base/20">{dict.misc.welcome}</Badge>
             <h1 className="text-5xl md:text-7xl font-extrabold tracking-tighter leading-[1.1] text-content-base">
-              {landingContent.hero.headline}
+              {dict.hero.headline}
             </h1>
             <p className="text-xl text-content-muted max-w-lg leading-relaxed">
-              {landingContent.hero.subcopy}
+              {dict.hero.subcopy}
             </p>
             <div className="flex flex-wrap gap-4 pt-4">
-              <AnchorButton href={landingContent.hero.primaryCta.href} variant="primary" className="shadow-lg shadow-primary-base/25 hover:shadow-xl hover:shadow-primary-base/30 transition-shadow">
-                {landingContent.hero.primaryCta.label}
+              <AnchorButton href={dict.hero.primaryCta.href} variant="primary" className="shadow-lg shadow-primary-base/25 hover:shadow-xl hover:shadow-primary-base/30 transition-shadow">
+                {dict.hero.primaryCta.label}
               </AnchorButton>
-              <AnchorButton href={landingContent.hero.secondaryCta.href} variant="outline">
-                {landingContent.hero.secondaryCta.label}
+              <AnchorButton href={dict.hero.secondaryCta.href} variant="outline">
+                {dict.hero.secondaryCta.label}
               </AnchorButton>
             </div>
           </div>
@@ -90,11 +103,11 @@ export function LandingPage() {
                 style={{ transform: "translate3d(0, calc(var(--landing-scroll-y) * 0.4px), -80px) rotate(-6deg)" }}
               >
                 <CardHeader>
-                  <Badge variant="warning" className="w-fit mb-2">Live</Badge>
-                  <CardTitle className="text-lg">Global AI Hack</CardTitle>
+                  <Badge variant="warning" className="w-fit mb-2">{dict.card.live}</Badge>
+                  <CardTitle className="text-lg">{dict.card.globalAIHack}</CardTitle>
                 </CardHeader>
                 <CardContent>
-                  <p className="text-sm text-content-muted">Join 500+ hackers building the future of AI tools.</p>
+                  <p className="text-sm text-content-muted">{dict.card.globalAIHackDesc}</p>
                 </CardContent>
               </Card>
 
@@ -103,12 +116,12 @@ export function LandingPage() {
                 style={{ transform: "translate3d(0, calc(var(--landing-scroll-y) * 0.15px), 30px) rotate(4deg)" }}
               >
                 <CardHeader>
-                  <Badge variant="success" className="w-fit mb-2">Looking for Team</Badge>
-                  <CardTitle className="text-lg">Frontend Dev</CardTitle>
+                  <Badge variant="success" className="w-fit mb-2">{dict.card.lookingForTeam}</Badge>
+                  <CardTitle className="text-lg">{dict.card.frontendDev}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <div className="space-y-2">
-                    <p className="text-sm text-content-muted">React, Tailwind, Motion.</p>
+                    <p className="text-sm text-content-muted">{dict.card.frontendDevDesc}</p>
                     <div className="flex gap-2">
                       <div className="h-6 w-6 rounded-full bg-blue-100 border border-blue-200" />
                       <div className="h-6 w-6 rounded-full bg-purple-100 border border-purple-200" />
@@ -127,7 +140,7 @@ export function LandingPage() {
               >
                 <CardHeader>
                   <div className="flex justify-between items-start">
-                    <CardTitle className="text-xl">Leaderboard</CardTitle>
+                    <CardTitle className="text-xl">{dict.card.leaderboard}</CardTitle>
                     <span className="text-2xl">🏆</span>
                   </div>
                 </CardHeader>
@@ -137,7 +150,7 @@ export function LandingPage() {
                       <div key={i} className="flex items-center justify-between p-2 rounded-md bg-surface-muted">
                         <div className="flex items-center gap-3">
                           <span className="font-bold text-content-muted">#{i}</span>
-                          <span className="font-medium">Team Alpha {i}</span>
+                          <span className="font-medium">{dict.card.teamAlpha} {i}</span>
                         </div>
                         <span className="text-primary-base font-bold">2.4k</span>
                       </div>
@@ -153,7 +166,7 @@ export function LandingPage() {
       <section className="py-24 bg-surface-base border-y border-border-base">
         <div className="max-w-7xl mx-auto px-6">
           <div className="grid md:grid-cols-3 gap-8">
-            {landingContent.flow.map((step) => (
+            {dict.flow.map((step) => (
               <div key={step.step} className="space-y-4 group">
                 <div className="text-4xl font-black text-border-strong group-hover:text-primary-base transition-colors">
                   {step.step}
@@ -170,12 +183,12 @@ export function LandingPage() {
 
       <section id="discover" className="py-32 px-6 max-w-7xl mx-auto relative">
         <div className="mb-16 text-center max-w-2xl mx-auto space-y-4">
-          <h2 className="text-4xl md:text-5xl font-bold tracking-tight">Everything you need</h2>
-          <p className="text-lg text-content-muted">A platform designed for speed, collaboration, and showcasing your best work.</p>
+          <h2 className="text-4xl md:text-5xl font-bold tracking-tight">{dict.misc.featuresTitle}</h2>
+          <p className="text-lg text-content-muted">{dict.misc.featuresSubtitle}</p>
         </div>
 
         <div className="grid md:grid-cols-2 gap-8 preserve-3d">
-          {landingContent.features.map((feature, i) => (
+          {dict.features.map((feature, i) => (
             <Card 
               key={feature.id} 
               id={feature.id} 
@@ -193,7 +206,7 @@ export function LandingPage() {
                   {feature.description}
                 </p>
                 <Button variant="ghost" className="group-hover:translate-x-1 transition-transform p-0 hover:bg-transparent text-primary-base">
-                  Learn more →
+                  {dict.misc.learnMore}
                 </Button>
               </CardContent>
             </Card>
@@ -209,8 +222,8 @@ export function LandingPage() {
         
         <div className="max-w-4xl mx-auto px-6 relative z-10">
           <div className="text-center mb-12 space-y-4">
-            <Badge variant="warning">Live Rankings</Badge>
-            <h2 className="text-4xl font-bold tracking-tight">Top Teams This Season</h2>
+            <Badge variant="warning">{dict.misc.rankingsBadge}</Badge>
+            <h2 className="text-4xl font-bold tracking-tight">{dict.misc.rankingsTitle}</h2>
           </div>
           
           <Card className="shadow-xl shadow-black/5">
@@ -219,18 +232,18 @@ export function LandingPage() {
                 <DataTable>
                   <TableHeader>
                     <TableRow className="hover:bg-transparent">
-                      <TableHead className="w-20">Rank</TableHead>
-                      <TableHead>Team</TableHead>
-                      <TableHead>Score</TableHead>
-                      <TableHead>Status</TableHead>
+                      <TableHead className="w-20">{dict.misc.tableRank}</TableHead>
+                      <TableHead>{dict.misc.tableTeam}</TableHead>
+                      <TableHead>{dict.misc.tableScore}</TableHead>
+                      <TableHead>{dict.misc.tableStatus}</TableHead>
                     </TableRow>
                   </TableHeader>
                   <TableBody>
-                    {landingContent.rankingsPreview.map((row) => (
+                    {dict.rankingsPreview.map((row) => (
                       <TableRow key={row.team} className="group cursor-pointer">
                         <TableCell className="font-bold text-lg">#{row.rank}</TableCell>
                         <TableCell className="font-medium group-hover:text-primary-base transition-colors">{row.team}</TableCell>
-                        <TableCell className="font-mono">{row.score.toLocaleString()}</TableCell>
+                        <TableCell className="font-mono">{row.score.toLocaleString(languageTag)}</TableCell>
                         <TableCell><Badge variant="success">{row.status}</Badge></TableCell>
                       </TableRow>
                     ))}
@@ -242,7 +255,7 @@ export function LandingPage() {
           
           <div className="mt-8 text-center">
             <AnchorButton href="#rankings" variant="outline">
-              View Full Leaderboard
+              {dict.misc.viewFull}
             </AnchorButton>
           </div>
         </div>
@@ -253,19 +266,19 @@ export function LandingPage() {
         
         <div className="relative z-10 max-w-2xl mx-auto space-y-8">
           <h2 className="text-5xl md:text-6xl font-black tracking-tight text-white">
-            {landingContent.footer.headline}
+            {dict.footer.headline}
           </h2>
-          <AnchorButton href={landingContent.footer.cta.href} className="h-14 px-10 text-lg bg-primary-base hover:bg-primary-hover text-white border-0 shadow-xl shadow-primary-base/20">
-            {landingContent.footer.cta.label}
+          <AnchorButton href={dict.footer.cta.href} className="h-14 px-10 text-lg bg-primary-base hover:bg-primary-hover text-white border-0 shadow-xl shadow-primary-base/20">
+            {dict.footer.cta.label}
           </AnchorButton>
         </div>
         
         <div className="relative z-10 mt-24 text-content-muted text-sm flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto border-t border-content-muted/20 pt-8">
-          <p>© {new Date().getFullYear()} HackPlatform. All rights reserved.</p>
+          <p>© {new Date().getFullYear()} {dict.misc.rights}</p>
           <div className="flex gap-6 mt-4 md:mt-0">
-            <a href="#discover" className="hover:text-white transition-colors">Discover</a>
-            <a href="#host" className="hover:text-white transition-colors">Host</a>
-            <a href="#rankings" className="hover:text-white transition-colors">Rankings</a>
+            <a href="#discover" className="hover:text-white transition-colors">{dict.nav.discover}</a>
+            <a href="#host" className="hover:text-white transition-colors">{dict.misc.host}</a>
+            <a href="#rankings" className="hover:text-white transition-colors">{dict.nav.rankings}</a>
           </div>
         </div>
       </footer>
