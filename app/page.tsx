@@ -1,13 +1,24 @@
-import * as React from "react";
 import { AppShell } from "@/components/design-system/patterns/AppShell";
 import { PageHeader } from "@/components/design-system/patterns/PageHeader";
 import { StatCard } from "@/components/design-system/patterns/StatCard";
-import { EmptyState } from "@/components/design-system/patterns/EmptyState";
 import { Button } from "@/components/design-system/primitives/Button";
 import { Input } from "@/components/design-system/primitives/Input";
 import { Badge } from "@/components/design-system/primitives/Badge";
 import { Card, CardHeader, CardTitle, CardContent } from "@/components/design-system/primitives/Card";
 import { Alert } from "@/components/design-system/primitives/Alert";
+
+// New Component Imports
+import { Textarea } from "@/components/design-system/primitives/Textarea";
+import { Select } from "@/components/design-system/primitives/Select";
+import { Checkbox } from "@/components/design-system/primitives/Checkbox";
+import { DataTable, TableHeader, TableBody, TableRow, TableHead, TableCell } from "@/components/design-system/primitives/DataTable";
+import { LoadingState } from "@/components/design-system/patterns/LoadingState";
+import { ErrorState } from "@/components/design-system/patterns/ErrorState";
+import { FormField } from "@/components/design-system/patterns/FormField";
+import { FilterBar } from "@/components/design-system/patterns/FilterBar";
+import { SectionNav } from "@/components/design-system/patterns/SectionNav";
+import { KeyValueList } from "@/components/design-system/patterns/KeyValueList";
+import { ActionGate } from "@/components/design-system/patterns/ActionGate";
 
 export default function Home() {
   return (
@@ -146,13 +157,22 @@ export default function Home() {
                   <Input id="email-input" placeholder="Enter your email" type="email" />
                 </div>
                 <div className="space-y-1.5">
-                  <label htmlFor="error-input" className="block text-sm font-medium text-content-base">Username</label>
-                  <Input id="error-input" placeholder="Error state" error defaultValue="invalid@email" aria-invalid="true" aria-describedby="error-message" />
-                  <p id="error-message" className="text-xs text-danger-content font-medium">This username is already taken.</p>
+                  <label htmlFor="notes-input" className="block text-sm font-medium text-content-base">Notes</label>
+                  <Textarea id="notes-input" placeholder="Enter notes..." />
                 </div>
                 <div className="space-y-1.5">
-                  <label htmlFor="disabled-input" className="block text-sm font-medium text-content-muted">Workspace (Disabled)</label>
-                  <Input id="disabled-input" placeholder="Disabled state" disabled value="Acme Corp" />
+                  <label htmlFor="role-select" className="block text-sm font-medium text-content-base">Role</label>
+                  <Select id="role-select">
+                    <option>Admin</option>
+                    <option>Editor</option>
+                    <option>Viewer</option>
+                  </Select>
+                </div>
+                <div className="flex items-center space-x-2 pt-2">
+                  <Checkbox id="terms" />
+                  <label htmlFor="terms" className="text-sm font-medium leading-none text-content-base">
+                    Accept terms and conditions
+                  </label>
                 </div>
               </CardContent>
             </Card>
@@ -183,6 +203,44 @@ export default function Home() {
                 </Alert>
               </CardContent>
             </Card>
+            
+            <Card className="md:col-span-2">
+              <CardHeader>
+                <CardTitle>Data Table</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <DataTable>
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>Rank</TableHead>
+                      <TableHead>Team</TableHead>
+                      <TableHead>Score</TableHead>
+                      <TableHead>Status</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    <TableRow>
+                      <TableCell className="font-medium">1</TableCell>
+                      <TableCell>Alpha Squad</TableCell>
+                      <TableCell>98.5</TableCell>
+                      <TableCell><Badge variant="success">Active</Badge></TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="font-medium">2</TableCell>
+                      <TableCell>Beta Boys</TableCell>
+                      <TableCell>94.2</TableCell>
+                      <TableCell><Badge variant="info">Reviewing</Badge></TableCell>
+                    </TableRow>
+                    <TableRow>
+                      <TableCell className="font-medium">3</TableCell>
+                      <TableCell>Charlie Ops</TableCell>
+                      <TableCell>88.0</TableCell>
+                      <TableCell><Badge variant="warning">Pending</Badge></TableCell>
+                    </TableRow>
+                  </TableBody>
+                </DataTable>
+              </CardContent>
+            </Card>
           </div>
         </section>
 
@@ -190,7 +248,26 @@ export default function Home() {
         <section className="space-y-6 animate-slide-up" style={{ animationDelay: "0.3s", animationFillMode: "both" }}>
           <h2 className="text-2xl font-semibold tracking-tight text-content-base border-b border-border-base pb-2">Patterns (Composed)</h2>
           
-          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4">
+          <SectionNav 
+            items={[
+              { id: "overview", label: "Overview", active: true },
+              { id: "analytics", label: "Analytics" },
+              { id: "reports", label: "Reports" },
+              { id: "settings", label: "Settings" }
+            ]} 
+            className="mb-6"
+          />
+
+          <FilterBar 
+            searchId="pattern-filter-search"
+            searchLabel="Filter showcase items"
+            filters={[
+              { id: "status", label: "Status", options: [{ value: "active", label: "Active" }, { value: "archived", label: "Archived" }] },
+              { id: "role", label: "Role", options: [{ value: "admin", label: "Admin" }, { value: "user", label: "User" }] }
+            ]}
+          />
+
+          <div className="grid sm:grid-cols-2 md:grid-cols-3 gap-4 mt-6">
             <StatCard 
               title="Total Revenue" 
               value="$45,231.89" 
@@ -206,24 +283,80 @@ export default function Home() {
               value="12" 
             />
           </div>
+          
+          <div className="grid md:grid-cols-2 gap-6 mt-6">
+            <Card>
+              <CardHeader>
+                <CardTitle>Rich Form Composition</CardTitle>
+              </CardHeader>
+              <CardContent className="space-y-4">
+                <FormField 
+                  htmlFor="project-name"
+                  label="Project Name" 
+                  description="This will be publicly visible."
+                  required
+                >
+                  <Input id="project-name" placeholder="Enter project name" />
+                </FormField>
+                <FormField 
+                  htmlFor="project-description"
+                  label="Description" 
+                  error="Description is too short."
+                >
+                  <Textarea id="project-description" placeholder="Describe your project" error aria-invalid="true" />
+                </FormField>
+                <Button className="w-full">Save Changes</Button>
+              </CardContent>
+            </Card>
 
-          <Card className="mt-8">
-            <div className="flex flex-col sm:flex-row sm:items-center justify-between p-4 border-b border-border-base gap-4">
-              <h3 className="text-sm font-semibold text-content-base">Users List</h3>
-              <div className="flex items-center gap-2">
-                <label htmlFor="filter-input" className="sr-only">Filter users</label>
-                <Input id="filter-input" placeholder="Filter users..." className="max-w-[200px] h-8 text-xs" />
-                <Button size="sm" variant="outline">Filter</Button>
-              </div>
-            </div>
-            <div className="p-8">
-              <EmptyState 
-                title="No users found"
-                description="Get started by creating a new user or adjusting your filters."
-                actionLabel="Create User"
-              />
-            </div>
-          </Card>
+            <Card>
+              <CardHeader>
+                <CardTitle>Key Value List</CardTitle>
+              </CardHeader>
+              <CardContent>
+                <KeyValueList 
+                  items={[
+                    { id: "deployment", label: "Deployment", value: "Production" },
+                    { id: "region", label: "Region", value: "us-east-1" },
+                    { id: "version", label: "Version", value: "v2.4.1" },
+                    { id: "updated-at", label: "Last Updated", value: "2 hours ago" },
+                    { id: "status", label: "Status", value: <Badge variant="success">Healthy</Badge> }
+                  ]}
+                />
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="grid md:grid-cols-2 gap-6 mt-6">
+            <Card className="flex flex-col">
+              <CardHeader>
+                <CardTitle>Loading State</CardTitle>
+              </CardHeader>
+              <CardContent className="flex-1">
+                <LoadingState />
+              </CardContent>
+            </Card>
+
+            <Card className="flex flex-col">
+              <CardHeader>
+                <CardTitle>Error State</CardTitle>
+              </CardHeader>
+              <CardContent className="flex-1">
+                <ErrorState />
+              </CardContent>
+            </Card>
+          </div>
+
+          <div className="mt-6">
+            <ActionGate 
+              isAllowed={false} 
+              title="Authentication Required" 
+              description="You must create a profile before you can submit a project."
+              actionLabel="Create Profile"
+            >
+              <div>Hidden Content</div>
+            </ActionGate>
+          </div>
         </section>
       </div>
     </AppShell>
