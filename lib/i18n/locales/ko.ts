@@ -129,6 +129,8 @@ export const ko: Dictionary = {
     rankingsBadge: "실시간 랭킹",
     rankingsTitle: "이번 시즌 최고의 팀",
     tableRank: "순위",
+    tableNickname: "닉네임",
+    tablePoints: "포인트",
     tableTeam: "팀명",
     tableScore: "점수",
     tableStatus: "상태",
