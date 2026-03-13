@@ -1,7 +1,7 @@
 import * as React from "react";
 import { cn } from "@/lib/cn";
 
-export interface DataTableProps extends React.HTMLAttributes<HTMLTableElement> {}
+export type DataTableProps = React.HTMLAttributes<HTMLTableElement>;
 
 export function DataTable({ className, ...props }: DataTableProps) {
   return (
