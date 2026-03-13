@@ -785,6 +785,7 @@ components/
   shared/
 lib/
   data/
+  i18n/
   storage/
   profile/
   mapping/
@@ -796,12 +797,21 @@ types/
 ### 12.1 역할 분리
 
 - `lib/data`: 공개 시드 데이터 로딩 및 정규화
+- `lib/i18n`: 지원 언어 목록, dictionary, provider, locale 영속화 처리
 - `lib/storage`: `localStorage` 읽기/쓰기/초기화
 - `lib/profile`: 로컬 프로필 생성, 조회, 쓰기 동작 전제 조건 처리
 - `lib/mapping`: 원본 데이터를 UI용 view model로 변환
 - `lib/leaderboard`: 리더보드 갱신 규칙 처리
 - `lib/ranking`: 글로벌 랭킹 데이터 처리
 - `types`: 공통 도메인 타입
+
+### 12.2 다국어 구현 규칙
+
+- UI 문자열은 TSX 내부에 직접 하드코딩하지 않고 locale dictionary에서 읽는다.
+- 최소 적용 범위는 본문 카피뿐 아니라 `aria-label`, 에러/빈 상태, 폼 placeholder, 메타데이터를 포함한다.
+- 언어 상태는 서버 초기 렌더와 클라이언트 상호작용 모두에서 일관되게 유지되어야 한다.
+- 초기 언어 결정은 쿠키를 기준으로 하며, 현재 단계에서는 `Accept-Language` 자동 감지를 사용하지 않는다.
+- 새 기능 추가 시 한국어/영어를 동시에 추가하고, 구조 변경 시 `docs/i18n-guide.md`를 함께 업데이트한다.
 
 ## 13. 기능군별 완료 기준
 
@@ -844,6 +854,13 @@ types/
 
 - 공개 닉네임 기준 랭킹 테이블이 표시된다.
 - 컬럼이 `rank`, `nickname`, `points`를 충족한다.
+
+### 13.8 다국어 플로우
+
+- 언어 전환 UI를 통해 한국어/영어 전환이 가능하다.
+- 언어 전환 후 랜딩 페이지의 주요 카피, CTA, 표 헤더가 선택 언어로 렌더링된다.
+- 새로고침 후에도 마지막으로 선택한 언어가 유지된다.
+- `<html lang>` 값이 현재 언어와 일치한다.
 
 ## 14. 가정 및 오픈 포인트
 
