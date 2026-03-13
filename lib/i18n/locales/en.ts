@@ -15,11 +15,11 @@ export const en = {
       "The casual hackathon platform where ideas turn into reality. Discover events, build your dream team, and climb the rankings.",
     primaryCta: {
       label: "Explore Hackathons",
-      href: "#discover",
+      href: "/hackathons",
     },
     secondaryCta: {
       label: "Find a Team",
-      href: "#team",
+      href: "/camp",
     },
   },
   flow: [
@@ -78,7 +78,7 @@ export const en = {
     headline: "Ready to start building?",
     cta: {
       label: "Join the Platform",
-      href: "#discover",
+      href: "/rankings",
     },
   },
   nav: {

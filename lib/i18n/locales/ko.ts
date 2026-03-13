@@ -17,11 +17,11 @@ export const ko: Dictionary = {
       "아이디어가 현실이 되는 캐주얼 해커톤 플랫폼입니다. 이벤트를 발견하고, 드림팀을 구축하며, 랭킹을 올려보세요.",
     primaryCta: {
       label: "해커톤 탐색하기",
-      href: "#discover",
+      href: "/hackathons",
     },
     secondaryCta: {
       label: "팀 찾기",
-      href: "#team",
+      href: "/camp",
     },
   },
   flow: [
@@ -80,7 +80,7 @@ export const ko: Dictionary = {
     headline: "빌드할 준비가 되셨나요?",
     cta: {
       label: "플랫폼 참여하기",
-      href: "#discover",
+      href: "/rankings",
     },
   },
   nav: {

@@ -1,5 +1,6 @@
 "use client";
 
+import Link from "next/link";
 import { Button } from "@/components/design-system/primitives/Button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/design-system/primitives/Card";
 import { Badge } from "@/components/design-system/primitives/Badge";
@@ -11,6 +12,12 @@ import { DepthScene } from "./DepthScene";
 import { LanguageSwitcher } from "./LanguageSwitcher";
 import { cn } from "@/lib/cn";
 
+const landingRouteMap = {
+  discover: "/hackathons",
+  team: "/camp",
+  rankings: "/rankings",
+} as const;
+
 function AnchorButton({ href, variant = "primary", size = "lg", className, children }: { href: string; variant?: "primary" | "outline"; size?: "lg" | "sm"; className?: string; children: React.ReactNode }) {
   const variants = {
     primary: "bg-primary-base text-white hover:bg-primary-hover shadow-sm border border-transparent",
@@ -20,15 +27,25 @@ function AnchorButton({ href, variant = "primary", size = "lg", className, child
     sm: "h-8 px-3 text-xs",
     lg: "h-12 px-6 text-base",
   };
+  const buttonClassName = cn(
+    "inline-flex items-center justify-center rounded-md font-medium transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-base focus-visible:ring-offset-2 active:scale-[0.98]",
+    variants[variant],
+    sizes[size],
+    className
+  );
+
+  if (href.startsWith("/")) {
+    return (
+      <Link href={href} className={buttonClassName}>
+        {children}
+      </Link>
+    );
+  }
+
   return (
     <a
       href={href}
-      className={cn(
-        "inline-flex items-center justify-center rounded-md font-medium transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-base focus-visible:ring-offset-2 active:scale-[0.98]",
-        variants[variant],
-        sizes[size],
-        className
-      )}
+      className={buttonClassName}
     >
       {children}
     </a>
@@ -50,13 +67,13 @@ export function LandingPage() {
             HackPlatform
           </div>
           <div className="hidden md:flex gap-6 text-sm font-medium text-content-muted">
-            <a href="#discover" className="hover:text-primary-base transition-colors">{dict.nav.discover}</a>
-            <a href="#team" className="hover:text-primary-base transition-colors">{dict.nav.teams}</a>
-            <a href="#rankings" className="hover:text-primary-base transition-colors">{dict.nav.rankings}</a>
+            <Link href={landingRouteMap.discover} className="hover:text-primary-base transition-colors">{dict.nav.discover}</Link>
+            <Link href={landingRouteMap.team} className="hover:text-primary-base transition-colors">{dict.nav.teams}</Link>
+            <Link href={landingRouteMap.rankings} className="hover:text-primary-base transition-colors">{dict.nav.rankings}</Link>
           </div>
           <div className="flex items-center gap-4">
             <LanguageSwitcher />
-            <AnchorButton href="#discover" size="sm">{dict.nav.getStarted}</AnchorButton>
+            <AnchorButton href={landingRouteMap.discover} size="sm">{dict.nav.getStarted}</AnchorButton>
           </div>
         </div>
       </nav>
@@ -204,13 +221,22 @@ export function LandingPage() {
               <CardContent>
                 <p className="text-content-muted text-lg mb-6">
                   {feature.description}
-                </p>
-                <Button variant="ghost" className="group-hover:translate-x-1 transition-transform p-0 hover:bg-transparent text-primary-base">
-                  {dict.misc.learnMore}
-                </Button>
-              </CardContent>
-            </Card>
-          ))}
+                  </p>
+                 {feature.id in landingRouteMap ? (
+                   <Link
+                     href={landingRouteMap[feature.id as keyof typeof landingRouteMap]}
+                     className="inline-flex items-center justify-center rounded-md font-medium transition-all duration-200 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary-base focus-visible:ring-offset-2 active:scale-[0.98] group-hover:translate-x-1 p-0 text-primary-base hover:text-primary-hover"
+                   >
+                     {dict.misc.learnMore}
+                   </Link>
+                 ) : (
+                   <Button variant="ghost" className="group-hover:translate-x-1 transition-transform p-0 hover:bg-transparent text-primary-base">
+                     {dict.misc.learnMore}
+                   </Button>
+                 )}
+               </CardContent>
+             </Card>
+           ))}
         </div>
       </section>
 
@@ -254,7 +280,7 @@ export function LandingPage() {
           </Card>
           
           <div className="mt-8 text-center">
-            <AnchorButton href="#rankings" variant="outline">
+            <AnchorButton href={landingRouteMap.rankings} variant="outline">
               {dict.misc.viewFull}
             </AnchorButton>
           </div>
@@ -276,9 +302,9 @@ export function LandingPage() {
         <div className="relative z-10 mt-24 text-content-muted text-sm flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto border-t border-content-muted/20 pt-8">
           <p>© {new Date().getFullYear()} {dict.misc.rights}</p>
           <div className="flex gap-6 mt-4 md:mt-0">
-            <a href="#discover" className="hover:text-white transition-colors">{dict.nav.discover}</a>
-            <a href="#host" className="hover:text-white transition-colors">{dict.misc.host}</a>
-            <a href="#rankings" className="hover:text-white transition-colors">{dict.nav.rankings}</a>
+            <Link href={landingRouteMap.discover} className="hover:text-white transition-colors">{dict.nav.discover}</Link>
+            <Link href={landingRouteMap.team} className="hover:text-white transition-colors">{dict.nav.teams}</Link>
+            <Link href={landingRouteMap.rankings} className="hover:text-white transition-colors">{dict.nav.rankings}</Link>
           </div>
         </div>
       </footer>
