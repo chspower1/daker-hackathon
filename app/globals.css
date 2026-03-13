@@ -110,3 +110,26 @@
     }
   }
 }
+
+:root {
+  --landing-scroll-progress: 0;
+  --landing-scroll-y: 0;
+  --landing-pointer-x: 0;
+  --landing-pointer-y: 0;
+  --landing-tilt-x: 0;
+  --landing-tilt-y: 0;
+}
+
+@layer utilities {
+  .preserve-3d {
+    transform-style: preserve-3d;
+  }
+  
+  .perspective-1000 {
+    perspective: 1000px;
+  }
+  
+  .backface-hidden {
+    backface-visibility: hidden;
+  }
+}

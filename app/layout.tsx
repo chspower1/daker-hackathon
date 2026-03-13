@@ -13,8 +13,8 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Design System Showcase",
-  description: "Enterprise SaaS design system foundations and components.",
+  title: "Hackathon Platform | Build, Compete, Create",
+  description: "A casual hackathon platform where you can discover events, build teams, follow rankings, and host your own challenges.",
 };
 
 export default function RootLayout({
