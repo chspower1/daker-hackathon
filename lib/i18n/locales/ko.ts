@@ -13,58 +13,62 @@ export const ko: Dictionary = {
   },
   hero: {
     headline: "빌드. 경쟁. 창조.",
-    subcopy: "아이디어가 현실이 되는 캐주얼 해커톤 플랫폼입니다. 이벤트를 발견하고, 드림팀을 구축하며, 랭킹을 올려보세요.",
+    subcopy:
+      "아이디어가 현실이 되는 캐주얼 해커톤 플랫폼입니다. 이벤트를 발견하고, 드림팀을 구축하며, 랭킹을 올려보세요.",
     primaryCta: {
       label: "해커톤 탐색하기",
-      href: "#discover"
+      href: "#discover",
     },
     secondaryCta: {
       label: "팀 찾기",
-      href: "#team"
-    }
+      href: "#team",
+    },
   },
   flow: [
     {
       step: "01",
       title: "탐색",
-      description: "당신의 기술과 관심사에 맞는 해커톤을 찾아보세요."
+      description: "당신의 기술과 관심사에 맞는 해커톤을 찾아보세요.",
     },
     {
       step: "02",
       title: "팀 빌딩",
-      description: "같은 목표를 가진 크리에이터들과 연결되어 팀을 구성하세요."
+      description: "같은 목표를 가진 크리에이터들과 연결되어 팀을 구성하세요.",
     },
     {
       step: "03",
       title: "랭킹 올리기",
-      description: "프로젝트를 제출하고 포인트를 얻어 글로벌 리더보드에 이름을 올리세요."
-    }
+      description: "프로젝트를 제출하고 포인트를 얻어 글로벌 리더보드에 이름을 올리세요.",
+    },
   ],
   features: [
     {
       id: "discover",
       title: "이벤트 탐색",
-      description: "전 세계의 선별된 해커톤을 살펴보세요. 초보자든 전문가든, 여러분을 위한 도전이 기다리고 있습니다.",
-      color: "bg-blue-500"
+      description:
+        "전 세계의 선별된 해커톤을 살펴보세요. 초보자든 전문가든, 여러분을 위한 도전이 기다리고 있습니다.",
+      color: "bg-blue-500",
     },
     {
       id: "team",
       title: "팀 구축",
-      description: "혼자서 해커톤에 참여하지 마세요. 매칭 시스템을 통해 당신의 스킬을 보완해 줄 개발자, 디자이너, 기획자를 찾아줍니다.",
-      color: "bg-purple-500"
+      description:
+        "혼자서 해커톤에 참여하지 마세요. 매칭 시스템을 통해 당신의 스킬을 보완해 줄 개발자, 디자이너, 기획자를 찾아줍니다.",
+      color: "bg-purple-500",
     },
     {
       id: "rankings",
       title: "글로벌 랭킹",
-      description: "업적을 달성하고 리더보드에 오르세요. 전 세계에 당신의 기술을 선보이고 포트폴리오를 만들어보세요.",
-      color: "bg-pink-500"
+      description:
+        "업적을 달성하고 리더보드에 오르세요. 전 세계에 당신의 기술을 선보이고 포트폴리오를 만들어보세요.",
+      color: "bg-pink-500",
     },
     {
       id: "host",
       title: "개최 및 후원",
       description: "강력한 주최자 도구로 나만의 해커톤을 운영해 보세요. (출시 예정)",
-      color: "bg-orange-500"
-    }
+      color: "bg-orange-500",
+    },
   ],
   rankingsPreview: [
     { rank: 1, team: "네온 나이츠", score: 2450, status: "활동중" },
@@ -76,8 +80,8 @@ export const ko: Dictionary = {
     headline: "빌드할 준비가 되셨나요?",
     cta: {
       label: "플랫폼 참여하기",
-      href: "#discover"
-    }
+      href: "#discover",
+    },
   },
   nav: {
     discover: "탐색",
@@ -103,7 +107,8 @@ export const ko: Dictionary = {
   appPages: {
     loadingLabel: "공통 앱 콘텐츠를 불러오는 중입니다.",
     errorTitle: "이 페이지를 불러올 수 없습니다",
-    errorDesc: "다시 시도해주세요. 공통 앱 스캐폴드는 준비되어 있지만 이 라우트 로딩이 완료되지 않았습니다.",
+    errorDesc:
+      "다시 시도해주세요. 공통 앱 스캐폴드는 준비되어 있지만 이 라우트 로딩이 완료되지 않았습니다.",
     hackathonsTitle: "해커톤",
     hackathonsDesc: "다가오는 이벤트를 찾아보고 참여하세요.",
     hackathonsEmpty: "진행 중인 해커톤이 없습니다",
@@ -164,11 +169,108 @@ export const ko: Dictionary = {
     contactLink: "링크 열기",
     createdAtLabel: "작성일"
   },
+  hackathonList: {
+    filters: {
+      statusLabel: "상태",
+      tagLabel: "태그",
+      clear: "필터 초기화",
+      allStatuses: "전체 상태",
+      allTags: "전체 태그",
+    },
+    status: {
+      upcoming: "예정",
+      ongoing: "진행중",
+      ended: "종료",
+    },
+    emptyFilteredTitle: "조건에 맞는 해커톤이 없습니다",
+    emptyFilteredDescription: "다른 필터 조합으로 다시 확인해보세요.",
+    errorTitle: "해커톤을 불러올 수 없습니다",
+    errorDescription: "로컬 해커톤 캐시를 읽는 중 문제가 발생했습니다.",
+    timeline: {
+      start: "시작",
+      deadline: "마감",
+      end: "종료",
+    },
+    openDetail: "상세 보기",
+  },
+  hackathonDetail: {
+    sections: {
+      overview: "개요",
+      info: "안내 및 공지",
+      eval: "평가",
+      schedule: "일정",
+      prize: "상금",
+      teams: "팀",
+      submit: "제출",
+      leaderboard: "리더보드",
+    },
+    labels: {
+      maxTeamSize: "최대 팀 인원",
+      allowSolo: "개인 참여 가능",
+      noSolo: "팀 참여만 가능",
+      rules: "규칙",
+      faq: "FAQ",
+      metricName: "평가 지표",
+      description: "설명",
+      scoreSource: "점수 출처",
+      maxRuntime: "최대 실행 시간",
+      maxSubmissions: "일일 최대 제출 횟수",
+      timezone: "시간대",
+      teamCount: "개 팀",
+      goToCamp: "캠프로 이동",
+      emptyPrize: "상금 정보가 없습니다.",
+      emptyTeams: "현재 모집 중인 팀이 없습니다.",
+      emptyLeaderboard: "리더보드가 비어 있습니다.",
+      submitGuide: "제출 가이드",
+      notes: "참고 사항",
+      saveDraft: "임시 저장",
+      finalSubmit: "최종 제출",
+      profileRequired: "프로필이 필요합니다",
+      createProfileDesc: "저장 또는 제출 전에 로컬 프로필을 만들어야 합니다.",
+      nickname: "닉네임",
+      createProfile: "프로필 생성",
+      teamName: "팀명",
+      memberCount: "인원",
+      createdAt: "작성일",
+      currentProfile: "현재 프로필",
+      currentStatus: "현재 상태",
+      lastUpdated: "마지막 업데이트",
+      submittedAt: "제출 시각",
+      artifacts: "산출물",
+      contact: "연락 링크",
+      breakdown: "세부 점수",
+      noValue: "-",
+    },
+    placeholders: {
+      nickname: "닉네임을 입력하세요",
+      teamName: "팀명을 입력하세요",
+      notes: "선택 사항을 남겨주세요",
+    },
+    status: {
+      recruiting: "모집중",
+      closed: "마감",
+      draft: "임시 저장",
+      submitted: "제출 완료",
+    },
+    empty: {
+      sectionTitle: "공개된 정보가 없습니다",
+      sectionDescription: "이 섹션에 표시할 공개 정보가 아직 없습니다.",
+    },
+    messages: {
+      profileReady: "로컬 프로필이 준비되었습니다.",
+      profileCreateFailed: "로컬 프로필을 생성할 수 없습니다.",
+      draftSaved: "임시 저장되었습니다.",
+      submitted: "제출이 완료되었습니다.",
+      saveFailed: "제출 내용을 저장할 수 없습니다.",
+      submitFailed: "최종 제출을 완료할 수 없습니다.",
+    },
+  },
   misc: {
     welcome: "새로운 무대에 오신 것을 환영합니다",
     featuresTitle: "필요한 모든 것",
-    featuresSubtitle: "속도, 협업, 그리고 최고의 작업물을 선보이기 위해 설계된 플랫폼입니다.",
-    learnMore: "더 알아보기 →",
+    featuresSubtitle:
+      "속도, 협업, 그리고 최고의 작업물을 선보이기 위해 설계된 플랫폼입니다.",
+    learnMore: "더 알아보기 ->",
     rankingsBadge: "실시간 랭킹",
     rankingsTitle: "이번 시즌 최고의 팀",
     tableRank: "순위",

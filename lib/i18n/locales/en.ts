@@ -11,58 +11,62 @@ export const en = {
   },
   hero: {
     headline: "Build. Compete. Create.",
-    subcopy: "The casual hackathon platform where ideas turn into reality. Discover events, build your dream team, and climb the rankings.",
+    subcopy:
+      "The casual hackathon platform where ideas turn into reality. Discover events, build your dream team, and climb the rankings.",
     primaryCta: {
       label: "Explore Hackathons",
-      href: "#discover"
+      href: "#discover",
     },
     secondaryCta: {
       label: "Find a Team",
-      href: "#team"
-    }
+      href: "#team",
+    },
   },
   flow: [
     {
       step: "01",
       title: "Discover",
-      description: "Find hackathons that match your skills and interests."
+      description: "Find hackathons that match your skills and interests.",
     },
     {
       step: "02",
       title: "Team Up",
-      description: "Connect with like-minded creators and build your squad."
+      description: "Connect with like-minded creators and build your squad.",
     },
     {
       step: "03",
       title: "Rank Up",
-      description: "Submit your projects, earn points, and climb the global leaderboard."
-    }
+      description: "Submit your projects, earn points, and climb the global leaderboard.",
+    },
   ],
   features: [
     {
       id: "discover",
       title: "Discover Events",
-      description: "Browse curated hackathons from around the world. Whether you're a beginner or a seasoned pro, there's a challenge for you.",
-      color: "bg-blue-500"
+      description:
+        "Browse curated hackathons from around the world. Whether you're a beginner or a seasoned pro, there's a challenge for you.",
+      color: "bg-blue-500",
     },
     {
       id: "team",
       title: "Build Teams",
-      description: "Don't hack alone. Our matching system helps you find developers, designers, and visionaries to complement your skills.",
-      color: "bg-purple-500"
+      description:
+        "Don't hack alone. Our matching system helps you find developers, designers, and visionaries to complement your skills.",
+      color: "bg-purple-500",
     },
     {
       id: "rankings",
       title: "Global Rankings",
-      description: "Earn achievements and climb the leaderboards. Showcase your skills to the world and build your portfolio.",
-      color: "bg-pink-500"
+      description:
+        "Earn achievements and climb the leaderboards. Showcase your skills to the world and build your portfolio.",
+      color: "bg-pink-500",
     },
     {
       id: "host",
       title: "Host & Sponsor",
       description: "Run your own hackathons with our powerful organizer tools. Coming soon.",
-      color: "bg-orange-500"
-    }
+      color: "bg-orange-500",
+    },
   ],
   rankingsPreview: [
     { rank: 1, team: "Neon Knights", score: 2450, status: "Active" },
@@ -74,8 +78,8 @@ export const en = {
     headline: "Ready to start building?",
     cta: {
       label: "Join the Platform",
-      href: "#discover"
-    }
+      href: "#discover",
+    },
   },
   nav: {
     discover: "Discover",
@@ -101,7 +105,8 @@ export const en = {
   appPages: {
     loadingLabel: "Loading shared app content.",
     errorTitle: "Unable to load this page",
-    errorDesc: "Please try again. The shared app scaffold is available but this route did not finish loading.",
+    errorDesc:
+      "Please try again. The shared app scaffold is available but this route did not finish loading.",
     hackathonsTitle: "Hackathons",
     hackathonsDesc: "Discover and participate in upcoming events.",
     hackathonsEmpty: "No hackathons found",
@@ -162,11 +167,108 @@ export const en = {
     contactLink: "Open link",
     createdAtLabel: "Created"
   },
+  hackathonList: {
+    filters: {
+      statusLabel: "Status",
+      tagLabel: "Tags",
+      clear: "Clear filters",
+      allStatuses: "All statuses",
+      allTags: "All tags",
+    },
+    status: {
+      upcoming: "Upcoming",
+      ongoing: "Ongoing",
+      ended: "Ended",
+    },
+    emptyFilteredTitle: "No matching hackathons",
+    emptyFilteredDescription: "Try a different combination of filters.",
+    errorTitle: "Unable to load hackathons",
+    errorDescription: "We could not read the local hackathon cache.",
+    timeline: {
+      start: "Start",
+      deadline: "Deadline",
+      end: "End",
+    },
+    openDetail: "View details",
+  },
+  hackathonDetail: {
+    sections: {
+      overview: "Overview",
+      info: "Info & Notice",
+      eval: "Evaluation",
+      schedule: "Schedule",
+      prize: "Prize",
+      teams: "Teams",
+      submit: "Submit",
+      leaderboard: "Leaderboard",
+    },
+    labels: {
+      maxTeamSize: "Max team size",
+      allowSolo: "Solo participation allowed",
+      noSolo: "Team participation only",
+      rules: "Rules",
+      faq: "FAQ",
+      metricName: "Metric",
+      description: "Description",
+      scoreSource: "Score source",
+      maxRuntime: "Max runtime",
+      maxSubmissions: "Max submissions per day",
+      timezone: "Timezone",
+      teamCount: "teams",
+      goToCamp: "Go to Camp",
+      emptyPrize: "No prize information available.",
+      emptyTeams: "No teams looking for members yet.",
+      emptyLeaderboard: "Leaderboard is empty.",
+      submitGuide: "Submission guide",
+      notes: "Notes",
+      saveDraft: "Save Draft",
+      finalSubmit: "Final Submit",
+      profileRequired: "Profile required",
+      createProfileDesc: "You need a local profile to save or submit.",
+      nickname: "Nickname",
+      createProfile: "Create Profile",
+      teamName: "Team Name",
+      memberCount: "Members",
+      createdAt: "Created",
+      currentProfile: "Current profile",
+      currentStatus: "Current status",
+      lastUpdated: "Last updated",
+      submittedAt: "Submitted at",
+      artifacts: "Artifacts",
+      contact: "Contact link",
+      breakdown: "Breakdown",
+      noValue: "-",
+    },
+    placeholders: {
+      nickname: "Enter your nickname",
+      teamName: "Enter your team name",
+      notes: "Add an optional note",
+    },
+    status: {
+      recruiting: "Recruiting",
+      closed: "Closed",
+      draft: "Draft",
+      submitted: "Submitted",
+    },
+    empty: {
+      sectionTitle: "No details available",
+      sectionDescription: "This section does not have public information yet.",
+    },
+    messages: {
+      profileReady: "Your local profile is ready.",
+      profileCreateFailed: "Unable to create a local profile.",
+      draftSaved: "Draft saved.",
+      submitted: "Successfully submitted.",
+      saveFailed: "Unable to save the submission.",
+      submitFailed: "Unable to finalize the submission.",
+    },
+  },
   misc: {
     welcome: "Welcome to the arena",
     featuresTitle: "Everything you need",
-    featuresSubtitle: "A platform designed for speed, collaboration, and showcasing your best work.",
-    learnMore: "Learn more →",
+    featuresSubtitle:
+      "A platform designed for speed, collaboration, and showcasing your best work.",
+    learnMore: "Learn more ->",
     rankingsBadge: "Live Rankings",
     rankingsTitle: "Top Teams This Season",
     tableRank: "Rank",
