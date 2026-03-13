@@ -272,6 +272,8 @@ export const en = {
     rankingsBadge: "Live Rankings",
     rankingsTitle: "Top Teams This Season",
     tableRank: "Rank",
+    tableNickname: "Nickname",
+    tablePoints: "Points",
     tableTeam: "Team",
     tableScore: "Score",
     tableStatus: "Status",
