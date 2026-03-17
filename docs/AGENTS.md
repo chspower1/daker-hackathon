@@ -9,14 +9,16 @@ It defines scope, data/state contracts, architecture, feature behavior, parallel
 
 ```text
 docs/
-├── common/         # shared contracts and architecture
-├── features/       # route-level behavior and acceptance detail
-├── workstreams/    # parallel ownership and interface contracts
-├── requirements/   # source assets and seed JSON
-├── i18n-guide.md   # translation and metadata rules
-├── index.md        # document hub
-└── planning.md     # execution entrypoint
+ ├── common/         # shared contracts and architecture
+ ├── features/       # route-level behavior and acceptance detail
+ ├── workstreams/    # parallel ownership and interface contracts
+ ├── requirements/   # source assets and seed JSON
+ ├── i18n-guide.md   # translation and metadata rules
+ ├── index.md        # document hub
+ └── planning.md     # execution entrypoint
 ```
+
+참고: 반복 템플릿 규칙은 `features/AGENTS.md`와 `workstreams/AGENTS.md`를 먼저 보고, 앱 라우트 구현은 실제로 `app/(app)/`에 있다는 점을 기준으로 문서 경로를 교차 확인합니다.
 
 ## WHERE TO LOOK
 

@@ -1,8 +1,8 @@
 # PROJECT KNOWLEDGE BASE
 
-**Generated:** 2026-03-13T23:06:40+09:00
-**Commit:** 7c60046
-**Branch:** hackathon
+**Generated:** 2026-03-17T15:42:26+09:00
+**Commit:** 981f89a
+**Branch:** main
 
 ## OVERVIEW
 
@@ -55,6 +55,8 @@ Runtime behavior is docs-driven: `docs/` defines scope, data contracts, acceptan
 - Keep seed-data imports in `lib/data`. Those modules normalize JSON from `docs/requirements/예시자료/` before storage or UI consumption.
 - Use semantic tokens from `app/globals.css` for shared styling. Shared UI composes `cn()` plus tokenized Tailwind classes.
 
+Gotcha: some docs still show legacy paths like `app/hackathons` while real app route files are under `app/(app)/`.
+
 ## ANTI-PATTERNS (THIS PROJECT)
 
 - Do not expose internal notes, internal identifiers, email, phone, real-name, or auth data in UI or persisted public shapes.
@@ -84,4 +86,4 @@ pnpm lint
 ## NOTES
 
 - There is no `test` script and no CI workflow in the repo. Verification is build/lint plus manual checks against `docs/common/acceptance.md` and the relevant feature/workstream docs.
-- More specific rules exist in `docs/AGENTS.md`, `lib/AGENTS.md`, `lib/storage/AGENTS.md`, `lib/i18n/AGENTS.md`, and `components/design-system/AGENTS.md`.
+- More specific rules exist in `docs/AGENTS.md`, `docs/features/AGENTS.md`, `docs/workstreams/AGENTS.md`, `lib/AGENTS.md`, `lib/storage/AGENTS.md`, `lib/i18n/AGENTS.md`, `components/design-system/AGENTS.md`, and `components/hackathons/AGENTS.md`.
