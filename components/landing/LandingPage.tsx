@@ -1,16 +1,12 @@
 "use client";
 
 import Link from "next/link";
-import { Button } from "@/components/design-system/primitives/Button";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/design-system/primitives/Card";
-import { Badge } from "@/components/design-system/primitives/Badge";
 import { toLanguageTag } from "@/lib/i18n/config";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { useDocumentMetadata } from "@/lib/i18n/useDocumentMetadata";
 import { DepthScene } from "./DepthScene";
-import { LanguageSwitcher } from "./LanguageSwitcher";
 import { cn } from "@/lib/cn";
-import { useEffect, useState } from "react";
+import { TopHeader } from "@/components/layout/TopHeader";
 
 const landingRouteMap = {
   discover: "/hackathons",
@@ -84,23 +80,14 @@ export function LandingPage() {
     <DepthScene className="bg-[#f4f4f0] text-content-base font-sans overflow-x-hidden selection:bg-primary-base selection:text-white">
       <NoiseOverlay />
       
-      <nav className="fixed top-0 w-full z-50 border-b-2 border-content-base bg-[#f4f4f0]/95 backdrop-blur-md">
-        <div className="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
-          <div className="flex items-center gap-4 font-black text-3xl tracking-tighter uppercase">
-            <div className="w-12 h-12 bg-content-base flex items-center justify-center text-[#f4f4f0] shadow-[4px_4px_0px_0px_rgba(37,99,235,1)] text-2xl">H</div>
-            HackPlatform
-          </div>
-          <div className="hidden md:flex gap-10 text-base font-black uppercase tracking-widest text-content-base">
-            <Link href={landingRouteMap.discover} className="cursor-pointer hover:text-primary-base transition-colors hover:underline decoration-4 underline-offset-8">{dict.nav.discover}</Link>
-            <Link href={landingRouteMap.team} className="cursor-pointer hover:text-primary-base transition-colors hover:underline decoration-4 underline-offset-8">{dict.nav.teams}</Link>
-            <Link href={landingRouteMap.rankings} className="cursor-pointer hover:text-primary-base transition-colors hover:underline decoration-4 underline-offset-8">{dict.nav.rankings}</Link>
-          </div>
-          <div className="flex items-center gap-6">
-            <LanguageSwitcher />
-            <AnchorButton href={landingRouteMap.discover} variant="brutal" className="h-12 px-6 text-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] border-2 border-content-base bg-white text-content-base">{dict.nav.getStarted}</AnchorButton>
-          </div>
-        </div>
-      </nav>
+      <TopHeader 
+        variant="landing" 
+        rightSlot={
+          <AnchorButton href={landingRouteMap.discover} variant="outline" className="h-10 md:h-12 px-4 md:px-6 text-xs md:text-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] border-2 border-content-base bg-white text-content-base">
+            {dict.nav.getStarted}
+          </AnchorButton>
+        } 
+      />
 
       <section className="relative min-h-screen pt-40 pb-20 px-6 max-w-7xl mx-auto flex flex-col justify-center">
         <div className="grid lg:grid-cols-12 gap-12 items-center z-10">
@@ -212,7 +199,7 @@ export function LandingPage() {
         </div>
 
         <div className="grid md:grid-cols-2 gap-12">
-          {dict.features.map((feature, i) => (
+          {dict.features.map((feature) => (
             <div 
               key={feature.id} 
               id={feature.id} 
@@ -319,4 +306,3 @@ export function LandingPage() {
     </DepthScene>
   );
 }
-

@@ -22,7 +22,6 @@ import { FormField } from "@/components/design-system/patterns/FormField";
 import { KeyValueList } from "@/components/design-system/patterns/KeyValueList";
 import { LoadingState } from "@/components/design-system/patterns/LoadingState";
 import { PageHeader } from "@/components/design-system/patterns/PageHeader";
-import { cn } from "@/lib/cn";
 import { createLocalSubmissionId } from "@/lib/ids/local";
 import { toLanguageTag } from "@/lib/i18n/config";
 import { useI18n } from "@/lib/i18n/I18nProvider";
@@ -37,7 +36,6 @@ import { readSubmissions, writeSubmissions } from "@/lib/storage/entities/submis
 import { readTeams } from "@/lib/storage/entities/teams";
 import type {
   HackathonDetail,
-  HackathonStatus,
   HackathonSummary,
   Leaderboard,
   LeaderboardEntry,
@@ -49,12 +47,6 @@ import type {
 const sectionIds = ["overview", "info", "eval", "schedule", "prize", "teams", "submit", "leaderboard"] as const;
 
 type Feedback = { message: string; variant: "success" | "danger" } | null;
-
-function getHackathonStatusVariant(status: HackathonStatus) {
-  if (status === "ongoing") return "success" as const;
-  if (status === "upcoming") return "info" as const;
-  return "default" as const;
-}
 
 function getTeamStatusVariant(isOpen: boolean) {
   return isOpen ? "success" as const : "default" as const;
@@ -388,7 +380,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
         ) : undefined}
       />
 
-      <nav className="sticky top-16 z-20 overflow-x-auto border-2 border-content-base bg-white p-2 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+      <nav className="sticky top-32 z-20 overflow-x-auto border-2 border-content-base bg-white p-2 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] md:top-24">
         <div className="flex min-w-max gap-4 px-2 py-2">
           {sectionIds.map((sectionId) => (
             <a
@@ -900,4 +892,3 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
     </div>
   );
 }
-
