@@ -84,8 +84,8 @@ export function LandingPage() {
     <DepthScene className="bg-[#f4f4f0] text-content-base font-sans overflow-x-hidden selection:bg-primary-base selection:text-white">
       <NoiseOverlay />
       
-      <nav className="fixed top-0 w-full z-50 border-b-4 border-content-base bg-[#f4f4f0]/95 backdrop-blur-md">
-        <div className="max-w-[1400px] mx-auto px-6 h-24 flex items-center justify-between">
+      <nav className="fixed top-0 w-full z-50 border-b-2 border-content-base bg-[#f4f4f0]/95 backdrop-blur-md">
+        <div className="max-w-7xl mx-auto px-6 h-24 flex items-center justify-between">
           <div className="flex items-center gap-4 font-black text-3xl tracking-tighter uppercase">
             <div className="w-12 h-12 bg-content-base flex items-center justify-center text-[#f4f4f0] shadow-[4px_4px_0px_0px_rgba(37,99,235,1)] text-2xl">H</div>
             HackPlatform
@@ -102,7 +102,7 @@ export function LandingPage() {
         </div>
       </nav>
 
-      <section className="relative min-h-screen pt-40 pb-20 px-6 max-w-[1400px] mx-auto flex flex-col justify-center">
+      <section className="relative min-h-screen pt-40 pb-20 px-6 max-w-7xl mx-auto flex flex-col justify-center">
         <div className="grid lg:grid-cols-12 gap-12 items-center z-10">
           <div className="lg:col-span-7 space-y-12 animate-slide-up relative">
             <div className="absolute -inset-10 -z-10 opacity-20" style={{ backgroundImage: 'radial-gradient(var(--color-content-base) 2px, transparent 2px)', backgroundSize: '32px 32px' }} />
@@ -111,19 +111,19 @@ export function LandingPage() {
               {dict.misc.welcome}
             </div>
             
-            <h1 className="text-6xl md:text-8xl lg:text-[7.5rem] font-black tracking-tighter leading-[0.85] text-content-base uppercase mix-blend-difference">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.85] text-content-base uppercase mix-blend-difference">
               {dict.hero.headline}
             </h1>
             
-            <p className="text-2xl md:text-3xl text-content-base font-bold max-w-xl leading-snug border-l-8 border-primary-base pl-8 py-2">
+            <p className="text-xl md:text-2xl text-content-base font-medium max-w-xl leading-snug border-l-8 border-primary-base pl-8 py-2">
               {dict.hero.subcopy}
             </p>
             
             <div className="flex flex-wrap gap-8 pt-6">
-              <AnchorButton href={dict.hero.primaryCta.href} variant="brutal" className="text-2xl px-12 h-20 bg-primary-base text-white border-content-base">
+              <AnchorButton href={dict.hero.primaryCta.href} variant="brutal" className="text-lg px-8 h-14 bg-primary-base text-white border-content-base">
                 {dict.hero.primaryCta.label}
               </AnchorButton>
-              <AnchorButton href={dict.hero.secondaryCta.href} variant="outline" className="text-xl px-10 h-20 bg-[#f4f4f0]">
+              <AnchorButton href={dict.hero.secondaryCta.href} variant="outline" className="text-base px-6 h-14 bg-[#f4f4f0]">
                 {dict.hero.secondaryCta.label}
               </AnchorButton>
             </div>
@@ -137,7 +137,7 @@ export function LandingPage() {
               
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] h-[420px] border-4 border-content-base bg-white shadow-[16px_16px_0px_0px_rgba(37,99,235,1)] flex flex-col z-20"
                 style={{ transform: 'translate3d(-50%, calc(-50% + var(--landing-scroll-y) * -0.3px), 100px)' }}>
-                <div className="border-b-4 border-content-base p-5 bg-primary-base text-white flex justify-between items-center">
+                <div className="border-b-2 border-content-base p-5 bg-primary-base text-white flex justify-between items-center">
                   <span className="font-black text-xl uppercase tracking-widest">{dict.card.leaderboard}</span>
                   <div className="flex gap-2">
                     <div className="w-4 h-4 rounded-none border-2 border-content-base bg-red-400"></div>
@@ -186,7 +186,7 @@ export function LandingPage() {
 
       <section className="py-40 bg-content-base text-white border-y-8 border-primary-base relative">
         <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 2px, transparent 0)', backgroundSize: '48px 48px' }} />
-        <div className="max-w-[1400px] mx-auto px-6 relative z-10">
+        <div className="max-w-7xl mx-auto px-6 relative z-10">
           <div className="grid md:grid-cols-3 gap-16 lg:gap-24">
             {dict.flow.map((step) => (
               <div key={step.step} className="space-y-8 group">
@@ -203,7 +203,7 @@ export function LandingPage() {
         </div>
       </section>
 
-      <section id="discover" className="py-40 px-6 max-w-[1400px] mx-auto relative">
+      <section id="discover" className="py-40 px-6 max-w-7xl mx-auto relative">
         <div className="mb-24 flex flex-col md:flex-row gap-10 justify-between items-end border-b-8 border-content-base pb-10">
           <div className="space-y-6 max-w-3xl">
             <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.9]">{dict.misc.featuresTitle}</h2>
@@ -218,7 +218,7 @@ export function LandingPage() {
               id={feature.id} 
               className="group border-4 border-content-base bg-white shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:shadow-[16px_16px_0px_0px_rgba(37,99,235,1)] hover:-translate-y-4 transition-all duration-300 flex flex-col h-full"
             >
-              <div className={`h-8 w-full border-b-4 border-content-base ${feature.color.replace('bg-', 'bg-').replace('500', '400')} relative overflow-hidden`}>
+              <div className={`h-8 w-full border-b-2 border-content-base ${feature.color.replace('bg-', 'bg-').replace('500', '400')} relative overflow-hidden`}>
                 <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 10px, #000 10px, #000 20px)' }} />
               </div>
               <div className="p-10 flex-1 flex flex-col">
@@ -250,7 +250,7 @@ export function LandingPage() {
       <section id="rankings" className="py-40 bg-white border-y-8 border-content-base relative overflow-hidden">
         <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'repeating-linear-gradient(90deg, #000, #000 2px, transparent 2px, transparent 100px), repeating-linear-gradient(0deg, #000, #000 2px, transparent 2px, transparent 100px)' }} />
         
-        <div className="max-w-[1400px] mx-auto px-6 relative z-10 flex flex-col xl:flex-row gap-20 items-center">
+        <div className="max-w-7xl mx-auto px-6 relative z-10 flex flex-col xl:flex-row gap-20 items-center">
           <div className="xl:w-1/3 space-y-10 bg-[#f4f4f0] border-4 border-content-base p-12 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
             <div className="bg-primary-base text-white inline-block uppercase font-black px-6 py-3 text-2xl tracking-widest">{dict.misc.rankingsBadge}</div>
             <h2 className="text-6xl md:text-7xl font-black tracking-tighter uppercase leading-[0.9]">{dict.misc.rankingsTitle}</h2>
@@ -265,7 +265,7 @@ export function LandingPage() {
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="border-b-4 border-content-base bg-content-base text-white uppercase font-black text-2xl">
+                    <tr className="border-b-2 border-content-base bg-content-base text-white uppercase font-black text-2xl">
                       <th className="p-8">{dict.misc.tableRank}</th>
                       <th className="p-8">{dict.misc.tableTeam}</th>
                       <th className="p-8">{dict.misc.tableScore}</th>
@@ -274,7 +274,7 @@ export function LandingPage() {
                   </thead>
                   <tbody>
                     {dict.rankingsPreview.map((row, idx) => (
-                      <tr key={row.team} className={`group cursor-pointer font-bold text-xl hover:bg-yellow-300 transition-colors ${idx !== dict.rankingsPreview.length - 1 ? 'border-b-4 border-content-base' : ''}`}>
+                      <tr key={row.team} className={`group cursor-pointer font-bold text-xl hover:bg-yellow-300 transition-colors ${idx !== dict.rankingsPreview.length - 1 ? 'border-b-2 border-content-base' : ''}`}>
                         <td className="p-8 text-4xl font-black">
                           {idx === 0 ? '🏆' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : `#${row.rank}`}
                         </td>
@@ -307,7 +307,7 @@ export function LandingPage() {
           </div>
         </div>
         
-        <div className="relative z-10 mt-40 text-content-base font-black uppercase tracking-widest text-lg flex flex-col md:flex-row items-center justify-between max-w-[1400px] mx-auto border-t-8 border-content-base pt-16">
+        <div className="relative z-10 mt-40 text-content-base font-black uppercase tracking-widest text-lg flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto border-t-8 border-content-base pt-16">
           <p>© {new Date().getFullYear()} {dict.misc.rights}</p>
           <div className="flex gap-12 mt-8 md:mt-0">
             <Link href={landingRouteMap.discover} className="hover:text-primary-base transition-colors hover:underline decoration-4 underline-offset-8">{dict.nav.discover}</Link>

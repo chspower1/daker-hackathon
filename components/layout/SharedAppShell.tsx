@@ -24,13 +24,13 @@ export function SharedAppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <div className="min-h-screen bg-[#f4f4f0] flex flex-col font-sans selection:bg-primary-base selection:text-white">
-      <header className="sticky top-0 z-40 w-full border-b-4 border-content-base bg-[#f4f4f0]/95 backdrop-blur-md">
-        <div className="flex h-20 max-w-[1400px] mx-auto items-center px-4 md:px-6">
-          <Link href="/" className="flex items-center gap-4 font-black text-2xl tracking-tighter uppercase">
-            <div className="w-10 h-10 bg-content-base flex items-center justify-center text-[#f4f4f0] shadow-[3px_3px_0px_0px_rgba(37,99,235,1)] text-xl">H</div>
+      <header className="sticky top-0 z-40 w-full border-b-2 border-content-base bg-[#f4f4f0]/95 backdrop-blur-md">
+        <div className="flex h-16 max-w-7xl mx-auto items-center px-4 md:px-6">
+          <Link href="/" className="flex items-center gap-3 font-black text-xl tracking-tighter uppercase">
+            <div className="w-8 h-8 bg-content-base flex items-center justify-center text-[#f4f4f0] shadow-[3px_3px_0px_0px_rgba(37,99,235,1)] text-lg">H</div>
             <span className="hidden md:inline-block">HackPlatform</span>
           </Link>
-          <nav className="ml-12 flex gap-8 text-base font-black uppercase tracking-widest text-content-base">
+          <nav className="ml-8 flex gap-6 text-sm font-black uppercase tracking-widest text-content-base">
             {navItems.map((item) => {
               const isActive = pathname.startsWith(item.href);
               return (
@@ -38,9 +38,9 @@ export function SharedAppShell({ children }: { children: React.ReactNode }) {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "flex items-center h-20 transition-colors hover:text-primary-base hover:underline decoration-4 underline-offset-8",
+                    "flex items-center h-16 transition-colors hover:text-primary-base hover:underline decoration-2 underline-offset-8",
                     isActive
-                      ? "text-primary-base underline decoration-4 underline-offset-8"
+                      ? "text-primary-base underline decoration-2 underline-offset-8"
                       : "text-content-base"
                   )}
                 >

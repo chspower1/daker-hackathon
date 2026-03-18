@@ -109,11 +109,11 @@ export function HackathonList() {
   }
 
   return (
-    <div className="space-y-12">
-      <div className="border-4 border-content-base bg-white p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+    <div className="space-y-8">
+      <div className="border-4 border-content-base bg-white p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
         <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
           <div className="space-y-4">
-            <p className="text-sm font-black uppercase tracking-widest text-content-subtle">
+            <p className="text-xs font-bold uppercase tracking-wider text-content-subtle">
               {listText?.filters?.statusLabel || "Status"}
             </p>
             <div className="flex flex-wrap gap-3">
@@ -139,7 +139,7 @@ export function HackathonList() {
           </div>
 
           <div className="space-y-4 lg:max-w-xl">
-            <p className="text-sm font-black uppercase tracking-widest text-content-subtle">
+            <p className="text-xs font-bold uppercase tracking-wider text-content-subtle">
               {listText?.filters?.tagLabel || "Tags"}
             </p>
             <div className="flex flex-wrap gap-3">
@@ -188,7 +188,7 @@ export function HackathonList() {
           description={listText?.emptyFilteredDescription || "Try a different combination of filters."}
         />
       ) : (
-        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
           {filteredHackathons.map((hackathon) => {
             const startDate = formatDate(hackathon.period.startAt);
             const deadlineDate = formatDate(hackathon.period.submissionDeadlineAt);

@@ -189,21 +189,21 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
 
   if (!isReady) {
     return (
-      <div className="max-w-[1400px] mx-auto px-6 py-16">
+      <div className="max-w-7xl mx-auto px-4 md:px-6 py-10">
         <LoadingState label={dict.appPages?.loadingLabel} />
       </div>
     );
   }
 
   return (
-    <div className="max-w-[1400px] mx-auto px-6 py-16">
+    <div className="max-w-7xl mx-auto px-4 md:px-6 py-10">
       <PageHeader
         title={dict.appPages?.campTitle || "Camp"}
         description={pageDescription}
         actions={(
           <Button
             variant={isComposerOpen ? "outline" : "brutal"}
-            className={isComposerOpen ? "h-16 px-10 text-xl" : "bg-primary-base text-white border-content-base text-xl px-10 h-16"}
+            className={isComposerOpen ? "h-10 px-6 text-sm" : "bg-primary-base text-white border-content-base text-xl px-10 h-16"}
             onClick={() => {
               setIsComposerOpen((current) => !current);
               setNotice(null);
@@ -216,7 +216,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
         )}
       />
 
-      <div className="space-y-12 mt-8">
+      <div className="space-y-8 mt-6">
         {notice !== null ? (
           <Alert variant={notice.variant} title={notice.title}>
             {notice.description}
@@ -238,9 +238,9 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
               title={dict.campForm?.createProfileTitle || "Profile required"}
               description={dict.campForm?.createProfileDesc || "You need a profile before creating a team post."}
             >
-              <Card className="border-8 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] bg-white">
+              <Card className="border-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-white">
                 <CardHeader className="bg-[#f4f4f0] border-b-8 border-content-base">
-                  <CardTitle className="text-4xl">{dict.campForm?.createTeamTitle || "Create a team"}</CardTitle>
+                  <CardTitle className="text-xl">{dict.campForm?.createTeamTitle || "Create a team"}</CardTitle>
                   <p className="text-xl font-bold text-content-subtle mt-4">
                     {dict.campForm?.postingAs || "Posting with your local profile:"} <span className="text-primary-base">{profile?.nickname}</span>
                   </p>
@@ -248,7 +248,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                 <CardContent className="pt-8">
                   <form onSubmit={handleCreateTeam} className="grid gap-8 md:grid-cols-2">
                     <div className="md:col-span-2 space-y-3">
-                      <label htmlFor="camp-team-name" className="text-xl font-black uppercase tracking-widest text-content-base">
+                      <label htmlFor="camp-team-name" className="text-sm font-black uppercase tracking-wider text-content-base">
                         {dict.campForm?.teamName || "Team name"}
                       </label>
                       <Input
@@ -261,7 +261,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                     </div>
 
                     <div className="md:col-span-2 space-y-3">
-                      <label htmlFor="camp-team-intro" className="text-xl font-black uppercase tracking-widest text-content-base">
+                      <label htmlFor="camp-team-intro" className="text-sm font-black uppercase tracking-wider text-content-base">
                         {dict.campForm?.intro || "Introduction"}
                       </label>
                       <Textarea
@@ -274,7 +274,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                     </div>
 
                     <div className="space-y-3">
-                      <label htmlFor="camp-team-looking-for" className="text-xl font-black uppercase tracking-widest text-content-base">
+                      <label htmlFor="camp-team-looking-for" className="text-sm font-black uppercase tracking-wider text-content-base">
                         {dict.campForm?.lookingFor || "Looking for"}
                       </label>
                       <Input
@@ -287,7 +287,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                     </div>
 
                     <div className="space-y-3">
-                      <label htmlFor="camp-team-contact-url" className="text-xl font-black uppercase tracking-widest text-content-base">
+                      <label htmlFor="camp-team-contact-url" className="text-sm font-black uppercase tracking-wider text-content-base">
                         {dict.campForm?.contactUrl || "Contact URL"}
                       </label>
                       <Input
@@ -301,7 +301,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                     </div>
 
                     <div className="space-y-3">
-                      <label htmlFor="camp-team-hackathon" className="text-xl font-black uppercase tracking-widest text-content-base">
+                      <label htmlFor="camp-team-hackathon" className="text-sm font-black uppercase tracking-wider text-content-base">
                         {dict.campForm?.hackathonSlug || "Hackathon"}
                       </label>
                       <Select
@@ -325,16 +325,16 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                         checked={isOpen}
                         onChange={(event) => setIsOpen(event.target.checked)}
                       />
-                      <label htmlFor="camp-team-open" className="text-xl font-black uppercase tracking-widest text-content-base cursor-pointer">
+                      <label htmlFor="camp-team-open" className="text-sm font-black uppercase tracking-wider text-content-base cursor-pointer">
                         {dict.campForm?.isOpen || "Currently recruiting"}
                       </label>
                     </div>
 
                     <div className="md:col-span-2 flex flex-wrap justify-end gap-6 pt-8 border-t-4 border-content-base mt-4">
-                      <Button type="button" variant="outline" onClick={resetComposer} className="h-16 px-10 text-xl bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                      <Button type="button" variant="outline" onClick={resetComposer} className="h-10 px-6 text-sm bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                         {dict.campForm?.reset || "Reset"}
                       </Button>
-                      <Button type="submit" variant="brutal" className="h-16 px-10 text-xl bg-primary-base text-white border-content-base">
+                      <Button type="submit" variant="brutal" className="h-10 px-6 text-sm bg-primary-base text-white border-content-base">
                         {dict.campForm?.submit || "Create team post"}
                       </Button>
                     </div>
@@ -344,7 +344,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
             </ActionGate>
 
             {profile === null ? (
-              <Card className="max-w-xl mx-auto border-8 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] bg-yellow-300 rotate-[1deg]">
+              <Card className="max-w-xl mx-auto border-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-yellow-300 rotate-[1deg]">
                 <CardHeader className="bg-transparent border-b-4 border-content-base">
                   <CardTitle className="text-3xl">{dict.campForm?.createProfileBtn || "Create profile"}</CardTitle>
                   <p className="text-lg font-bold text-content-base mt-2">
@@ -353,7 +353,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                 </CardHeader>
                 <CardContent className="space-y-6 pt-6 bg-white">
                   <div className="space-y-2">
-                    <label htmlFor="camp-profile-nickname" className="text-xl font-black uppercase tracking-widest text-content-base">
+                    <label htmlFor="camp-profile-nickname" className="text-sm font-black uppercase tracking-wider text-content-base">
                       {dict.campForm?.createProfileInputLabel || "Nickname"}
                     </label>
                     <Input
@@ -384,7 +384,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
               <Card key={team.teamCode} className="h-full flex flex-col group border-4 border-content-base shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
                 <CardHeader className="space-y-4 bg-[#f4f4f0] border-b-4 border-content-base group-hover:bg-yellow-300 transition-colors">
                   <div className="flex items-start justify-between gap-4">
-                    <CardTitle className="text-2xl">{team.name}</CardTitle>
+                    <CardTitle className="text-lg">{team.name}</CardTitle>
                     <span
                       className={cn(
                         "rounded-none border-2 border-content-base px-3 py-1 text-sm font-black uppercase tracking-widest shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]",
@@ -405,9 +405,9 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                   ) : null}
                 </CardHeader>
                 <CardContent className="space-y-6 pt-6 flex-1 flex flex-col bg-white">
-                  <p className="text-lg font-bold leading-relaxed text-content-base flex-1">{team.intro}</p>
+                  <p className="text-sm font-medium leading-relaxed text-content-base flex-1">{team.intro}</p>
 
-                  <dl className="space-y-4 text-base pt-4 border-t-4 border-content-base mt-4">
+                  <dl className="space-y-4 text-sm pt-4 border-t-2 border-content-base mt-4">
                     {team.hackathonSlug !== undefined ? (
                       <div className="flex items-start justify-between gap-4">
                         <dt className="font-black uppercase tracking-widest text-content-subtle">{dict.campList?.hackathonLabel || "Hackathon"}</dt>

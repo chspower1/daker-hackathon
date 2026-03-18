@@ -137,7 +137,7 @@ function SectionBlock({
   return (
     <section id={id} className="scroll-mt-32 space-y-8">
       <div className="flex items-center justify-between gap-4 border-b-8 border-content-base pb-4">
-        <h2 className="text-4xl font-black tracking-tighter text-content-base uppercase">{title}</h2>
+        <h2 className="text-2xl font-black tracking-tighter text-content-base uppercase">{title}</h2>
       </div>
       {children}
     </section>
@@ -377,24 +377,24 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
   const leaderboardUpdatedAt = leaderboard?.updatedAt ? formatDateTime(leaderboard.updatedAt) : null;
 
   return (
-    <div className="space-y-16 pb-32">
+    <div className="space-y-10 pb-20">
       <PageHeader
         title={pageTitle}
         description={pageDescription}
         actions={summary ? (
-          <Badge variant="brutal" className="text-xl py-2 px-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+          <Badge variant="brutal" className="text-base py-1 px-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             {dict.hackathonList?.status?.[summary.status] || summary.status}
           </Badge>
         ) : undefined}
       />
 
-      <nav className="sticky top-20 z-20 overflow-x-auto border-4 border-content-base bg-white p-2 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+      <nav className="sticky top-16 z-20 overflow-x-auto border-2 border-content-base bg-white p-2 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
         <div className="flex min-w-max gap-4 px-2 py-2">
           {sectionIds.map((sectionId) => (
             <a
               key={sectionId}
               href={`#${sectionId}`}
-              className="border-2 border-content-base px-6 py-2 text-lg font-black uppercase tracking-widest text-content-base transition-all hover:bg-yellow-300 hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-[#f4f4f0]"
+              className="border-2 border-content-base px-4 py-1.5 text-sm font-bold uppercase tracking-wider text-content-base transition-all hover:bg-yellow-300 hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-[#f4f4f0]"
             >
               {sectionText?.[sectionId] || sectionId}
             </a>
@@ -411,8 +411,8 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
       <SectionBlock id="overview" title={sectionText?.overview || "Overview"}>
         {detail?.sections.overview ? (
           <Card>
-            <CardContent className="space-y-8 pt-8">
-              <p className="text-xl font-bold leading-relaxed text-content-base border-l-8 border-primary-base pl-6 py-2">
+            <CardContent className="space-y-5 pt-5">
+              <p className="text-sm font-medium leading-relaxed text-content-base border-l-4 border-primary-base pl-6 py-2">
                 {detail.sections.overview.summary || (labelText?.noValue || "-")}
               </p>
               <KeyValueList
@@ -444,9 +444,9 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
       <SectionBlock id="info" title={sectionText?.info || "Info & Notice"}>
         {detail?.sections.info ? (
           <Card>
-            <CardContent className="space-y-8 pt-8">
+            <CardContent className="space-y-5 pt-5">
               {detail.sections.info.notice && detail.sections.info.notice.length > 0 ? (
-                <ul className="space-y-4 text-lg font-bold leading-relaxed text-content-base border-4 border-content-base p-6 bg-yellow-100 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
+                <ul className="space-y-4 text-sm font-medium leading-relaxed text-content-base border-4 border-content-base p-6 bg-yellow-100 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
                   {detail.sections.info.notice.map((notice) => (
                     <li key={notice} className="flex gap-4 items-start">
                       <span className="mt-2 h-4 w-4 bg-content-base shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] shrink-0" />
@@ -551,9 +551,9 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
       <SectionBlock id="schedule" title={sectionText?.schedule || "Schedule"}>
         {detail?.sections.schedule?.milestones && detail.sections.schedule.milestones.length > 0 ? (
           <Card>
-            <CardContent className="space-y-8 pt-8">
+            <CardContent className="space-y-5 pt-5">
               {detail.sections.schedule.timezone ? (
-                <div className="inline-block border-4 border-content-base bg-content-base text-white px-6 py-2 font-black uppercase tracking-widest text-lg shadow-[4px_4px_0px_0px_rgba(37,99,235,1)]">
+                <div className="inline-block border-4 border-content-base bg-content-base text-white px-4 py-1.5 font-black uppercase tracking-widest text-lg shadow-[4px_4px_0px_0px_rgba(37,99,235,1)]">
                   {labelText?.timezone || "Timezone"}: {detail.sections.schedule.timezone}
                 </div>
               ) : null}
@@ -615,7 +615,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
           </p>
           <Link
             href={`/camp?hackathon=${encodeURIComponent(slug)}`}
-            className="inline-flex h-14 items-center justify-center border-4 border-content-base bg-primary-base px-8 text-lg font-black uppercase tracking-widest text-white transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
+            className="inline-flex h-14 items-center justify-center border-4 border-content-base bg-primary-base px-8 text-sm font-bold uppercase tracking-wider text-white transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
           >
             {labelText?.goToCamp || "Go to Camp"} →
           </Link>
@@ -627,12 +627,12 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
               <Card key={team.teamCode}>
                 <CardHeader className="space-y-4 bg-content-base text-white border-b-4 border-content-base">
                   <div className="flex items-start justify-between gap-4">
-                    <CardTitle className="text-2xl text-white">{team.name}</CardTitle>
+                    <CardTitle className="text-lg text-white">{team.name}</CardTitle>
                     <Badge variant={getTeamStatusVariant(team.isOpen)} className="text-sm py-1 px-3">
                       {team.isOpen ? statusText?.recruiting || "Recruiting" : statusText?.closed || "Closed"}
                     </Badge>
                   </div>
-                  <p className="text-lg font-bold leading-relaxed">{team.intro}</p>
+                  <p className="text-sm font-medium leading-relaxed">{team.intro}</p>
                 </CardHeader>
                 <CardContent className="space-y-6 pt-6 bg-white">
                   <KeyValueList
@@ -685,7 +685,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
         {detail?.sections.submit ? (
           profile === null ? (
             <Card className="bg-red-50">
-              <CardContent className="space-y-8 pt-8">
+              <CardContent className="space-y-5 pt-5">
                 <Alert variant="danger" title={labelText?.profileRequired || "Profile required"}>
                   {labelText?.createProfileDesc || "You need a local profile to submit."}
                 </Alert>
@@ -726,7 +726,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                     <h3 className="text-xl font-black uppercase tracking-widest text-content-base mb-4 inline-block border-b-4 border-content-base pb-2">
                       {labelText?.submitGuide || "Submission guide"}
                     </h3>
-                    <ul className="space-y-3 text-lg font-bold leading-relaxed text-content-base">
+                    <ul className="space-y-3 text-sm font-medium leading-relaxed text-content-base">
                       {detail.sections.submit.guide.map((item) => (
                         <li key={item} className="flex gap-4 items-start">
                           <span className="mt-2 h-4 w-4 bg-content-base shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] shrink-0" />
@@ -816,9 +816,9 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
         {leaderboardEntries.length > 0 ? (
           <div className="border-4 border-content-base bg-white shadow-[12px_12px_0px_0px_rgba(37,99,235,1)]">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b-4 border-content-base bg-[#f4f4f0] p-8">
-              <h3 className="text-3xl font-black uppercase tracking-tighter">{sectionText?.leaderboard || "Leaderboard"}</h3>
+              <h3 className="text-xl font-black uppercase tracking-tighter">{sectionText?.leaderboard || "Leaderboard"}</h3>
               {leaderboardUpdatedAt ? (
-                <p className="text-sm font-bold text-content-subtle bg-white border-2 border-content-base px-4 py-2 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
+                <p className="text-xs font-bold text-content-subtle bg-white border-2 border-content-base px-3 py-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
                   {labelText?.lastUpdated || "Last updated"}: {leaderboardUpdatedAt}
                 </p>
               ) : null}

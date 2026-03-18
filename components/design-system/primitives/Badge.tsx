@@ -18,7 +18,7 @@ export function Badge({ className, variant = "default", ...props }: BadgeProps) 
   return (
     <div
       className={cn(
-        "inline-flex items-center rounded-none border-4 px-3 py-1 text-sm font-black uppercase tracking-widest transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] focus:outline-none focus:ring-2 focus:ring-primary-base focus:ring-offset-2",
+        "inline-flex items-center rounded-none border-2 px-2 py-0.5 text-xs font-bold uppercase tracking-wider transition-colors shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] focus:outline-none focus:ring-2 focus:ring-primary-base focus:ring-offset-2",
         variants[variant],
         className
       )}
@@ -26,4 +26,3 @@ export function Badge({ className, variant = "default", ...props }: BadgeProps) 
     />
   );
 }
-

@@ -1,3 +1,7 @@
+#!/bin/bash
+
+# 1. Rankings Page (Adjust container, headers, paddings, text sizes)
+cat << 'INNER_EOF' > app/\(app\)/rankings/page.tsx
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
@@ -112,3 +116,50 @@ export default function RankingsPage() {
     </div>
   );
 }
+INNER_EOF
+
+# 2. Hackathons Page Container
+cat << 'INNER_EOF' > app/\(app\)/hackathons/page.tsx
+"use client";
+
+import { HackathonList } from "@/components/hackathons/HackathonList";
+import { PageHeader } from "@/components/design-system/patterns/PageHeader";
+import { useI18n } from "@/lib/i18n/I18nProvider";
+
+export default function HackathonsPage() {
+  const { dict } = useI18n();
+
+  return (
+    <div className="max-w-7xl mx-auto px-4 md:px-6 py-10">
+      <PageHeader
+        title={dict.appPages?.hackathonsTitle || "Hackathons"}
+        description={dict.appPages?.hackathonsDesc || "Discover and join upcoming events."}
+      />
+      <HackathonList />
+    </div>
+  );
+}
+INNER_EOF
+
+# 3. Camp Page Container
+cat << 'INNER_EOF' > app/\(app\)/camp/page.tsx
+"use client";
+
+import { use } from "react";
+import { CampView } from "@/components/camp/CampView";
+
+export default function CampPage(props: {
+  searchParams?: Promise<{ [key: string]: string | string[] | undefined }>;
+}) {
+  const resolvedParams = props.searchParams ? use(props.searchParams) : undefined;
+  const hackathonSlug = typeof resolvedParams?.hackathon === "string" ? resolvedParams.hackathon : undefined;
+
+  return (
+    <div className="max-w-7xl mx-auto">
+      <CampView initialHackathonSlug={hackathonSlug} />
+    </div>
+  );
+}
+INNER_EOF
+
+echo "App pages updated"

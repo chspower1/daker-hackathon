@@ -8,7 +8,7 @@ export default function HackathonsPage() {
   const { dict } = useI18n();
 
   return (
-    <div className="max-w-[1400px] mx-auto px-6 py-16">
+    <div className="max-w-7xl mx-auto px-4 md:px-6 py-10">
       <PageHeader
         title={dict.appPages?.hackathonsTitle || "Hackathons"}
         description={dict.appPages?.hackathonsDesc || "Discover and join upcoming events."}
