@@ -2,22 +2,23 @@ import * as React from "react";
 import { cn } from "@/lib/cn";
 
 export interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {
-  variant?: "default" | "success" | "warning" | "danger" | "info";
+  variant?: "default" | "success" | "warning" | "danger" | "info" | "brutal";
 }
 
 export function Badge({ className, variant = "default", ...props }: BadgeProps) {
   const variants = {
-    default: "bg-surface-subtle text-content-muted border-border-base",
-    success: "bg-success-subtle text-success-content border-success-subtle",
-    warning: "bg-warning-subtle text-warning-content border-warning-subtle",
-    danger: "bg-danger-subtle text-danger-content border-danger-subtle",
-    info: "bg-info-subtle text-info-content border-info-subtle",
+    default: "bg-[#f4f4f0] text-content-base border-content-base",
+    success: "bg-green-400 text-content-base border-content-base",
+    warning: "bg-yellow-400 text-content-base border-content-base",
+    danger: "bg-red-400 text-content-base border-content-base",
+    info: "bg-blue-400 text-content-base border-content-base",
+    brutal: "bg-yellow-300 text-content-base border-content-base",
   };
 
   return (
     <div
       className={cn(
-        "inline-flex items-center rounded-full border px-2.5 py-0.5 text-xs font-semibold transition-colors focus:outline-none focus:ring-2 focus:ring-primary-base focus:ring-offset-2",
+        "inline-flex items-center rounded-none border-4 px-3 py-1 text-sm font-black uppercase tracking-widest transition-colors shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] focus:outline-none focus:ring-2 focus:ring-primary-base focus:ring-offset-2",
         variants[variant],
         className
       )}
@@ -25,3 +26,4 @@ export function Badge({ className, variant = "default", ...props }: BadgeProps) 
     />
   );
 }
+

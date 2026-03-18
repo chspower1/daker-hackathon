@@ -91,7 +91,7 @@
 
 @layer base {
   body {
-    background-color: var(--color-surface-muted);
+    background-color: #f4f4f0;
     color: var(--color-content-base);
     font-family: var(--font-sans);
   }

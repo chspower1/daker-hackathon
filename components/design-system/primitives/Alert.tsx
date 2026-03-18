@@ -8,20 +8,21 @@ export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function Alert({ className, variant = "default", title, children, ...props }: AlertProps) {
   const variants = {
-    default: "bg-primary-subtle border-primary-base/20 text-primary-content",
-    danger: "bg-danger-subtle border-danger-base/20 text-danger-content",
-    success: "bg-success-subtle border-success-base/20 text-success-content",
-    warning: "bg-warning-subtle border-warning-base/20 text-warning-content",
+    default: "bg-blue-200 border-content-base text-content-base",
+    danger: "bg-red-400 border-content-base text-white",
+    success: "bg-green-400 border-content-base text-content-base",
+    warning: "bg-yellow-300 border-content-base text-content-base",
   };
 
   return (
     <div
       role="alert"
-      className={cn("relative w-full rounded-lg border p-4 [&>svg]:absolute [&>svg]:text-current [&>svg]:left-4 [&>svg]:top-4 [&>svg+div]:translate-y-[-3px] transition-all duration-200", variants[variant], className)}
+      className={cn("relative w-full rounded-none border-4 p-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all duration-200 hover:-translate-y-1 hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)]", variants[variant], className)}
       {...props}
     >
-      {title && <h5 className="mb-1 font-medium leading-none tracking-tight">{title}</h5>}
-      <div className="text-sm opacity-90">{children}</div>
+      {title && <h5 className="mb-2 font-black uppercase tracking-widest text-xl leading-none">{title}</h5>}
+      <div className="text-lg font-bold">{children}</div>
     </div>
   );
 }
+

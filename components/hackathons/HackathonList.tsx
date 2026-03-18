@@ -109,14 +109,14 @@ export function HackathonList() {
   }
 
   return (
-    <div className="space-y-8">
-      <div className="rounded-2xl border border-border-base bg-surface-base p-5 shadow-sm">
-        <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
-          <div className="space-y-3">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-content-subtle">
+    <div className="space-y-12">
+      <div className="border-4 border-content-base bg-white p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
+        <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
+          <div className="space-y-4">
+            <p className="text-sm font-black uppercase tracking-widest text-content-subtle">
               {listText?.filters?.statusLabel || "Status"}
             </p>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-3">
               {statusOptions.map((option) => {
                 const isActive = statusFilter === option;
                 const label = option === "all"
@@ -138,11 +138,11 @@ export function HackathonList() {
             </div>
           </div>
 
-          <div className="space-y-3 lg:max-w-xl">
-            <p className="text-xs font-semibold uppercase tracking-[0.18em] text-content-subtle">
+          <div className="space-y-4 lg:max-w-xl">
+            <p className="text-sm font-black uppercase tracking-widest text-content-subtle">
               {listText?.filters?.tagLabel || "Tags"}
             </p>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-3">
               <Button
                 variant={tagFilter === "" ? "primary" : "outline"}
                 size="sm"
@@ -167,8 +167,8 @@ export function HackathonList() {
 
           {(statusFilter !== "all" || tagFilter !== "") ? (
             <Button
-              className="self-start"
-              variant="ghost"
+              className="self-start mt-8 lg:mt-0 bg-red-400 hover:bg-red-500 text-white"
+              variant="brutal"
               size="sm"
               type="button"
               onClick={() => {
@@ -188,7 +188,7 @@ export function HackathonList() {
           description={listText?.emptyFilteredDescription || "Try a different combination of filters."}
         />
       ) : (
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-10 md:grid-cols-2 xl:grid-cols-3">
           {filteredHackathons.map((hackathon) => {
             const startDate = formatDate(hackathon.period.startAt);
             const deadlineDate = formatDate(hackathon.period.submissionDeadlineAt);
@@ -196,61 +196,64 @@ export function HackathonList() {
 
             return (
               <Link key={hackathon.slug} href={hackathon.links.detail} className="group block">
-                <Card className="h-full overflow-hidden border-border-base bg-surface-base transition-transform duration-200 group-hover:-translate-y-1 group-hover:border-border-strong">
+                <Card className="h-full overflow-hidden">
                   {hackathon.thumbnailUrl ? (
-                    <div className="aspect-[16/9] overflow-hidden bg-surface-subtle">
+                    <div className="aspect-[16/9] overflow-hidden bg-surface-subtle border-b-4 border-content-base">
                       {/* eslint-disable-next-line @next/next/no-img-element */}
                       <img
                         alt={hackathon.title}
-                        className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-[1.03]"
+                        className="h-full w-full object-cover grayscale transition-all duration-300 group-hover:grayscale-0 group-hover:scale-105"
                         src={hackathon.thumbnailUrl}
                       />
                     </div>
                   ) : null}
 
-                  <CardHeader className="space-y-3">
-                    <div className="flex flex-wrap items-center gap-2">
+                  <CardHeader className="space-y-4">
+                    <div className="flex flex-wrap items-center gap-3">
                       <Badge variant={getStatusBadgeVariant(hackathon.status)}>
                         {listText?.status?.[hackathon.status] || hackathon.status}
                       </Badge>
-                      <span className="text-xs text-content-subtle">{hackathon.period.timezone}</span>
+                      {'participantsCount' in hackathon && (
+                        <span className="text-sm font-bold text-content-subtle">
+                          {(hackathon as unknown as { participantsCount?: number }).participantsCount?.toLocaleString(languageTag)} {"participants"}
+                        </span>
+                      )}
                     </div>
-                    <CardTitle className="text-xl leading-snug">{hackathon.title}</CardTitle>
+                    <CardTitle className="group-hover:underline decoration-4 underline-offset-4 decoration-primary-base transition-all">{hackathon.title}</CardTitle>
                   </CardHeader>
 
-                  <CardContent className="space-y-5">
-                    <div className="flex flex-wrap gap-2">
-                      {hackathon.tags.map((tag) => (
-                        <Badge key={tag} variant="default">
-                          {tag}
-                        </Badge>
-                      ))}
-                    </div>
-
-                    <dl className="space-y-2 text-sm text-content-muted">
-                      {startDate ? (
-                        <div className="flex items-center justify-between gap-4">
-                          <dt>{listText?.timeline?.start || "Start"}</dt>
-                          <dd className="text-right text-content-base">{startDate}</dd>
+                  <CardContent className="space-y-6">
+                    <div className="space-y-2 text-sm font-bold text-content-base border-l-4 border-primary-base pl-3">
+                      {startDate && endDate ? (
+                        <div className="flex items-start justify-between gap-2">
+                          <span className="text-content-subtle">{"Period"}</span>
+                          <span className="text-right">
+                            {startDate} - {endDate}
+                          </span>
                         </div>
                       ) : null}
                       {deadlineDate ? (
-                        <div className="flex items-center justify-between gap-4">
-                          <dt>{listText?.timeline?.deadline || "Deadline"}</dt>
-                          <dd className="text-right text-content-base">{deadlineDate}</dd>
+                        <div className="flex items-start justify-between gap-2 text-red-600">
+                          <span>{"Deadline"}</span>
+                          <span className="text-right">{deadlineDate}</span>
                         </div>
                       ) : null}
-                      {startDate === null && deadlineDate === null && endDate ? (
-                        <div className="flex items-center justify-between gap-4">
-                          <dt>{listText?.timeline?.end || "End"}</dt>
-                          <dd className="text-right text-content-base">{endDate}</dd>
-                        </div>
-                      ) : null}
-                    </dl>
+                    </div>
 
-                    <div className="flex items-center justify-between border-t border-border-base pt-4 text-sm font-medium text-content-base">
-                      <span>{listText?.openDetail || "View details"}</span>
-                      <span aria-hidden="true">&gt;</span>
+                    <div className="flex flex-wrap gap-2 pt-2">
+                      {hackathon.tags.slice(0, 3).map((tag) => (
+                        <span
+                          key={tag}
+                          className="border-2 border-content-base bg-white px-2 py-1 text-xs font-black uppercase tracking-widest text-content-base"
+                        >
+                          {tag}
+                        </span>
+                      ))}
+                      {hackathon.tags.length > 3 ? (
+                        <span className="border-2 border-content-base bg-surface-muted px-2 py-1 text-xs font-black uppercase text-content-subtle">
+                          +{hackathon.tags.length - 3}
+                        </span>
+                      ) : null}
                     </div>
                   </CardContent>
                 </Card>
@@ -262,3 +265,4 @@ export function HackathonList() {
     </div>
   );
 }
+

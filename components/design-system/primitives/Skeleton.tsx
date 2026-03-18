@@ -1,3 +1,4 @@
+import * as React from "react";
 import { cn } from "@/lib/cn";
 
 export function Skeleton({
@@ -6,8 +7,7 @@ export function Skeleton({
 }: React.HTMLAttributes<HTMLDivElement>) {
   return (
     <div
-      aria-hidden="true"
-      className={cn("animate-pulse motion-reduce:animate-none rounded-md bg-border-muted", className)}
+      className={cn("animate-pulse bg-slate-200 border-2 border-content-base rounded-none", className)}
       {...props}
     />
   );

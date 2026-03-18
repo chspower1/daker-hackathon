@@ -38,7 +38,7 @@ export function FilterBar({
   const resolvedSearchId = searchId ?? generatedSearchId;
 
   return (
-    <div className="flex flex-col sm:flex-row gap-4 p-4 bg-surface-muted rounded-md border border-border-base">
+    <div className="flex flex-col sm:flex-row gap-4 p-6 bg-content-base border-4 border-content-base shadow-[8px_8px_0px_0px_rgba(37,99,235,1)]">
       <div className="flex-1">
         <label htmlFor={resolvedSearchId} className="sr-only">
           {searchLabel}
@@ -49,15 +49,15 @@ export function FilterBar({
           placeholder={searchPlaceholder}
           aria-label={searchLabel}
           onChange={(e) => onSearchChange?.(e.target.value)}
-          className="bg-surface-base"
+          className="bg-white border-none rounded-none text-content-base font-bold placeholder:text-content-subtle"
         />
       </div>
       {filters.length > 0 && (
-        <div className="flex flex-wrap gap-2 items-center">
+        <div className="flex flex-wrap gap-4 items-center">
           {filters.map((filter) => (
             <Select 
               key={filter.id} 
-              className="w-auto min-w-[120px]"
+              className="w-auto min-w-[120px] bg-white border-none rounded-none text-content-base font-bold"
               aria-label={filter.label}
               onChange={(e) => onFilterChange?.(filter.id, e.target.value)}
             >
@@ -70,7 +70,7 @@ export function FilterBar({
             </Select>
           ))}
           {onClear && (
-            <Button type="button" variant="ghost" onClick={onClear} className="text-sm h-10">
+            <Button type="button" variant="brutal" onClick={onClear} className="text-sm h-10 px-4 bg-red-400 hover:bg-red-500">
               Clear
             </Button>
           )}
@@ -79,3 +79,4 @@ export function FilterBar({
     </div>
   );
 }
+

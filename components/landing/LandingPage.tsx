@@ -26,7 +26,7 @@ function NoiseOverlay() {
 
 function Marquee({ text }: { text: string }) {
   return (
-    <div className="relative flex overflow-x-hidden bg-primary-base text-primary-content py-4 border-y-4 border-content-base -rotate-2 scale-110 shadow-2xl z-20 overflow-hidden">
+    <div className="relative flex overflow-x-hidden bg-primary-base text-primary-content py-4 border-y-4 border-content-base -rotate-2 scale-110 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] z-20 overflow-hidden">
       <div className="animate-marquee whitespace-nowrap flex items-center gap-8 text-3xl md:text-5xl font-black uppercase tracking-widest">
         <span>{text}</span>
         <span>•</span>
@@ -59,8 +59,8 @@ function Marquee({ text }: { text: string }) {
 
 function AnchorButton({ href, variant = "primary", className, children }: { href: string; variant?: "primary" | "outline" | "brutal"; className?: string; children: React.ReactNode }) {
   const variants = {
-    primary: "bg-primary-base text-white hover:bg-primary-hover shadow-sm border border-transparent",
-    outline: "bg-transparent text-content-base hover:bg-surface-muted border-2 border-content-base",
+    primary: "bg-primary-base text-white hover:bg-primary-hover border-4 border-content-base shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] uppercase font-black tracking-widest",
+    outline: "bg-transparent text-content-base hover:bg-[#f4f4f0] border-4 border-content-base font-black uppercase tracking-wider shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]",
     brutal: "bg-content-base text-surface-base hover:bg-primary-base hover:text-white border-4 border-content-base hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] uppercase font-black tracking-widest",
   };
   const buttonClassName = cn(
@@ -123,7 +123,7 @@ export function LandingPage() {
               <AnchorButton href={dict.hero.primaryCta.href} variant="brutal" className="text-2xl px-12 h-20 bg-primary-base text-white border-content-base">
                 {dict.hero.primaryCta.label}
               </AnchorButton>
-              <AnchorButton href={dict.hero.secondaryCta.href} variant="outline" className="text-xl px-10 h-20 rounded-none font-black uppercase shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none bg-[#f4f4f0] border-4 border-content-base">
+              <AnchorButton href={dict.hero.secondaryCta.href} variant="outline" className="text-xl px-10 h-20 bg-[#f4f4f0]">
                 {dict.hero.secondaryCta.label}
               </AnchorButton>
             </div>
@@ -131,12 +131,12 @@ export function LandingPage() {
 
           <div className="lg:col-span-5 relative h-[650px] w-full preserve-3d perspective-1000 hidden lg:block">
             <div className="absolute inset-0 w-full h-full preserve-3d" style={{
-                transform: "perspective(1200px) rotateX(calc(var(--landing-tilt-x) * 2deg)) rotateY(calc(var(--landing-tilt-y) * 2deg))",
-                transition: "transform 0.1s ease-out"
+                transform: 'perspective(1200px) rotateX(calc(var(--landing-tilt-x) * 2deg)) rotateY(calc(var(--landing-tilt-y) * 2deg))',
+                transition: 'transform 0.1s ease-out'
               }}>
               
               <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] h-[420px] border-4 border-content-base bg-white shadow-[16px_16px_0px_0px_rgba(37,99,235,1)] flex flex-col z-20"
-                style={{ transform: "translate3d(-50%, calc(-50% + var(--landing-scroll-y) * -0.3px), 100px)" }}>
+                style={{ transform: 'translate3d(-50%, calc(-50% + var(--landing-scroll-y) * -0.3px), 100px)' }}>
                 <div className="border-b-4 border-content-base p-5 bg-primary-base text-white flex justify-between items-center">
                   <span className="font-black text-xl uppercase tracking-widest">{dict.card.leaderboard}</span>
                   <div className="flex gap-2">
@@ -158,14 +158,14 @@ export function LandingPage() {
               </div>
 
               <div className="absolute top-[5%] -left-[15%] w-72 h-56 border-4 border-content-base bg-yellow-300 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] p-6 z-10 rotate-[-12deg]"
-                style={{ transform: "translate3d(0, calc(var(--landing-scroll-y) * 0.5px), -60px) rotate(-12deg)" }}>
+                style={{ transform: 'translate3d(0, calc(var(--landing-scroll-y) * 0.5px), -60px) rotate(-12deg)' }}>
                 <div className="bg-content-base text-white inline-block px-3 py-1 uppercase font-black mb-4">{dict.card.live}</div>
                 <h3 className="text-3xl font-black uppercase leading-none mb-3">{dict.card.globalAIHack}</h3>
                 <p className="mt-2 font-bold text-lg leading-tight">{dict.card.globalAIHackDesc}</p>
               </div>
 
               <div className="absolute bottom-[5%] -right-[15%] w-80 h-48 border-4 border-content-base bg-green-400 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] p-6 z-30 rotate-[8deg]"
-                style={{ transform: "translate3d(0, calc(var(--landing-scroll-y) * 0.15px), 160px) rotate(8deg)" }}>
+                style={{ transform: 'translate3d(0, calc(var(--landing-scroll-y) * 0.15px), 160px) rotate(8deg)' }}>
                 <div className="bg-content-base text-white inline-block px-3 py-1 uppercase font-black mb-4">{dict.card.lookingForTeam}</div>
                 <h3 className="text-2xl font-black uppercase leading-none">{dict.card.frontendDev}</h3>
                 <div className="mt-6 flex gap-3">
@@ -319,3 +319,4 @@ export function LandingPage() {
     </DepthScene>
   );
 }
+

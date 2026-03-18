@@ -66,12 +66,12 @@ export default function RankingsPage() {
   }, [loadData]);
 
   return (
-    <div className="max-w-7xl mx-auto px-6 py-12">
+    <div className="max-w-[1400px] mx-auto px-6 py-16">
       <PageHeader
         title={dict.appPages?.rankingsTitle || "Rankings"}
         description={dict.appPages?.rankingsDesc || "Global leaderboard"}
       />
-      <div className="mt-8">
+      <div className="mt-12">
         {isLoading ? (
           <LoadingState label={dict.appPages?.loadingLabel} />
         ) : isError ? (
@@ -86,26 +86,31 @@ export default function RankingsPage() {
             description={dict.appPages?.rankingsEmptyDesc || "The season has just started. Submit your projects to appear here."}
           />
         ) : (
-          <DataTable>
-            <TableHeader>
-              <TableRow>
-                <TableHead className="w-24">{dict.misc?.tableRank || "Rank"}</TableHead>
-                <TableHead>{dict.misc?.tableNickname || "Nickname"}</TableHead>
-                <TableHead className="text-right">{dict.misc?.tablePoints || "Points"}</TableHead>
-              </TableRow>
-            </TableHeader>
-            <TableBody>
-              {rankings.map((entry) => (
-                <TableRow key={`${entry.rank}-${entry.nickname}`}>
-                  <TableCell className="font-medium">{entry.rank}</TableCell>
-                  <TableCell>{entry.nickname}</TableCell>
-                  <TableCell className="text-right">{entry.points.toLocaleString()}</TableCell>
+          <div className="p-8 border-8 border-content-base bg-white shadow-[12px_12px_0px_0px_rgba(37,99,235,1)]">
+            <DataTable>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="w-32">{dict.misc?.tableRank || "Rank"}</TableHead>
+                  <TableHead>{dict.misc?.tableNickname || "Nickname"}</TableHead>
+                  <TableHead className="text-right">{dict.misc?.tablePoints || "Points"}</TableHead>
                 </TableRow>
-              ))}
-            </TableBody>
-          </DataTable>
+              </TableHeader>
+              <TableBody>
+                {rankings.map((entry, idx) => (
+                  <TableRow key={`${entry.rank}-${entry.nickname}`} className={idx < 3 ? "bg-yellow-100" : ""}>
+                    <TableCell className="font-black text-2xl">
+                      {idx === 0 ? "🏆" : idx === 1 ? "🥈" : idx === 2 ? "🥉" : `#${entry.rank}`}
+                    </TableCell>
+                    <TableCell className="text-xl font-bold">{entry.nickname}</TableCell>
+                    <TableCell className="text-right font-mono text-2xl font-black text-primary-base">{entry.points.toLocaleString()}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </DataTable>
+          </div>
         )}
       </div>
     </div>
   );
 }
+
