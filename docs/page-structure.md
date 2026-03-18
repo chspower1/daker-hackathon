@@ -2,44 +2,42 @@
 
 ## 공통 구조
 
-- 랜딩은 `app/page.tsx` 에서 시작한다.
+- 랜딩 페이지는 `app/page.tsx` 에서 시작한다.
 - 앱 내부 페이지는 `app/(app)/layout.tsx` 와 `components/layout/SharedAppShell.tsx` 를 공유한다.
-- 공통 셸은 상단 내비게이션, 언어 전환, 초기 `localStorage` bootstrap 을 담당한다.
+- 공통 셸은 상단 내비게이션, 언어 전환, `bootstrapStorage()` 실행을 담당한다.
 
-## 페이지 목록
+## 페이지 연결 관계
 
-| 라우트 | 구현 위치 | 역할 | 핵심 구성 |
-|---|---|---|---|
-| `/` | `app/page.tsx` | 랜딩 허브 | 해커톤, 캠프, 랭킹으로 연결되는 CTA 3개 |
-| `/hackathons` | `app/(app)/hackathons/page.tsx` | 해커톤 탐색 | 페이지 헤더, 목록 카드, 상태 표시 |
-| `/hackathons/[slug]` | `app/(app)/hackathons/[slug]/page.tsx` | 해커톤 상세 | 상세 정보, 팀 모집 연동, 제출, 리더보드 |
-| `/camp` | `app/(app)/camp/page.tsx` | 팀 모집 탐색/작성 | 모집글 목록, `hackathon` 쿼리 필터, 작성 폼 |
-| `/rankings` | `app/(app)/rankings/page.tsx` | 글로벌 랭킹 | `rank`, `nickname`, `points` 테이블 |
+- `/` -> `/hackathons`, `/camp`, `/rankings`
+- `/hackathons` -> `/hackathons/[slug]`
+- `/hackathons/[slug]` -> `/camp?hackathon={slug}`
+- `/hackathons`, `/camp`, `/rankings` 는 공통 상단 내비게이션으로 서로 이동할 수 있다.
 
-## 화면 역할
+## 주요 페이지 설명
 
-- 홈은 제품의 진입점이자 세 가지 핵심 기능을 요약해서 보여주는 허브다.
-- 해커톤 목록은 탐색 경험을 담당한다.
-- 해커톤 상세는 정보 확인, 팀 모집, 제출, 리더보드를 하나로 연결하는 중심 화면이다.
-- 캠프는 팀 빌딩 기능을 별도 화면으로 분리해 독립적으로 보여준다.
-- 랭킹은 결과 가시화를 담당한다.
+| 페이지 | 라우트 | 구현 위치 | 화면 설명 | 가능한 행동 |
+|---|---|---|---|---|
+| 랜딩 | `/` | `app/page.tsx` | 서비스 소개, 핵심 메시지, 주요 기능 요약을 보여주는 진입 화면이다. 해커톤 탐색과 팀 찾기, 랭킹 확인으로 바로 이어지는 CTA를 배치한다. | `해커톤 탐색하기`, `팀 찾기`, 랭킹 관련 CTA 클릭으로 다음 페이지로 이동한다. |
+| 해커톤 목록 | `/hackathons` | `app/(app)/hackathons/page.tsx` | 공개 해커톤을 카드로 보여주고, 상태와 태그 기준으로 목록을 좁혀 볼 수 있다. 로딩, 오류, 결과 없음 상태도 함께 처리한다. | 상태 필터 선택, 태그 선택, 필터 초기화, 카드 클릭으로 상세 이동이 가능하다. |
+| 해커톤 상세 | `/hackathons/[slug]` | `app/(app)/hackathons/[slug]/page.tsx` | 선택한 해커톤의 공개 정보를 한 화면에 모아 보여주는 중심 페이지다. 개요부터 팀, 제출, 리더보드까지 8개 섹션을 같은 화면에서 확인한다. | 섹션 앵커 이동, `Camp` 이동, 프로필 생성, 제출 초안 저장, 최종 제출이 가능하다. |
+| 캠프 | `/camp` | `app/(app)/camp/page.tsx` | 팀 모집글 목록과 작성 폼을 제공하는 팀 빌딩 페이지다. `hackathon` 쿼리가 있으면 특정 해커톤 모집글만 보여준다. | 모집글 탐색, 모집글 작성 폼 열기/닫기, 프로필 생성, 팀 모집글 작성, 연락 링크 열기가 가능하다. |
+| 글로벌 랭킹 | `/rankings` | `app/(app)/rankings/page.tsx` | 시즌 기준 공개 랭킹을 표 형태로 보여주는 결과 확인 페이지다. 순위, 닉네임, 점수를 중심으로 구성한다. | 랭킹 확인, 새로고침 또는 저장소 갱신에 따른 최신 상태 확인이 가능하다. |
 
 ## 해커톤 상세 고정 섹션
 
-해커톤 상세는 아래 8개 섹션을 완성 기준으로 본다.
+해커톤 상세 페이지는 아래 8개 섹션을 완성 기준으로 본다.
 
-1. Overview
-2. Info / Notice
-3. Eval
-4. Schedule
-5. Prize
-6. Teams
-7. Submit
-8. Leaderboard
+1. `Overview`
+2. `Info / Notice`
+3. `Eval`
+4. `Schedule`
+5. `Prize`
+6. `Teams`
+7. `Submit`
+8. `Leaderboard`
 
-## 페이지 간 연결 규칙
+## 페이지별 상태 처리 기준
 
-- 홈 CTA는 각각 `/hackathons`, `/camp`, `/rankings` 로 이동한다.
-- 해커톤 목록 카드는 `/hackathons/[slug]` 로 이동한다.
-- 상세의 Teams 섹션은 `/camp?hackathon={slug}` 로 연결된다.
-- 모든 앱 내부 페이지는 같은 상단 내비게이션 구조를 공유한다.
+- 해커톤 목록, 해커톤 상세, 캠프, 랭킹은 모두 로딩 상태와 데이터 없음 상태를 분리해서 보여준다.
+- 목록/랭킹/상세 읽기에 실패하면 사용자에게 오류 상태 메시지를 노출한다.
+- 상세 섹션 일부 정보가 비어 있더라도 페이지 전체를 막지 않고 해당 섹션만 빈 상태로 처리한다.
