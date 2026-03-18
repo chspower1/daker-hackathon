@@ -16,11 +16,11 @@ pnpm dev
 - 현재 지원 언어: 한국어(`ko`), 영어(`en`)
 - 런타임 구조: `app/layout.tsx` -> `lib/i18n/Providers.tsx` -> `lib/i18n/I18nProvider.tsx`
 - 번역 리소스: `lib/i18n/locales/en.ts`, `lib/i18n/locales/ko.ts`
-- 상세 가이드: `docs/i18n-guide.md`
+- 상세 가이드: `docs/system-structure.md`
 
 ## 참고 문서
 
-- 병렬 작업 허브: `docs/index.md`
-- 병렬 작업 시작점: `docs/workstreams/parallel-overview.md`
-- 개발 스펙: `docs/development-spec.md`
-- 다국어 개발 가이드: `docs/i18n-guide.md`
+- 문서 허브: `docs/index.md`
+- 서비스 개요: `docs/service-overview.md`
+- 시스템 구성: `docs/system-structure.md`
+- 핵심 기능 명세: `docs/core-features.md`

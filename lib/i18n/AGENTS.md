@@ -22,7 +22,7 @@ Initial locale comes from the `app-locale` cookie; `localStorage` mirrors the se
 - Add user-facing strings to both locale files with the same structure.
 - Use `useI18n()` or `getDictionary()` instead of hardcoding copy in components.
 - Keep global metadata generation in `app/layout.tsx`; use `useDocumentMetadata()` only where a client page must resync title/description after locale changes.
-- If dictionary structure changes, update `docs/i18n-guide.md` in the same change.
+- If dictionary structure changes, update `docs/system-structure.md` and any affected feature description in `docs/core-features.md` in the same change.
 
 ## ANTI-PATTERNS
 
@@ -35,4 +35,4 @@ Initial locale comes from the `app-locale` cookie; `localStorage` mirrors the se
 
 - Run `pnpm build` and `pnpm lint` after i18n changes.
 - Manually switch languages and verify `<html lang>`, major copy, and metadata behavior.
-- Re-check `docs/i18n-guide.md` and `docs/common/acceptance.md` when behavior changes.
+- Re-check `docs/system-structure.md` and `docs/core-features.md` when behavior changes.

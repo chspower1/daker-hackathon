@@ -18,7 +18,7 @@ components/hackathons/
 | 시드 데이터 | `lib/data/*` | 공개 시드 보강 및 정규화 기준 |
 | 프로필/폼 게이트 | `lib/profile/localProfile.ts` | 생성/검증/저장 동작 |
 | 메타데이터 동기화 | `lib/i18n/useDocumentMetadata.ts` | 상세 페이지 제목/요약 동기화 |
-| 기능 계약 | `docs/features/hackathon-detail.md`, `docs/workstreams/hackathon.md` | 화면 계약과 병렬 소유권 확인 |
+| 기능 계약 | `docs/page-structure.md`, `docs/core-features.md` | 해커톤 목록/상세 화면 계약 확인 |
 
 ## LOCAL CONVENTIONS
 

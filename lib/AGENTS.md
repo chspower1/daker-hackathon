@@ -22,7 +22,7 @@ The main domains are seed normalization (`data/`), persistence (`storage/`), and
 - Normalize source data in `data/` before it feeds storage or UI.
 - Prefer existing layer boundaries instead of creating new one-off utility folders.
 - Use `@/` imports consistently; the repo relies on the root alias from `tsconfig.json`.
-- If a `lib/` change alters contracts, mirror it in the relevant docs under `docs/common/` or `docs/i18n-guide.md`.
+- If a `lib/` change alters contracts, mirror it in `docs/system-structure.md` or `docs/core-features.md`.
 
 ## ANTI-PATTERNS
 

@@ -22,7 +22,7 @@ It owns key definitions, safe JSON handling, runtime validation, recovery, boots
 - Read through `readWithRecovery()` and write through `writeValue()` or entity wrappers. Keep browser-availability and parse-failure handling centralized.
 - Each entity module should keep seed generation, runtime validation, and read/write behavior together.
 - Respect special cases such as `persistSeedOnMissing: false` where the entity intentionally avoids auto-persisting a seed.
-- If storage shape changes, update `docs/common/data-and-state.md` and any affected `docs/workstreams/*.md` that reference the key.
+- If storage shape changes, update `docs/system-structure.md` and `docs/core-features.md` in the same change.
 
 ## ANTI-PATTERNS
 
@@ -34,5 +34,5 @@ It owns key definitions, safe JSON handling, runtime validation, recovery, boots
 ## VERIFY
 
 - Run `pnpm build` and `pnpm lint` after storage changes.
-- Manually verify the affected key behavior against `docs/common/acceptance.md` and the relevant workstream doc.
+- Manually verify the affected key behavior against `docs/core-features.md` and `docs/user-flows.md`.
 - For bootstrap-related changes, check `components/layout/SharedAppShell.tsx` call sites and app startup behavior.
