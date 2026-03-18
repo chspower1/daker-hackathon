@@ -13,7 +13,7 @@ export function LanguageSwitcher() {
         aria-pressed={locale === "en"}
         type="button"
         onClick={() => setLocale("en")}
-        className={`text-xs font-medium transition-colors ${
+        className={`cursor-pointer text-xs font-medium transition-colors ${
           locale === "en" ? "text-primary-base" : "text-content-muted hover:text-content-base"
         }`}
       >
@@ -25,7 +25,7 @@ export function LanguageSwitcher() {
         aria-pressed={locale === "ko"}
         type="button"
         onClick={() => setLocale("ko")}
-        className={`text-xs font-medium transition-colors ${
+        className={`cursor-pointer text-xs font-medium transition-colors ${
           locale === "ko" ? "text-primary-base" : "text-content-muted hover:text-content-base"
         }`}
       >

@@ -64,7 +64,7 @@ function AnchorButton({ href, variant = "primary", className, children }: { href
     brutal: "bg-content-base text-surface-base hover:bg-primary-base hover:text-white border-4 border-content-base hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] uppercase font-black tracking-widest",
   };
   const buttonClassName = cn(
-    "inline-flex items-center justify-center rounded-none transition-all duration-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary-base focus-visible:ring-offset-2 h-14 px-8 text-lg",
+    "cursor-pointer inline-flex items-center justify-center rounded-none transition-all duration-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary-base focus-visible:ring-offset-2 h-14 px-8 text-lg",
     variants[variant],
     className
   );
@@ -91,9 +91,9 @@ export function LandingPage() {
             HackPlatform
           </div>
           <div className="hidden md:flex gap-10 text-base font-black uppercase tracking-widest text-content-base">
-            <Link href={landingRouteMap.discover} className="hover:text-primary-base transition-colors hover:underline decoration-4 underline-offset-8">{dict.nav.discover}</Link>
-            <Link href={landingRouteMap.team} className="hover:text-primary-base transition-colors hover:underline decoration-4 underline-offset-8">{dict.nav.teams}</Link>
-            <Link href={landingRouteMap.rankings} className="hover:text-primary-base transition-colors hover:underline decoration-4 underline-offset-8">{dict.nav.rankings}</Link>
+            <Link href={landingRouteMap.discover} className="cursor-pointer hover:text-primary-base transition-colors hover:underline decoration-4 underline-offset-8">{dict.nav.discover}</Link>
+            <Link href={landingRouteMap.team} className="cursor-pointer hover:text-primary-base transition-colors hover:underline decoration-4 underline-offset-8">{dict.nav.teams}</Link>
+            <Link href={landingRouteMap.rankings} className="cursor-pointer hover:text-primary-base transition-colors hover:underline decoration-4 underline-offset-8">{dict.nav.rankings}</Link>
           </div>
           <div className="flex items-center gap-6">
             <LanguageSwitcher />
@@ -230,7 +230,7 @@ export function LandingPage() {
                  {feature.id in landingRouteMap ? (
                    <Link
                      href={landingRouteMap[feature.id as keyof typeof landingRouteMap]}
-                     className="inline-flex items-center justify-between border-4 border-content-base p-6 font-black uppercase tracking-widest text-xl hover:bg-content-base hover:text-white transition-colors"
+                     className="cursor-pointer inline-flex items-center justify-between border-4 border-content-base p-6 font-black uppercase tracking-widest text-xl hover:bg-content-base hover:text-white transition-colors"
                    >
                      {dict.misc.learnMore}
                      <span className="text-3xl">→</span>
@@ -310,9 +310,9 @@ export function LandingPage() {
         <div className="relative z-10 mt-40 text-content-base font-black uppercase tracking-widest text-lg flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto border-t-8 border-content-base pt-16">
           <p>© {new Date().getFullYear()} {dict.misc.rights}</p>
           <div className="flex gap-12 mt-8 md:mt-0">
-            <Link href={landingRouteMap.discover} className="hover:text-primary-base transition-colors hover:underline decoration-4 underline-offset-8">{dict.nav.discover}</Link>
-            <Link href={landingRouteMap.team} className="hover:text-primary-base transition-colors hover:underline decoration-4 underline-offset-8">{dict.nav.teams}</Link>
-            <Link href={landingRouteMap.rankings} className="hover:text-primary-base transition-colors hover:underline decoration-4 underline-offset-8">{dict.nav.rankings}</Link>
+            <Link href={landingRouteMap.discover} className="cursor-pointer hover:text-primary-base transition-colors hover:underline decoration-4 underline-offset-8">{dict.nav.discover}</Link>
+            <Link href={landingRouteMap.team} className="cursor-pointer hover:text-primary-base transition-colors hover:underline decoration-4 underline-offset-8">{dict.nav.teams}</Link>
+            <Link href={landingRouteMap.rankings} className="cursor-pointer hover:text-primary-base transition-colors hover:underline decoration-4 underline-offset-8">{dict.nav.rankings}</Link>
           </div>
         </div>
       </footer>
