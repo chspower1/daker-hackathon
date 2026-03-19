@@ -5,6 +5,7 @@ import { toLanguageTag } from "@/lib/i18n/config";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { useDocumentMetadata } from "@/lib/i18n/useDocumentMetadata";
 import { DepthScene } from "./DepthScene";
+import { ScrambleHeadline } from "./ScrambleHeadline";
 import { cn } from "@/lib/cn";
 import { TopHeader } from "@/components/layout/TopHeader";
 
@@ -99,7 +100,7 @@ export function LandingPage() {
             </div>
             
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.85] text-content-base uppercase mix-blend-difference">
-              {dict.hero.headline}
+              <ScrambleHeadline key={locale} phrases={dict.hero.headlines} />
             </h1>
             
             <p className="text-xl md:text-2xl text-content-base font-medium max-w-xl leading-snug border-l-8 border-primary-base pl-8 py-2">

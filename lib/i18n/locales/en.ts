@@ -10,7 +10,13 @@ export const en = {
     korean: "Switch to Korean",
   },
   hero: {
-    headline: "Build. Compete. Create.",
+    headline: "TURN IDEAS INTO SHIPPED BUILDS.",
+    headlines: [
+      "TURN IDEAS INTO SHIPPED BUILDS.",
+      "FORM THE TEAM. SHIP FASTER.",
+      "ENTER THE HACK. PROVE THE WORK.",
+      "START THE NEXT WINNING BUILD.",
+    ],
     subcopy:
       "The casual hackathon platform where ideas turn into reality. Discover events, build your dream team, and climb the rankings.",
     primaryCta: {
