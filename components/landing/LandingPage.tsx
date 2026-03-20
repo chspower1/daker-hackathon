@@ -59,9 +59,9 @@ export function LandingPage() {
       />
 
       {/* Hero Section */}
-      <section className="relative min-h-screen pt-32 pb-20 px-6 max-w-[90rem] mx-auto flex flex-col justify-center overflow-hidden">
+      <section className="relative min-h-screen pt-32 pb-20 px-6 max-w-[90rem] mx-auto flex flex-col justify-center overflow-visible">
         {/* Animated Background blobs and grid */}
-        <div className="absolute inset-0 z-0 bg-grid-slate-100 [mask-image:linear-gradient(to_bottom,white,transparent)]"></div>
+        <div className="absolute inset-0 z-0 bg-grid-slate-100 [mask-image:linear-gradient(to_bottom,white_40%,transparent_100%)]"></div>
         <div className="absolute top-0 -left-4 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
         <div className="absolute top-0 -right-4 w-72 h-72 bg-indigo-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob delay-200"></div>
         <div className="absolute -bottom-8 left-20 w-72 h-72 bg-sky-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob delay-400"></div>
