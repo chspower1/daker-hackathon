@@ -1,132 +1,103 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 
-const SCRAMBLE_CHARS = "!<>-_\\/[]{}=+*?#";
-const SCRAMBLE_DURATION_MS = 440;
-const HOLD_DURATION_MS = 4020;
-const START_DELAY_MS = 0;
-
-function buildAlphabet(phrases: string[]) {
-  const alphabet = new Set(SCRAMBLE_CHARS.split(""));
-
-  for (const phrase of phrases) {
-    for (const char of Array.from(phrase)) {
-      if (char.trim().length > 0) {
-        alphabet.add(char);
-      }
-    }
-  }
-
-  return Array.from(alphabet);
-}
-
-function getRandomChar(alphabet: string[]) {
-  return alphabet[Math.floor(Math.random() * alphabet.length)] ?? "#";
-}
-
-function scramblePhrase(target: string, progress: number, alphabet: string[]) {
-  const targetChars = Array.from(target);
-  const revealCount = Math.floor(progress * targetChars.length);
-
-  return targetChars
-    .map((char, index) => {
-      if (char.trim().length === 0) {
-        return char;
-      }
-
-      return index < revealCount ? char : getRandomChar(alphabet);
-    })
-    .join("");
-}
+// bkit.ai style scramble characters
+const CHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ!<>-_\\/[]{}=+*^?#";
+const HOLD_DURATION_MS = 3000;
 
 export function ScrambleHeadline({ phrases }: { phrases: string[] }) {
+  const [displayText, setDisplayText] = useState(phrases[0] || "");
   const fallbackPhrase = phrases[0] ?? "";
-  const [displayText, setDisplayText] = useState(fallbackPhrase);
-  const alphabet = useMemo(() => buildAlphabet(phrases), [phrases]);
 
   useEffect(() => {
-    if (phrases.length === 0) {
+    if (phrases.length === 0) return;
+
+    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
+    if (mediaQuery.matches || phrases.length === 1) {
+      setDisplayText(fallbackPhrase);
       return;
     }
 
-    const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
-    const shouldReduceMotion = mediaQuery.matches;
-
     let isCancelled = false;
-    let animationFrameId = 0;
+    let frameRequest = 0;
     let timeoutId = 0;
 
-    const clearScheduledWork = () => {
-      window.cancelAnimationFrame(animationFrameId);
-      window.clearTimeout(timeoutId);
-    };
+    let currentPhraseIndex = 0;
 
-    const showStaticHeadline = () => {
-      clearScheduledWork();
-      setDisplayText(fallbackPhrase);
-    };
+    const runScramble = (oldText: string, newText: string, onComplete: () => void) => {
+      const length = Math.max(oldText.length, newText.length);
+      const queue: Array<{ from: string; to: string; start: number; end: number; char?: string }> = [];
 
-    const runPhrase = (index: number) => {
-      const targetPhrase = phrases[index] ?? fallbackPhrase;
-      const start = performance.now();
+      for (let i = 0; i < length; i++) {
+        const from = oldText[i] || "";
+        const to = newText[i] || "";
+        const start = Math.floor(Math.random() * 40);
+        const end = start + Math.floor(Math.random() * 40);
+        queue.push({ from, to, start, end });
+      }
 
-      const tick = (now: number) => {
-        if (isCancelled) {
-          return;
+      let frame = 0;
+
+      const update = () => {
+        if (isCancelled) return;
+
+        let output = "";
+        let complete = 0;
+
+        for (let i = 0; i < queue.length; i++) {
+          const item = queue[i];
+          if (frame >= item.end) {
+            complete++;
+            output += item.to;
+          } else if (frame >= item.start) {
+            if (!item.char || Math.random() < 0.28) {
+              item.char = CHARS[Math.floor(Math.random() * CHARS.length)];
+            }
+            output += item.char;
+          } else {
+            output += item.from;
+          }
         }
 
-        const progress = Math.min((now - start) / SCRAMBLE_DURATION_MS, 1);
-        setDisplayText(scramblePhrase(targetPhrase, progress, alphabet));
+        setDisplayText(output);
 
-        if (progress < 1) {
-          animationFrameId = window.requestAnimationFrame(tick);
-          return;
-        }
-
-        setDisplayText(targetPhrase);
-
-        if (phrases.length > 1) {
-          timeoutId = window.setTimeout(() => {
-            runPhrase((index + 1) % phrases.length);
-          }, HOLD_DURATION_MS);
+        if (complete === queue.length) {
+          onComplete();
+        } else {
+          frameRequest = requestAnimationFrame(update);
+          frame++;
         }
       };
 
-      animationFrameId = window.requestAnimationFrame(tick);
+      update();
     };
 
-    const handleMotionChange = (event: MediaQueryListEvent) => {
-      if (event.matches) {
-        showStaticHeadline();
-        return;
-      }
+    const nextPhrase = () => {
+      if (isCancelled) return;
+      const oldText = phrases[currentPhraseIndex];
+      currentPhraseIndex = (currentPhraseIndex + 1) % phrases.length;
+      const newText = phrases[currentPhraseIndex];
 
-      timeoutId = window.setTimeout(() => {
-        runPhrase(0);
-      }, START_DELAY_MS);
+      runScramble(oldText, newText, () => {
+        if (!isCancelled) {
+          timeoutId = window.setTimeout(nextPhrase, HOLD_DURATION_MS);
+        }
+      });
     };
 
-    if (shouldReduceMotion || phrases.length === 1) {
-      showStaticHeadline();
-    } else {
-      timeoutId = window.setTimeout(() => {
-        runPhrase(0);
-      }, START_DELAY_MS);
-    }
-
-    mediaQuery.addEventListener("change", handleMotionChange);
+    timeoutId = window.setTimeout(nextPhrase, HOLD_DURATION_MS);
 
     return () => {
       isCancelled = true;
-      clearScheduledWork();
-      mediaQuery.removeEventListener("change", handleMotionChange);
+      cancelAnimationFrame(frameRequest);
+      clearTimeout(timeoutId);
     };
-  }, [alphabet, fallbackPhrase, phrases]);
+  }, [phrases, fallbackPhrase]);
 
   return (
     <>
-      <span aria-hidden="true">{displayText}</span>
+      <span aria-hidden="true" className="inline-block whitespace-nowrap">{displayText}</span>
       <span className="sr-only">{fallbackPhrase}</span>
     </>
   );

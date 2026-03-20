@@ -374,7 +374,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
         title={pageTitle}
         description={pageDescription}
         actions={summary ? (
-          <Badge variant="brutal" className="text-base py-1 px-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+          <Badge variant="default" className="text-base py-1 px-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
             {dict.hackathonList?.status?.[summary.status] || summary.status}
           </Badge>
         ) : undefined}
@@ -519,12 +519,12 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
               {detail.sections.eval.limits ? (
                 <div className="flex flex-wrap gap-4 p-6 border-4 border-content-base bg-blue-100 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] rotate-[1deg]">
                   {detail.sections.eval.limits.maxRuntimeSec ? (
-                    <Badge variant="brutal" className="text-lg">
+                    <Badge variant="default" className="text-lg">
                       {labelText?.maxRuntime || "Max runtime"}: {detail.sections.eval.limits.maxRuntimeSec}s
                     </Badge>
                   ) : null}
                   {detail.sections.eval.limits.maxSubmissionsPerDay ? (
-                    <Badge variant="brutal" className="text-lg">
+                    <Badge variant="default" className="text-lg">
                       {labelText?.maxSubmissions || "Max submissions"}: {detail.sections.eval.limits.maxSubmissionsPerDay}
                     </Badge>
                   ) : null}
@@ -698,7 +698,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                       />
                     </FormField>
                   </div>
-                  <Button type="submit" variant="brutal" className="h-12 w-full sm:w-auto px-8">{labelText?.createProfile || "Create Profile"}</Button>
+                  <Button type="submit" variant="primary" className="h-12 w-full sm:w-auto px-8">{labelText?.createProfile || "Create Profile"}</Button>
                 </form>
               </CardContent>
             </Card>
@@ -774,7 +774,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                     <Button type="submit" variant="outline" name="action" value="draft" className="h-16 px-10 text-xl flex-1 md:flex-none bg-white">
                       {labelText?.saveDraft || "Save Draft"}
                     </Button>
-                    <Button type="submit" variant="brutal" name="action" value="submit" className="h-16 px-10 text-xl flex-1 md:flex-none bg-primary-base text-white border-content-base">
+                    <Button type="submit" variant="primary" name="action" value="submit" className="h-16 px-10 text-xl flex-1 md:flex-none bg-primary-base text-white border-content-base">
                       {labelText?.finalSubmit || "Final Submit"}
                     </Button>
                   </div>

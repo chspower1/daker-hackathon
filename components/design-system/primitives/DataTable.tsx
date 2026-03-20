@@ -5,7 +5,7 @@ export type DataTableProps = React.HTMLAttributes<HTMLTableElement>;
 
 export function DataTable({ className, ...props }: DataTableProps) {
   return (
-    <div className="w-full overflow-auto border-2 border-content-base bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+    <div className="w-full overflow-auto border border-border-base bg-white shadow-md">
       <table
         className={cn("w-full caption-bottom text-sm", className)}
         {...props}
@@ -18,7 +18,7 @@ export const TableHeader = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, ref) => (
-  <thead ref={ref} className={cn("[&_tr]:border-b-2 border-content-base bg-[#f4f4f0]", className)} {...props} />
+  <thead ref={ref} className={cn("[&_tr]:border-b border-border-base bg-surface-muted", className)} {...props} />
 ));
 TableHeader.displayName = "TableHeader";
 
@@ -41,7 +41,7 @@ export const TableRow = React.forwardRef<
   <tr
     ref={ref}
     className={cn(
-      "border-b-2 border-content-base transition-colors hover:bg-yellow-100 data-[state=selected]:bg-blue-100",
+      "border-b border-border-base transition-colors hover:bg-yellow-100 data-[state=selected]:bg-blue-100",
       className
     )}
     {...props}
@@ -56,7 +56,7 @@ export const TableHead = React.forwardRef<
   <th
     ref={ref}
     className={cn(
-      "h-10 px-4 text-left align-middle font-bold text-content-base uppercase tracking-wider text-xs [&:has([role=checkbox])]:pr-0",
+      "h-10 px-4 text-left align-middle font-bold text-content-base r text-xs [&:has([role=checkbox])]:pr-0",
       className
     )}
     {...props}

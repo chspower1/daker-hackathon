@@ -17,10 +17,10 @@ export function Alert({ className, variant = "default", title, children, ...prop
   return (
     <div
       role="alert"
-      className={cn("relative w-full rounded-none border-4 p-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all duration-200 hover:-translate-y-1 hover:shadow-[10px_10px_0px_0px_rgba(0,0,0,1)]", variants[variant], className)}
+      className={cn("relative w-full rounded-full border-4 p-6 shadow-md transition-all duration-200 hover:-translate-y-1 hover:shadow-md", variants[variant], className)}
       {...props}
     >
-      {title && <h5 className="mb-2 font-black uppercase tracking-widest text-xl leading-none">{title}</h5>}
+      {title && <h5 className="mb-2 font-black st text-xl leading-none">{title}</h5>}
       <div className="text-lg font-bold">{children}</div>
     </div>
   );

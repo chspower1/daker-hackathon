@@ -3,16 +3,16 @@ import { cn } from "@/lib/cn";
 
 export function AppShell({ children, className }: React.HTMLAttributes<HTMLDivElement>) {
   return (
-    <div className={cn("min-h-screen bg-[#f4f4f0] flex flex-col font-sans selection:bg-primary-base selection:text-white", className)}>
-      <header className="sticky top-0 z-40 w-full border-b-4 border-content-base bg-[#f4f4f0]/95 backdrop-blur-md">
+    <div className={cn("min-h-screen bg-surface-muted flex flex-col font-sans selection:bg-primary-base selection:text-white", className)}>
+      <header className="sticky top-0 z-40 w-full border-b border-border-base bg-surface-muted/95 backdrop-blur-md">
         <div className="flex h-20 max-w-[1400px] mx-auto items-center px-4 md:px-6">
-          <div className="flex items-center gap-4 font-black text-2xl tracking-tighter uppercase">
-            <div className="w-10 h-10 bg-content-base flex items-center justify-center text-[#f4f4f0] shadow-[3px_3px_0px_0px_rgba(37,99,235,1)] text-xl">D</div>
+          <div className="flex items-center gap-4 font-bold text-2xl tracking-tight text-content-base">
+            <div className="w-10 h-10 bg-primary-base flex items-center justify-center text-white rounded-xl shadow-md text-xl font-bold">D</div>
             <span className="hidden md:inline-block">Design System</span>
           </div>
-          <nav className="ml-12 flex gap-8 text-base font-black uppercase tracking-widest text-content-base">
-            <span className="text-primary-base underline decoration-4 underline-offset-8">Components</span>
-            <span className="hover:text-primary-base hover:underline decoration-4 underline-offset-8 cursor-pointer transition-colors duration-200">Documentation</span>
+          <nav className="ml-12 flex gap-8 text-base font-medium text-content-base">
+            <span className="text-primary-base ">Components</span>
+            <span className="hover:text-primary-base hover: cursor-pointer transition-colors duration-200">Documentation</span>
           </nav>
         </div>
       </header>

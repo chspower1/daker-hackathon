@@ -202,7 +202,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
         description={pageDescription}
         actions={(
           <Button
-            variant={isComposerOpen ? "outline" : "brutal"}
+            variant={isComposerOpen ? "outline" : "primary"}
             className={isComposerOpen ? "h-10 px-6 text-sm" : "bg-primary-base text-white border-content-base text-xl px-10 h-16"}
             onClick={() => {
               setIsComposerOpen((current) => !current);
@@ -334,7 +334,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                       <Button type="button" variant="outline" onClick={resetComposer} className="h-10 px-6 text-sm bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                         {dict.campForm?.reset || "Reset"}
                       </Button>
-                      <Button type="submit" variant="brutal" className="h-10 px-6 text-sm bg-primary-base text-white border-content-base">
+                      <Button type="submit" variant="primary" className="h-10 px-6 text-sm bg-primary-base text-white border-content-base">
                         {dict.campForm?.submit || "Create team post"}
                       </Button>
                     </div>

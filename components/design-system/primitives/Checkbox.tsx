@@ -12,7 +12,7 @@ export const Checkbox = React.forwardRef<HTMLInputElement, CheckboxProps>(
         type="checkbox"
         aria-invalid={ariaInvalid ?? (error ? true : undefined)}
         className={cn(
-          "h-6 w-6 rounded-none border-4 border-content-base bg-white text-primary-base focus:ring-0 focus:shadow-[4px_4px_0px_0px_rgba(37,99,235,1)] disabled:cursor-not-allowed disabled:opacity-50 checked:bg-primary-base appearance-none checked:before:content-['✓'] checked:before:text-white checked:before:flex checked:before:justify-center checked:before:items-center checked:before:font-black checked:before:h-full checked:before:w-full",
+          "h-6 w-6 rounded-2xl border-4 border-content-base bg-white text-primary-base focus:ring-0 focus:shadow-md disabled:cursor-not-allowed disabled:opacity-50 checked:bg-primary-base appearance-none checked:before:content-['✓'] checked:before:text-white checked:before:flex checked:before:justify-center checked:before:items-center checked:before:font-black checked:before:h-full checked:before:w-full",
           error && "border-red-500 text-red-500",
           className
         )}

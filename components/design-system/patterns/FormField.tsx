@@ -27,27 +27,27 @@ export function FormField({
   let control = children;
 
   if (React.isValidElement(children)) {
-    const childProps = children.props as any;
+    const childProps = children.props as { id?: string; "aria-describedby"?: string; "aria-invalid"?: boolean | string };
     const controlId = htmlFor ?? childProps.id ?? generatedId;
     const describedBy = [childProps["aria-describedby"], descriptionId, errorId]
       .filter(Boolean)
       .join(" ") || undefined;
 
-    control = React.cloneElement(children as any, {
+    control = React.cloneElement(children as React.ReactElement<{id?: string; "aria-describedby"?: string; "aria-invalid"?: boolean | string}>, {
       id: controlId,
       "aria-describedby": describedBy,
       "aria-invalid": childProps["aria-invalid"] ?? (error ? true : undefined),
     });
   }
 
-  const labelFor = htmlFor ?? (React.isValidElement(control) ? ((control.props as any).id ?? fallbackId) : fallbackId);
+  const labelFor = htmlFor ?? (React.isValidElement(control) ? ((control.props as { id?: string }).id ?? fallbackId) : fallbackId);
 
   return (
     <div className={cn("flex flex-col space-y-1.5", className)} {...props}>
       <label 
         htmlFor={labelFor}
         className={cn(
-          "text-sm font-black uppercase tracking-wider leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
+          "text-sm font-bold r leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70",
           error ? "text-red-600" : "text-content-base"
         )}
       >
@@ -61,7 +61,7 @@ export function FormField({
         {control}
       </div>
       {error && (
-        <p id={errorId} className="text-xs font-bold text-white bg-red-500 px-2 py-1 border-2 border-content-base inline-block mt-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] rotate-[-1deg]">{error}</p>
+        <p id={errorId} className="text-xs font-medium text-danger-base mt-1">{error}</p>
       )}
     </div>
   );

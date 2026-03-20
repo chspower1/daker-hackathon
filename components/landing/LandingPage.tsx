@@ -1,13 +1,14 @@
 "use client";
 
 import Link from "next/link";
+import { useEffect, useRef } from "react";
 import { toLanguageTag } from "@/lib/i18n/config";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { useDocumentMetadata } from "@/lib/i18n/useDocumentMetadata";
 import { DepthScene } from "./DepthScene";
 import { ScrambleHeadline } from "./ScrambleHeadline";
-import { cn } from "@/lib/cn";
 import { TopHeader } from "@/components/layout/TopHeader";
+import { Card, CardHeader, CardTitle, CardContent } from "@/components/design-system/primitives/Card";
 
 const landingRouteMap = {
   discover: "/hackathons",
@@ -15,261 +16,166 @@ const landingRouteMap = {
   rankings: "/rankings",
 } as const;
 
-function NoiseOverlay() {
-  return (
-    <div className="pointer-events-none fixed inset-0 z-50 h-full w-full opacity-[0.03] mix-blend-overlay" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/200/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }}></div>
-  );
-}
+function useScrollReveal() {
+  const containerRef = useRef<HTMLDivElement>(null);
+  
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("revealed");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1, rootMargin: "0px 0px -50px 0px" }
+    );
 
-function Marquee({ text }: { text: string }) {
-  return (
-    <div className="relative flex overflow-x-hidden bg-primary-base text-primary-content py-4 border-y-4 border-content-base -rotate-2 scale-110 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)] z-20 overflow-hidden">
-      <div className="animate-marquee whitespace-nowrap flex items-center gap-8 text-3xl md:text-5xl font-black uppercase tracking-widest">
-        <span>{text}</span>
-        <span>•</span>
-        <span>{text}</span>
-        <span>•</span>
-        <span>{text}</span>
-        <span>•</span>
-        <span>{text}</span>
-        <span>•</span>
-        <span>{text}</span>
-        <span>•</span>
-        <span>{text}</span>
-      </div>
-      <div className="absolute top-4 animate-marquee2 whitespace-nowrap flex items-center gap-8 text-3xl md:text-5xl font-black uppercase tracking-widest" style={{ animationDelay: '-12.5s' }}>
-        <span>{text}</span>
-        <span>•</span>
-        <span>{text}</span>
-        <span>•</span>
-        <span>{text}</span>
-        <span>•</span>
-        <span>{text}</span>
-        <span>•</span>
-        <span>{text}</span>
-        <span>•</span>
-        <span>{text}</span>
-      </div>
-    </div>
-  );
-}
+    const elements = document.querySelectorAll(".scroll-reveal");
+    elements.forEach((el) => observer.observe(el));
 
-function AnchorButton({ href, variant = "primary", className, children }: { href: string; variant?: "primary" | "outline" | "brutal"; className?: string; children: React.ReactNode }) {
-  const variants = {
-    primary: "bg-primary-base text-white hover:bg-primary-hover border-4 border-content-base shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] uppercase font-black tracking-widest",
-    outline: "bg-transparent text-content-base hover:bg-[#f4f4f0] border-4 border-content-base font-black uppercase tracking-wider shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]",
-    brutal: "bg-content-base text-surface-base hover:bg-primary-base hover:text-white border-4 border-content-base hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none transition-all shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] uppercase font-black tracking-widest",
-  };
-  const buttonClassName = cn(
-    "cursor-pointer inline-flex items-center justify-center rounded-none transition-all duration-200 focus:outline-none focus-visible:ring-4 focus-visible:ring-primary-base focus-visible:ring-offset-2 h-14 px-8 text-lg",
-    variants[variant],
-    className
-  );
+    return () => observer.disconnect();
+  }, []);
 
-  if (href.startsWith("/")) {
-    return <Link href={href} className={buttonClassName}>{children}</Link>;
-  }
-  return <a href={href} className={buttonClassName}>{children}</a>;
+  return containerRef;
 }
 
 export function LandingPage() {
   const { dict, locale } = useI18n();
   const languageTag = toLanguageTag(locale);
   useDocumentMetadata(dict.metadata);
+  useScrollReveal();
 
   return (
-    <DepthScene className="bg-[#f4f4f0] text-content-base font-sans overflow-x-hidden selection:bg-primary-base selection:text-white">
-      <NoiseOverlay />
-      
+    <DepthScene className="bg-white text-slate-900 font-sans overflow-x-hidden selection:bg-blue-600 selection:text-white">
       <TopHeader 
         variant="landing" 
         rightSlot={
-          <AnchorButton href={landingRouteMap.discover} variant="outline" className="h-10 md:h-12 px-4 md:px-6 text-xs md:text-sm shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] border-2 border-content-base bg-white text-content-base">
+          <Link href={landingRouteMap.discover} className="inline-flex h-10 items-center justify-center rounded-full bg-slate-900 px-6 text-sm font-medium text-white shadow transition-all duration-300 hover:bg-blue-600 hover:shadow-lg focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-slate-950">
             {dict.nav.getStarted}
-          </AnchorButton>
+          </Link>
         } 
       />
 
-      <section className="relative min-h-screen pt-40 pb-20 px-6 max-w-7xl mx-auto flex flex-col justify-center">
-        <div className="grid lg:grid-cols-12 gap-12 items-center z-10">
-          <div className="lg:col-span-7 space-y-12 animate-slide-up relative">
-            <div className="absolute -inset-10 -z-10 opacity-20" style={{ backgroundImage: 'radial-gradient(var(--color-content-base) 2px, transparent 2px)', backgroundSize: '32px 32px' }} />
-            
-            <div className="inline-block border-4 border-content-base px-6 py-2 bg-yellow-300 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] font-black uppercase tracking-widest text-lg rotate-[-2deg]">
-              {dict.misc.welcome}
-            </div>
-            
-            <h1 className="text-5xl md:text-7xl lg:text-8xl font-black tracking-tighter leading-[0.85] text-content-base uppercase mix-blend-difference">
-              <ScrambleHeadline key={locale} phrases={dict.hero.headlines} />
-            </h1>
-            
-            <p className="text-xl md:text-2xl text-content-base font-medium max-w-xl leading-snug border-l-8 border-primary-base pl-8 py-2">
-              {dict.hero.subcopy}
-            </p>
-            
-            <div className="flex flex-wrap gap-8 pt-6">
-              <AnchorButton href={dict.hero.primaryCta.href} variant="brutal" className="text-lg px-8 h-14 bg-primary-base text-white border-content-base">
-                {dict.hero.primaryCta.label}
-              </AnchorButton>
-              <AnchorButton href={dict.hero.secondaryCta.href} variant="outline" className="text-base px-6 h-14 bg-[#f4f4f0]">
-                {dict.hero.secondaryCta.label}
-              </AnchorButton>
-            </div>
-          </div>
-
-          <div className="lg:col-span-5 relative h-[650px] w-full preserve-3d perspective-1000 hidden lg:block">
-            <div className="absolute inset-0 w-full h-full preserve-3d" style={{
-                transform: 'perspective(1200px) rotateX(calc(var(--landing-tilt-x) * 2deg)) rotateY(calc(var(--landing-tilt-y) * 2deg))',
-                transition: 'transform 0.1s ease-out'
-              }}>
-              
-              <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[340px] h-[420px] border-4 border-content-base bg-white shadow-[16px_16px_0px_0px_rgba(37,99,235,1)] flex flex-col z-20"
-                style={{ transform: 'translate3d(-50%, calc(-50% + var(--landing-scroll-y) * -0.3px), 100px)' }}>
-                <div className="border-b-2 border-content-base p-5 bg-primary-base text-white flex justify-between items-center">
-                  <span className="font-black text-xl uppercase tracking-widest">{dict.card.leaderboard}</span>
-                  <div className="flex gap-2">
-                    <div className="w-4 h-4 rounded-none border-2 border-content-base bg-red-400"></div>
-                    <div className="w-4 h-4 rounded-none border-2 border-content-base bg-yellow-400"></div>
-                  </div>
-                </div>
-                <div className="flex-1 p-6 space-y-5 bg-[#f4f4f0] bg-[url('data:image/svg+xml;base64,PHN2ZyB3aWR0aD0iNDAiIGhlaWdodD0iNDAiIHhtbG5zPSJodHRwOi8vd3d3LnczLm9yZy8yMDAwL3N2ZyI+PGNpcmNsZSBjeD0iMjAiIGN5PSIyMCIgcj0iMSIgZmlsbD0iIzAwMCIgZmlsbC1vcGFjaXR5PSIwLjI1Ii8+PC9zdmc+')]">
-                  {[1, 2, 3].map((i) => (
-                    <div key={i} className="flex items-center justify-between p-4 border-4 border-content-base bg-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] transition-all">
-                      <div className="flex items-center gap-4">
-                        <span className="font-black text-2xl">0{i}</span>
-                        <span className="font-bold uppercase text-lg">{dict.card.teamAlpha} {i}</span>
-                      </div>
-                      <span className="text-primary-base font-black text-xl">2.4k</span>
-                    </div>
-                  ))}
-                </div>
-              </div>
-
-              <div className="absolute top-[5%] -left-[15%] w-72 h-56 border-4 border-content-base bg-yellow-300 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] p-6 z-10 rotate-[-12deg]"
-                style={{ transform: 'translate3d(0, calc(var(--landing-scroll-y) * 0.5px), -60px) rotate(-12deg)' }}>
-                <div className="bg-content-base text-white inline-block px-3 py-1 uppercase font-black mb-4">{dict.card.live}</div>
-                <h3 className="text-3xl font-black uppercase leading-none mb-3">{dict.card.globalAIHack}</h3>
-                <p className="mt-2 font-bold text-lg leading-tight">{dict.card.globalAIHackDesc}</p>
-              </div>
-
-              <div className="absolute bottom-[5%] -right-[15%] w-80 h-48 border-4 border-content-base bg-green-400 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] p-6 z-30 rotate-[8deg]"
-                style={{ transform: 'translate3d(0, calc(var(--landing-scroll-y) * 0.15px), 160px) rotate(8deg)' }}>
-                <div className="bg-content-base text-white inline-block px-3 py-1 uppercase font-black mb-4">{dict.card.lookingForTeam}</div>
-                <h3 className="text-2xl font-black uppercase leading-none">{dict.card.frontendDev}</h3>
-                <div className="mt-6 flex gap-3">
-                  <div className="w-10 h-10 border-4 border-content-base bg-blue-500"></div>
-                  <div className="w-10 h-10 border-4 border-content-base bg-purple-500"></div>
-                  <div className="w-10 h-10 border-4 border-content-base bg-[#f4f4f0] flex items-center justify-center font-black text-xl">+</div>
-                </div>
-              </div>
-              
-            </div>
-          </div>
-        </div>
-      </section>
-
-      <div className="my-10">
-        <Marquee text={dict.hero.headline} />
-      </div>
-
-      <section className="py-40 bg-content-base text-white border-y-8 border-primary-base relative">
-        <div className="absolute inset-0 opacity-10" style={{ backgroundImage: 'radial-gradient(circle at 2px 2px, white 2px, transparent 0)', backgroundSize: '48px 48px' }} />
-        <div className="max-w-7xl mx-auto px-6 relative z-10">
-          <div className="grid md:grid-cols-3 gap-16 lg:gap-24">
-            {dict.flow.map((step) => (
-              <div key={step.step} className="space-y-8 group">
-                <div className="text-[10rem] leading-none font-black text-transparent [-webkit-text-stroke:4px_white] group-hover:[-webkit-text-stroke:4px_var(--color-primary-base)] group-hover:text-primary-base group-hover:scale-110 origin-left transition-all duration-500">
-                  {step.step}
-                </div>
-                <h3 className="text-4xl font-black uppercase tracking-tighter">{step.title}</h3>
-                <p className="text-slate-300 text-xl leading-relaxed font-bold">
-                  {step.description}
-                </p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      <section id="discover" className="py-40 px-6 max-w-7xl mx-auto relative">
-        <div className="mb-24 flex flex-col md:flex-row gap-10 justify-between items-end border-b-8 border-content-base pb-10">
-          <div className="space-y-6 max-w-3xl">
-            <h2 className="text-6xl md:text-8xl font-black tracking-tighter uppercase leading-[0.9]">{dict.misc.featuresTitle}</h2>
-            <p className="text-2xl text-content-muted font-black uppercase tracking-widest">{dict.misc.featuresSubtitle}</p>
-          </div>
-        </div>
-
-        <div className="grid md:grid-cols-2 gap-12">
-          {dict.features.map((feature) => (
-            <div 
-              key={feature.id} 
-              id={feature.id} 
-              className="group border-4 border-content-base bg-white shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:shadow-[16px_16px_0px_0px_rgba(37,99,235,1)] hover:-translate-y-4 transition-all duration-300 flex flex-col h-full"
-            >
-              <div className={`h-8 w-full border-b-2 border-content-base ${feature.color.replace('bg-', 'bg-').replace('500', '400')} relative overflow-hidden`}>
-                <div className="absolute inset-0 opacity-20" style={{ backgroundImage: 'repeating-linear-gradient(45deg, transparent, transparent 10px, #000 10px, #000 20px)' }} />
-              </div>
-              <div className="p-10 flex-1 flex flex-col">
-                <h3 className="text-4xl font-black uppercase mb-6 leading-none">{feature.title}</h3>
-                <p className="text-content-muted text-xl font-bold mb-10 flex-1 leading-relaxed">
-                  {feature.description}
-                </p>
-                
-                 {feature.id in landingRouteMap ? (
-                   <Link
-                     href={landingRouteMap[feature.id as keyof typeof landingRouteMap]}
-                     className="cursor-pointer inline-flex items-center justify-between border-4 border-content-base p-6 font-black uppercase tracking-widest text-xl hover:bg-content-base hover:text-white transition-colors"
-                   >
-                     {dict.misc.learnMore}
-                     <span className="text-3xl">→</span>
-                   </Link>
-                 ) : (
-                   <div className="inline-flex items-center justify-between border-4 border-content-base p-6 font-black uppercase tracking-widest text-xl text-content-muted cursor-not-allowed">
-                     {dict.misc.learnMore}
-                     <span className="text-3xl">→</span>
-                   </div>
-                 )}
-              </div>
-             </div>
-           ))}
-        </div>
-      </section>
-
-      <section id="rankings" className="py-40 bg-white border-y-8 border-content-base relative overflow-hidden">
-        <div className="absolute inset-0 opacity-5" style={{ backgroundImage: 'repeating-linear-gradient(90deg, #000, #000 2px, transparent 2px, transparent 100px), repeating-linear-gradient(0deg, #000, #000 2px, transparent 2px, transparent 100px)' }} />
+      {/* Hero Section */}
+      <section className="relative min-h-screen pt-32 pb-20 px-6 max-w-[90rem] mx-auto flex flex-col justify-center overflow-hidden">
+        {/* Animated Background blobs and grid */}
+        <div className="absolute inset-0 z-0 bg-grid-slate-100 [mask-image:linear-gradient(to_bottom,white,transparent)]"></div>
+        <div className="absolute top-0 -left-4 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
+        <div className="absolute top-0 -right-4 w-72 h-72 bg-indigo-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob delay-200"></div>
+        <div className="absolute -bottom-8 left-20 w-72 h-72 bg-sky-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob delay-400"></div>
         
-        <div className="max-w-7xl mx-auto px-6 relative z-10 flex flex-col xl:flex-row gap-20 items-center">
-          <div className="xl:w-1/3 space-y-10 bg-[#f4f4f0] border-4 border-content-base p-12 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)]">
-            <div className="bg-primary-base text-white inline-block uppercase font-black px-6 py-3 text-2xl tracking-widest">{dict.misc.rankingsBadge}</div>
-            <h2 className="text-6xl md:text-7xl font-black tracking-tighter uppercase leading-[0.9]">{dict.misc.rankingsTitle}</h2>
-            <p className="text-2xl font-bold text-content-base border-l-8 border-green-400 pl-6">Who is leading the charge this season?</p>
-            <AnchorButton href={landingRouteMap.rankings} variant="brutal" className="w-full text-2xl h-20 mt-8">
-              {dict.misc.viewFull}
-            </AnchorButton>
+        <div className="flex flex-col items-center text-center z-10 space-y-10 w-full mt-16">
+          <div className="scroll-reveal inline-flex items-center rounded-full border border-slate-200 bg-white/70 px-4 py-1.5 text-sm font-medium text-slate-800 backdrop-blur-md shadow-sm transition-all hover:shadow-md hover:bg-white cursor-default">
+            <span className="flex h-2 w-2 rounded-full bg-blue-600 mr-2 animate-pulse"></span>
+            {dict.misc.welcome}
           </div>
           
-          <div className="xl:w-2/3 w-full">
-            <div className="border-4 border-content-base bg-white shadow-[16px_16px_0px_0px_rgba(0,0,0,1)]">
+          <div className="w-full flex justify-center scroll-reveal delay-100"><h1 className="text-[2rem] sm:text-4xl md:text-6xl lg:text-[6.5rem] font-bold tracking-tight leading-none text-slate-950 whitespace-nowrap drop-shadow-sm">
+            <ScrambleHeadline key={locale} phrases={dict.hero.headlines} />
+          </h1></div>
+          <p className="text-xl md:text-2xl text-slate-500 font-medium max-w-2xl leading-relaxed scroll-reveal delay-200">
+            {dict.hero.subcopy}
+          </p>
+          
+          <div className="flex flex-col sm:flex-row gap-4 pt-4 w-full sm:w-auto scroll-reveal delay-300">
+            <Link href={dict.hero.primaryCta.href} className="inline-flex h-14 items-center justify-center rounded-full bg-blue-600 px-8 text-base font-semibold text-white shadow-lg shadow-blue-600/20 transition-all hover:bg-blue-700 hover:-translate-y-1 hover:shadow-xl hover:shadow-blue-600/30">
+              {dict.hero.primaryCta.label}
+            </Link>
+            <Link href={dict.hero.secondaryCta.href} className="inline-flex h-14 items-center justify-center rounded-full border border-slate-200 bg-white/80 backdrop-blur-sm px-8 text-base font-semibold text-slate-900 shadow-sm transition-all hover:bg-slate-50 hover:-translate-y-1 hover:shadow-md">
+              {dict.hero.secondaryCta.label}
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Features/Solutions Section */}
+      <section id="discover" className="py-32 px-6 max-w-[90rem] mx-auto relative bg-slate-50/50 rounded-[3rem] my-20">
+        <div className="mb-20 flex flex-col items-center text-center space-y-6 scroll-reveal">
+          <h2 className="text-5xl md:text-6xl font-bold tracking-tight text-slate-900">{dict.misc.featuresTitle}</h2>
+          <p className="text-xl text-slate-500 font-medium max-w-2xl">{dict.misc.featuresSubtitle}</p>
+        </div>
+
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+          {dict.features.map((feature, idx) => (
+            <Card key={feature.id} id={feature.id} className={`scroll-reveal delay-${(idx % 3) * 100} h-full border-slate-100 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 bg-white/90 backdrop-blur-sm group`}>
+              <CardHeader>
+                <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-6 shadow-inner transition-all duration-500 group-hover:bg-blue-600 group-hover:text-white group-hover:scale-110">
+                  {/* Animated float icon wrapper */}
+                  <div className="animate-float">
+                    {idx === 0 && <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>}
+                    {idx === 1 && <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>}
+                    {idx === 2 && <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>}
+                    {idx > 2 && <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>}
+                  </div>
+                </div>
+                <CardTitle className="text-2xl transition-colors group-hover:text-blue-700">{feature.title}</CardTitle>
+              </CardHeader>
+              <CardContent className="flex flex-col flex-1">
+                <p className="text-slate-500 text-lg mb-8 flex-1 leading-relaxed transition-colors group-hover:text-slate-700">
+                  {feature.description}
+                </p>
+                {feature.id in landingRouteMap ? (
+                   <Link
+                     href={landingRouteMap[feature.id as keyof typeof landingRouteMap]}
+                     className="inline-flex items-center text-blue-600 font-semibold text-lg hover:text-blue-800 transition-colors group/link"
+                   >
+                     {dict.misc.learnMore}
+                     <span className="ml-2 transition-transform duration-300 group-hover/link:translate-x-2">→</span>
+                   </Link>
+                 ) : (
+                   <div className="inline-flex items-center text-slate-300 font-semibold text-lg cursor-not-allowed">
+                     {dict.misc.learnMore}
+                     <span className="ml-2">→</span>
+                   </div>
+                 )}
+              </CardContent>
+            </Card>
+          ))}
+        </div>
+      </section>
+
+      {/* Rankings Preview Section */}
+      <section id="rankings" className="py-32 px-6 max-w-[90rem] mx-auto relative mb-20">
+        <div className="flex flex-col xl:flex-row gap-16 items-center">
+          <div className="xl:w-1/3 space-y-8 scroll-reveal">
+            <div className="inline-flex items-center rounded-full bg-blue-50 px-4 py-1.5 text-sm font-semibold text-blue-600 shadow-sm">
+              <span className="relative flex h-2 w-2 mr-2">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+              </span>
+              {dict.misc.rankingsBadge}
+            </div>
+            <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 leading-tight">{dict.misc.rankingsTitle}</h2>
+            <p className="text-xl text-slate-500 leading-relaxed">Who is leading the charge this season? Discover the top teams reshaping the future.</p>
+            <Link href={landingRouteMap.rankings} className="inline-flex h-14 items-center justify-center rounded-full bg-slate-900 px-8 text-base font-semibold text-white shadow-lg shadow-slate-900/20 transition-all hover:bg-blue-600 hover:-translate-y-1 hover:shadow-xl mt-4">
+              {dict.misc.viewFull}
+            </Link>
+          </div>
+          
+          <div className="xl:w-2/3 w-full scroll-reveal delay-200">
+            <div className="rounded-3xl border border-slate-200 bg-white shadow-xl overflow-hidden transition-all duration-500 hover:shadow-2xl hover:-translate-y-2">
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
                   <thead>
-                    <tr className="border-b-2 border-content-base bg-content-base text-white uppercase font-black text-2xl">
-                      <th className="p-8">{dict.misc.tableRank}</th>
-                      <th className="p-8">{dict.misc.tableTeam}</th>
-                      <th className="p-8">{dict.misc.tableScore}</th>
-                      <th className="p-8">{dict.misc.tableStatus}</th>
+                    <tr className="border-b border-slate-100 bg-slate-50/80 backdrop-blur-sm text-slate-500 font-semibold text-sm uppercase tracking-wider">
+                      <th className="p-6 font-medium">{dict.misc.tableRank}</th>
+                      <th className="p-6 font-medium">{dict.misc.tableTeam}</th>
+                      <th className="p-6 font-medium">{dict.misc.tableScore}</th>
+                      <th className="p-6 font-medium">{dict.misc.tableStatus}</th>
                     </tr>
                   </thead>
                   <tbody>
                     {dict.rankingsPreview.map((row, idx) => (
-                      <tr key={row.team} className={`group cursor-pointer font-bold text-xl hover:bg-yellow-300 transition-colors ${idx !== dict.rankingsPreview.length - 1 ? 'border-b-2 border-content-base' : ''}`}>
-                        <td className="p-8 text-4xl font-black">
-                          {idx === 0 ? '🏆' : idx === 1 ? '🥈' : idx === 2 ? '🥉' : `#${row.rank}`}
+                      <tr key={row.team} className={`group cursor-pointer transition-colors duration-300 hover:bg-slate-50 ${idx !== dict.rankingsPreview.length - 1 ? 'border-b border-slate-100' : ''}`}>
+                        <td className="p-6 text-xl">
+                          {idx === 0 ? <span className="animate-pulse">🏆</span> : idx === 1 ? '🥈' : idx === 2 ? '🥉' : <span className="text-slate-400 font-semibold">#{row.rank}</span>}
                         </td>
-                        <td className="p-8 uppercase group-hover:underline decoration-4 underline-offset-8 text-3xl font-black">{row.team}</td>
-                        <td className="p-8 font-mono text-3xl font-black">{row.score.toLocaleString(languageTag)}</td>
-                        <td className="p-8">
-                          <span className="inline-block border-4 border-content-base px-4 py-2 bg-green-400 text-lg uppercase font-black shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
+                        <td className="p-6 text-slate-900 font-bold text-lg group-hover:text-blue-600 transition-colors">{row.team}</td>
+                        <td className="p-6 font-mono text-slate-700 font-medium">{row.score.toLocaleString(languageTag)}</td>
+                        <td className="p-6">
+                          <span className="inline-flex items-center rounded-full bg-green-50 px-3 py-1 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
                             {row.status}
                           </span>
                         </td>
@@ -283,24 +189,30 @@ export function LandingPage() {
         </div>
       </section>
 
-      <footer className="py-40 px-6 bg-[#f4f4f0] text-content-base text-center relative">
-        <div className="relative z-10 max-w-5xl mx-auto space-y-16">
-          <h2 className="text-[5rem] md:text-[8rem] font-black tracking-tighter uppercase leading-[0.85]">
+      {/* Footer */}
+      <footer className="py-32 px-6 bg-slate-950 text-slate-300 relative rounded-t-[3rem] overflow-hidden mt-20">
+        {/* Glow effect on footer */}
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-2xl h-1 bg-gradient-to-r from-transparent via-blue-500 to-transparent opacity-50"></div>
+        <div className="absolute top-0 left-1/2 -translate-x-1/2 w-[800px] h-[400px] bg-blue-600 opacity-[0.05] filter blur-[100px] rounded-full pointer-events-none"></div>
+        <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(37,99,235,0.05),transparent_50%)]"></div>
+        
+        <div className="relative z-10 max-w-5xl mx-auto space-y-12 text-center mb-24 scroll-reveal">
+          <h2 className="text-5xl md:text-7xl font-bold tracking-tight text-white leading-tight">
             {dict.footer.headline}
           </h2>
-          <div className="flex justify-center">
-             <AnchorButton href={dict.footer.cta.href} className="h-24 px-20 text-3xl bg-primary-base text-white border-4 border-content-base hover:bg-content-base shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] hover:translate-x-3 hover:translate-y-3 hover:shadow-none uppercase font-black transition-all">
+          <div className="flex justify-center pt-8">
+             <Link href={dict.footer.cta.href} className="inline-flex h-16 items-center justify-center rounded-full bg-blue-600 px-10 text-lg font-semibold text-white shadow-[0_0_40px_-10px_rgba(37,99,235,0.5)] transition-all duration-300 hover:bg-blue-500 hover:-translate-y-2 hover:shadow-[0_0_60px_-15px_rgba(37,99,235,0.7)] hover:scale-105">
                {dict.footer.cta.label}
-             </AnchorButton>
+             </Link>
           </div>
         </div>
         
-        <div className="relative z-10 mt-40 text-content-base font-black uppercase tracking-widest text-lg flex flex-col md:flex-row items-center justify-between max-w-7xl mx-auto border-t-8 border-content-base pt-16">
+        <div className="relative z-10 text-slate-400 text-sm flex flex-col md:flex-row items-center justify-between max-w-[90rem] mx-auto border-t border-slate-800/50 pt-10 mt-10 scroll-reveal delay-200">
           <p>© {new Date().getFullYear()} {dict.misc.rights}</p>
-          <div className="flex gap-12 mt-8 md:mt-0">
-            <Link href={landingRouteMap.discover} className="cursor-pointer hover:text-primary-base transition-colors hover:underline decoration-4 underline-offset-8">{dict.nav.discover}</Link>
-            <Link href={landingRouteMap.team} className="cursor-pointer hover:text-primary-base transition-colors hover:underline decoration-4 underline-offset-8">{dict.nav.teams}</Link>
-            <Link href={landingRouteMap.rankings} className="cursor-pointer hover:text-primary-base transition-colors hover:underline decoration-4 underline-offset-8">{dict.nav.rankings}</Link>
+          <div className="flex gap-8 mt-6 md:mt-0 font-medium">
+            <Link href={landingRouteMap.discover} className="transition-all hover:text-white hover:-translate-y-0.5">{dict.nav.discover}</Link>
+            <Link href={landingRouteMap.team} className="transition-all hover:text-white hover:-translate-y-0.5">{dict.nav.teams}</Link>
+            <Link href={landingRouteMap.rankings} className="transition-all hover:text-white hover:-translate-y-0.5">{dict.nav.rankings}</Link>
           </div>
         </div>
       </footer>

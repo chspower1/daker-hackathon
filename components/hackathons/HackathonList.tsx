@@ -168,7 +168,7 @@ export function HackathonList() {
           {(statusFilter !== "all" || tagFilter !== "") ? (
             <Button
               className="self-start mt-8 lg:mt-0 bg-red-400 hover:bg-red-500 text-white"
-              variant="brutal"
+              variant="primary"
               size="sm"
               type="button"
               onClick={() => {

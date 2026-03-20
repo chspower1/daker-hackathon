@@ -25,14 +25,14 @@ export function ActionGate({
   }
 
   return (
-    <Card className="max-w-md mx-auto my-12 border-8 border-content-base bg-yellow-300 shadow-[12px_12px_0px_0px_rgba(0,0,0,1)] rotate-[-1deg]">
-      <CardHeader className="bg-content-base text-white border-b-4 border-content-base">
+    <Card className="max-w-md mx-auto my-12  bg-yellow-300 shadow-md rotate-[-1deg]">
+      <CardHeader className="bg-content-base text-white border-b border-border-base">
         <CardTitle className="text-white">{title}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6 pt-6">
         <p className="text-lg font-bold text-content-base leading-relaxed">{description}</p>
         {actionLabel ? (
-          <Button variant="brutal" onClick={onAction} disabled={!onAction} className="w-full bg-white text-content-base border-4 border-content-base h-16 text-xl">
+          <Button variant="primary" onClick={onAction} disabled={!onAction} className="w-full bg-white text-content-base border border-border-base h-16 text-xl">
             {actionLabel}
           </Button>
         ) : null}
