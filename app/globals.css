@@ -95,6 +95,16 @@
     50% { transform: scale(1.05); opacity: 0.8; }
     100% { transform: scale(1); opacity: 1; }
   }
+  
+  @keyframes search-loop {
+    0% { transform: translate(0, 0) rotate(0deg) scale(1); }
+    20% { transform: translate(-5px, -5px) rotate(-8deg) scale(1.05); }
+    40% { transform: translate(5px, -6px) rotate(10deg) scale(1.05); }
+    60% { transform: translate(6px, 5px) rotate(5deg) scale(1.05); }
+    80% { transform: translate(-5px, 6px) rotate(-5deg) scale(1.05); }
+    100% { transform: translate(0, 0) rotate(0deg) scale(1); }
+  }
+
   @keyframes blob {
     0% { transform: translate(0px, 0px) scale(1); }
     33% { transform: translate(30px, -50px) scale(1.1); }
@@ -176,6 +186,11 @@
     0% { transform: translateX(100%); }
     100% { transform: translateX(0%); }
   }
+  
+  .animate-search-loop {
+    animation: search-loop 4s ease-in-out infinite;
+  }
+
   .animate-marquee {
     animation: marquee 25s linear infinite;
   }

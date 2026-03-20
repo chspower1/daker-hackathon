@@ -104,7 +104,25 @@ export function LandingPage() {
                 <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-6 shadow-inner transition-all duration-500 group-hover:bg-blue-600 group-hover:text-white group-hover:scale-110">
                   {/* Animated float icon wrapper */}
                   <div className="animate-float">
-                    {idx === 0 && <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M13 10V3L4 14h7v7l9-11h-7z" /></svg>}
+                    {idx === 0 && (
+                      <div className="relative w-9 h-9">
+                        <svg className="absolute inset-0 w-full h-full opacity-30 transition-opacity duration-500" viewBox="0 0 24 24" fill="none" stroke="currentColor">
+                          <rect x="2" y="3" width="6" height="6" rx="1.5" strokeWidth="1.5" />
+                          <rect x="16" y="3" width="6" height="6" rx="1.5" strokeWidth="1.5" />
+                          <rect x="2" y="15" width="6" height="6" rx="1.5" strokeWidth="1.5" />
+                          <circle cx="19" cy="18" r="2.5" strokeWidth="1.5" />
+                          <path d="M10 6h4M10 18h4" strokeWidth="1.5" strokeLinecap="round" strokeDasharray="2 3" />
+                        </svg>
+                        <div className="absolute inset-0 z-10 animate-search-loop origin-center flex items-center justify-center">
+                          <div className="relative bg-white/30 backdrop-blur-[2px] rounded-full p-0.5 shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
+                            <svg className="w-6 h-6 drop-shadow-sm" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
+                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 7.5a3.5 3.5 0 00-2.5 2.5" />
+                            </svg>
+                          </div>
+                        </div>
+                      </div>
+                    )}
                     {idx === 1 && <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z" /></svg>}
                     {idx === 2 && <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" /></svg>}
                     {idx > 2 && <svg className="w-7 h-7" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" /></svg>}
