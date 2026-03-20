@@ -97,7 +97,7 @@ export function LandingPage() {
           <p className="text-xl text-slate-500 font-medium max-w-2xl">{dict.misc.featuresSubtitle}</p>
         </div>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-6 lg:gap-8">
           {dict.features.map((feature, idx) => (
             <Card key={feature.id} id={feature.id} className={`scroll-reveal delay-${(idx % 3) * 100} h-full border-slate-100 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 bg-white/90 backdrop-blur-sm group`}>
               <CardHeader>
