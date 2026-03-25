@@ -33,7 +33,7 @@ function useScrollReveal() {
     );
 
     const elements = document.querySelectorAll(".scroll-reveal");
-    elements.forEach((el) => observer.observe(el));
+    elements.forEach((el) => { observer.observe(el); });
 
     return () => observer.disconnect();
   }, []);
@@ -105,62 +105,43 @@ export function LandingPage() {
                   {/* Animated float icon wrapper */}
                   <div className="animate-float">
                     {idx === 0 && (
-                      <div className="relative w-9 h-9">
-                        <svg className="absolute inset-0 w-full h-full opacity-30 transition-opacity duration-500" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                          <rect x="2" y="3" width="6" height="6" rx="1.5" strokeWidth="1.5" />
-                          <rect x="16" y="3" width="6" height="6" rx="1.5" strokeWidth="1.5" />
-                          <rect x="2" y="15" width="6" height="6" rx="1.5" strokeWidth="1.5" />
-                          <circle cx="19" cy="18" r="2.5" strokeWidth="1.5" />
-                          <path d="M10 6h4M10 18h4" strokeWidth="1.5" strokeLinecap="round" strokeDasharray="2 3" />
+                      <div className="relative w-9 h-9 flex items-center justify-center">
+                        <svg viewBox="0 0 24 24" fill="none" className="w-8 h-8 drop-shadow-sm animate-lively-explore" stroke="currentColor">
+                          <circle cx="12" cy="12" r="10" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-80 fill-blue-600/10 group-hover:fill-white/10 transition-colors duration-500" />
+                          <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="fill-white group-hover:fill-blue-600 transition-colors duration-500" />
+                          <circle cx="12" cy="12" r="1" fill="currentColor" />
                         </svg>
-                        <div className="absolute inset-0 z-10 animate-search-loop origin-center flex items-center justify-center">
-                          <div className="relative bg-white/30 backdrop-blur-[2px] rounded-full p-0.5 shadow-[0_4px_12px_rgba(0,0,0,0.05)]">
-                            <svg className="w-6 h-6 drop-shadow-sm" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M21 21l-5.197-5.197m0 0A7.5 7.5 0 105.196 5.196a7.5 7.5 0 0010.607 10.607z" />
-                              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 7.5a3.5 3.5 0 00-2.5 2.5" />
-                            </svg>
-                          </div>
-                        </div>
                       </div>
                     )}
                     {idx === 1 && (
                       <div className="relative w-9 h-9 flex items-center justify-center">
-                        <svg className="w-8 h-8 text-blue-600 drop-shadow-sm" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          {/* Center Person */}
-                          <g className="animate-team-center" style={{ transformOrigin: "center", transformBox: "fill-box" }}>
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 11a4 4 0 100-8 4 4 0 000 8z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 14c-4.418 0-8 3-8 7h16c0-4-3.582-7-8-7z" />
-                          </g>
-                          {/* Left Person */}
-                          <g className="animate-team-left text-blue-400" style={{ transformOrigin: "center", transformBox: "fill-box" }}>
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 10a3 3 0 100-6 3 3 0 000 6z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M6 13c-3.314 0-6 2.25-6 5.25h12c0-3-2.686-5.25-6-5.25z" />
-                          </g>
-                          {/* Right Person */}
-                          <g className="animate-team-right text-blue-400" style={{ transformOrigin: "center", transformBox: "fill-box" }}>
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M18 10a3 3 0 100-6 3 3 0 000 6z" />
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M18 13c-3.314 0-6 2.25-6 5.25h12c0-3-2.686-5.25-6-5.25z" />
-                          </g>
+                        <svg viewBox="0 0 24 24" fill="none" className="w-8 h-8 drop-shadow-sm animate-lively-team" strokeWidth="2" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
+                          <circle cx="9" cy="7" r="4" className="fill-blue-600/10 group-hover:fill-white/10 transition-colors duration-500" />
+                          <path d="M22 21v-2a4 4 0 0 0-3-3.87" className="opacity-60" />
+                          <path d="M16 3.13a4 4 0 0 1 0 7.75" className="opacity-60" />
                         </svg>
                       </div>
                     )}
                     {idx === 2 && (
-                      <div className="relative w-9 h-9 flex items-end justify-center pb-1">
-                        <svg className="w-7 h-7 drop-shadow-sm text-blue-600" viewBox="0 0 24 24" fill="currentColor">
-                          <rect x="3" y="16" width="4" height="4" rx="1" className="animate-bar-1" style={{ transformOrigin: "bottom center", transformBox: "fill-box" }} />
-                          <rect x="10" y="12" width="4" height="8" rx="1" className="animate-bar-2" style={{ transformOrigin: "bottom center", transformBox: "fill-box" }} />
-                          <rect x="17" y="4" width="4" height="16" rx="1" className="animate-bar-3" style={{ transformOrigin: "bottom center", transformBox: "fill-box" }} />
+                      <div className="relative w-9 h-9 flex items-center justify-center">
+                        <svg viewBox="0 0 24 24" fill="none" className="w-8 h-8 drop-shadow-sm animate-lively-rank" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M8 21h8" />
+                          <path d="M12 17v4" />
+                          <path d="M7 4h10" />
+                          <path d="M17 4v8a5 5 0 0 1-10 0V4" className="fill-blue-600/10 group-hover:fill-white/10 transition-colors duration-500"/>
+                          <path d="M4 4h3v5H4z" className="opacity-60"/>
+                          <path d="M17 4h3v5h-3z" className="opacity-60"/>
                         </svg>
                       </div>
                     )}
                     {idx > 2 && (
                       <div className="relative w-9 h-9 flex items-center justify-center">
-                        <svg className="w-8 h-8 drop-shadow-sm text-blue-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                          {/* Megaphone body */}
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M11 5.882V19.24a1.76 1.76 0 01-3.417.592l-2.147-6.15M18 13a3 3 0 100-6M5.436 13.683A4.001 4.001 0 017 6h1.832c4.1 0 7.625-1.234 9.168-3v14c-1.543-1.766-5.067-3-9.168-3H7a3.988 3.988 0 01-1.564-.317z" />
-                          {/* Sound waves */}
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M19 8a5 5 0 010 10" className="animate-wave-1" style={{ transformOrigin: "left center", transformBox: "fill-box" }} />
-                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M22 5a9 9 0 010 16" className="animate-wave-2" style={{ transformOrigin: "left center", transformBox: "fill-box" }} />
+                        <svg viewBox="0 0 24 24" fill="none" className="w-8 h-8 drop-shadow-sm animate-lively-host" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" className="opacity-60" />
+                          <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" className="fill-blue-600/10 group-hover:fill-white/10 transition-colors duration-500" />
+                          <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" className="opacity-60" />
+                          <path d="M12 15v5s3.03-.55 4-2c1.08-1.62 0-5 0-5" className="opacity-60" />
                         </svg>
                       </div>
                     )}
