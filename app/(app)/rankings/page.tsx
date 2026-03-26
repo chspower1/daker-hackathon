@@ -1,18 +1,9 @@
 "use client";
 
 import { useEffect, useState, useCallback } from "react";
-import { PageHeader } from "@/components/design-system/patterns/PageHeader";
 import { EmptyState } from "@/components/design-system/patterns/EmptyState";
 import { ErrorState } from "@/components/design-system/patterns/ErrorState";
 import { LoadingState } from "@/components/design-system/patterns/LoadingState";
-import {
-  DataTable,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableHeader,
-  TableRow,
-} from "@/components/design-system/primitives/DataTable";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { readRankings } from "@/lib/storage/entities/rankings";
 import type { UserRankingEntry } from "@/types";
@@ -65,12 +56,26 @@ export default function RankingsPage() {
   }, [loadData]);
 
   return (
-    <div className="max-w-5xl mx-auto px-4 md:px-6 py-10">
-      <PageHeader
-        title={dict.appPages?.rankingsTitle || "Rankings"}
-        description={dict.appPages?.rankingsDesc || "Global leaderboard"}
-      />
-      <div className="mt-8">
+    <div className="max-w-5xl mx-auto px-4 md:px-6 py-8 md:py-12 relative selection:bg-blue-600 selection:text-white">
+      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-64 bg-blue-600 opacity-[0.03] filter blur-[80px] rounded-full pointer-events-none"></div>
+      
+      <div className="relative z-10 flex flex-col items-center text-center mb-8">
+        <div className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600 shadow-sm mb-4">
+          <span className="relative flex h-2 w-2 mr-2">
+            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
+            <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+          </span>
+          {dict.misc?.rankingsBadge || "Live Standings"}
+        </div>
+        <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 leading-tight mb-2">
+          {dict.appPages?.rankingsTitle || "Rankings"}
+        </h1>
+        <p className="text-base md:text-lg text-slate-600 max-w-2xl">
+          {dict.appPages?.rankingsDesc || "Global leaderboard"}
+        </p>
+      </div>
+
+      <div className="mt-6 relative z-10">
         {isLoading ? (
           <LoadingState label={dict.appPages?.loadingLabel} />
         ) : isError ? (
@@ -85,27 +90,33 @@ export default function RankingsPage() {
             description={dict.appPages?.rankingsEmptyDesc || "The season has just started. Submit your projects to appear here."}
           />
         ) : (
-          <div className="p-4 md:p-6 border-2 border-content-base bg-white shadow-[4px_4px_0px_0px_rgba(37,99,235,1)]">
-            <DataTable>
-              <TableHeader>
-                <TableRow>
-                  <TableHead className="w-20">{dict.misc?.tableRank || "Rank"}</TableHead>
-                  <TableHead>{dict.misc?.tableNickname || "Nickname"}</TableHead>
-                  <TableHead className="text-right">{dict.misc?.tablePoints || "Points"}</TableHead>
-                </TableRow>
-              </TableHeader>
-              <TableBody>
-                {rankings.map((entry, idx) => (
-                  <TableRow key={`${entry.rank}-${entry.nickname}`} className={idx < 3 ? "bg-yellow-50" : ""}>
-                    <TableCell className="font-bold text-base">
-                      {idx === 0 ? "🏆" : idx === 1 ? "🥈" : idx === 2 ? "🥉" : `#${entry.rank}`}
-                    </TableCell>
-                    <TableCell className="text-sm font-medium">{entry.nickname}</TableCell>
-                    <TableCell className="text-right font-mono text-base font-bold text-primary-base">{entry.points.toLocaleString()}</TableCell>
-                  </TableRow>
-                ))}
-              </TableBody>
-            </DataTable>
+          <div className="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+            <div className="overflow-x-auto">
+              <table className="w-full text-left border-collapse">
+                <thead>
+                  <tr className="border-b border-slate-100 bg-slate-50 text-slate-600 font-semibold text-xs uppercase tracking-wider">
+                    <th className="py-3 px-4 font-medium w-20">{dict.misc?.tableRank || "Rank"}</th>
+                    <th className="py-3 px-4 font-medium">{dict.misc?.tableNickname || "Nickname"}</th>
+                    <th className="py-3 px-4 font-medium text-right">{dict.misc?.tablePoints || "Points"}</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {rankings.map((entry, idx) => (
+                    <tr key={`${entry.rank}-${entry.nickname}`} className={`group transition-colors duration-200 hover:bg-slate-50 ${idx !== rankings.length - 1 ? 'border-b border-slate-100' : ''} ${idx < 3 ? 'bg-blue-50/30' : ''}`}>
+                      <td className="py-3 px-4 text-base">
+                        {idx === 0 ? <span className="inline-flex items-center gap-1.5"><span aria-hidden="true" className="animate-pulse">🏆</span><span className="text-sm text-slate-500 font-semibold tabular-nums">#1</span></span> : idx === 1 ? <span className="inline-flex items-center gap-1.5"><span aria-hidden="true">🥈</span><span className="text-sm text-slate-500 font-semibold tabular-nums">#2</span></span> : idx === 2 ? <span className="inline-flex items-center gap-1.5"><span aria-hidden="true">🥉</span><span className="text-sm text-slate-500 font-semibold tabular-nums">#3</span></span> : <span className="text-slate-500 font-semibold tabular-nums">#{entry.rank}</span>}
+                        </td>
+                      <td className="py-3 px-4 text-slate-900 font-semibold text-base group-hover:text-blue-600 transition-colors">
+                        {entry.nickname}
+                      </td>
+                      <td className="py-3 px-4 font-mono text-slate-700 font-medium text-right text-base tabular-nums">
+                        {entry.points.toLocaleString()}
+                      </td>
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
           </div>
         )}
       </div>

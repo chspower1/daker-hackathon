@@ -37,37 +37,37 @@ export function TopHeader({ variant = "app", rightSlot }: TopHeaderProps) {
       "w-full z-50 transition-all duration-500 ease-in-out flex flex-col",
       variant === "landing" ? "fixed top-0" : "sticky top-0",
       isScrolled 
-        ? "bg-white/80 backdrop-blur-xl border-b border-slate-200/50 shadow-sm py-2" 
-        : "bg-transparent border-b-0 py-4"
+        ? "bg-white/80 backdrop-blur-xl border-b border-slate-200/50 shadow-sm py-1.5" 
+        : "bg-transparent border-b-0 py-3"
     )}>
       <div className="max-w-[90rem] w-full mx-auto px-6 flex items-center justify-between">
-        <div className="flex items-center gap-12">
+        <div className="flex items-center gap-8">
           {/* Logo Section */}
           <Link href="/" className="flex items-center gap-3 font-bold text-2xl tracking-tight shrink-0 group">
-            <div className="relative flex h-10 w-10 items-center justify-center">
+            <div className="relative flex h-8 w-8 items-center justify-center">
               {/* Outer glowing ring */}
-              <div className="absolute inset-0 rounded-xl bg-blue-500 opacity-20 blur-md transition-all duration-500 group-hover:opacity-40 group-hover:blur-lg group-hover:bg-blue-400"></div>
+              <div className="absolute inset-0 rounded-lg bg-blue-500 opacity-20 blur-md transition-all duration-500 group-hover:opacity-40 group-hover:blur-lg group-hover:bg-blue-400"></div>
               
               {/* Main geometric shape */}
-              <div className="absolute inset-0 rounded-xl bg-gradient-to-tr from-blue-700 to-blue-500 shadow-lg transition-transform duration-500 group-hover:scale-[1.05] group-hover:rotate-3 group-hover:shadow-blue-500/50"></div>
+              <div className="absolute inset-0 rounded-lg bg-gradient-to-tr from-blue-700 to-blue-500 shadow-sm transition-transform duration-500 group-hover:scale-[1.05] group-hover:rotate-3 group-hover:shadow-blue-500/50"></div>
               
               {/* Inner geometric accent */}
-              <div className="absolute inset-0 rounded-xl bg-gradient-to-bl from-white/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
+              <div className="absolute inset-0 rounded-lg bg-gradient-to-bl from-white/20 to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100"></div>
               
               {/* Abstract icon (e.g. geometric 'H' / nodes) */}
-              <svg className="relative z-10 h-5 w-5 text-white transition-transform duration-500 group-hover:scale-95" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <svg aria-hidden="true" className="relative z-10 h-4 w-4 text-white transition-transform duration-500 group-hover:scale-95" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
                 <path d="M4 12H20M12 4V20M6 6L18 18M6 18L18 6" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <path d="M7 8V16M17 8V16M7 12H17" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" className="group-hover:opacity-0 transition-opacity duration-300" />
               </svg>
             </div>
             <div className="flex flex-col ml-1">
-              <span className="hidden sm:block text-xl leading-none text-slate-900 font-extrabold tracking-tighter">HACK</span>
-              <span className="hidden sm:block text-[0.65rem] leading-none text-blue-600 font-bold tracking-[0.2em] uppercase mt-0.5">Platform</span>
+              <span className="hidden sm:block text-lg leading-none text-slate-900 font-extrabold tracking-tighter">HACK</span>
+              <span className="hidden sm:block text-[0.6rem] leading-none text-blue-600 font-bold tracking-[0.2em] uppercase mt-0.5">Platform</span>
             </div>
           </Link>
           
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-8 text-[15px] font-semibold text-slate-600">
+          <nav className="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-600">
             {navItems.map((item) => {
               const isActive = variant === "app" && pathname.startsWith(item.href);
               return (
@@ -98,7 +98,7 @@ export function TopHeader({ variant = "app", rightSlot }: TopHeaderProps) {
           {rightSlot}
           
           {/* Mobile Menu Button (Optional, can be wired up later) */}
-          <button className="md:hidden flex flex-col justify-center items-center w-10 h-10 space-y-1.5 rounded-full bg-slate-50 text-slate-600 hover:bg-slate-100 transition-colors">
+          <button type="button" className="md:hidden flex flex-col justify-center items-center w-10 h-10 space-y-1.5 rounded-full bg-slate-50 text-slate-600 hover:bg-slate-100 transition-colors">
             <span className="w-5 h-0.5 bg-current rounded-full"></span>
             <span className="w-5 h-0.5 bg-current rounded-full"></span>
           </button>
@@ -108,9 +108,9 @@ export function TopHeader({ variant = "app", rightSlot }: TopHeaderProps) {
       {/* Mobile Navigation Bar (Scrollable horizontally) */}
       <div className={cn(
         "md:hidden w-full transition-all duration-300",
-        isScrolled ? "hidden" : "block mt-4 border-t border-slate-100"
+        isScrolled ? "hidden" : "block mt-3 border-t border-slate-100"
       )}>
-        <nav className="flex overflow-x-auto px-6 h-14 items-center gap-8 text-sm font-semibold text-slate-500 no-scrollbar">
+        <nav className="flex overflow-x-auto px-6 h-12 items-center gap-6 text-sm font-semibold text-slate-500 no-scrollbar">
           {navItems.map((item) => {
             const isActive = variant === "app" && pathname.startsWith(item.href);
             return (
@@ -118,7 +118,7 @@ export function TopHeader({ variant = "app", rightSlot }: TopHeaderProps) {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "relative py-4 transition-colors whitespace-nowrap shrink-0 hover:text-slate-900",
+                  "relative py-3 transition-colors whitespace-nowrap shrink-0 hover:text-slate-900",
                   isActive ? "text-blue-600" : ""
                 )}
               >

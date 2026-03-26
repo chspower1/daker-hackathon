@@ -17,11 +17,11 @@ export function Alert({ className, variant = "default", title, children, ...prop
   return (
     <div
       role="alert"
-      className={cn("relative w-full rounded-full border-4 p-6 shadow-md transition-all duration-200 hover:-translate-y-1 hover:shadow-md", variants[variant], className)}
+      className={cn("relative w-full rounded-2xl border-2 p-5 shadow-sm transition-all duration-200 hover:-translate-y-1 hover:shadow-md", variants[variant], className)}
       {...props}
     >
-      {title && <h5 className="mb-2 font-black st text-xl leading-none">{title}</h5>}
-      <div className="text-lg font-bold">{children}</div>
+      {title && <h5 className="mb-1 font-bold text-lg leading-tight">{title}</h5>}
+      <div className="text-base font-medium">{children}</div>
     </div>
   );
 }

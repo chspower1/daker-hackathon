@@ -10,12 +10,17 @@ export function SharedAppShell({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <div className="min-h-screen bg-[#f4f4f0] flex flex-col font-sans selection:bg-primary-base selection:text-white">
-      <TopHeader variant="app" />
-      <main className="flex-1 w-full animate-fade-in relative">
-        <div className="absolute inset-0 pointer-events-none opacity-[0.03] mix-blend-overlay z-50 h-full w-full" style={{ backgroundImage: 'url("data:image/svg+xml,%3Csvg viewBox=%220 0 200 200%22 xmlns=%22http://www.w3.org/200/svg%22%3E%3Cfilter id=%22noiseFilter%22%3E%3CfeTurbulence type=%22fractalNoise%22 baseFrequency=%220.65%22 numOctaves=%223%22 stitchTiles=%22stitch%22/%3E%3C/filter%3E%3Crect width=%22100%25%22 height=%22100%25%22 filter=%22url(%23noiseFilter)%22/%3E%3C/svg%3E")' }}></div>
-        {children}
-      </main>
+    <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-blue-600 selection:text-white overflow-x-hidden relative">
+      <div className="fixed inset-0 z-0 pointer-events-none bg-grid-slate-100 [mask-image:linear-gradient(to_bottom,white_20%,transparent_80%)]"></div>
+      <div className="fixed top-[-10%] -left-[10%] w-[40%] h-[40%] bg-blue-200/30 rounded-full mix-blend-multiply filter blur-3xl opacity-50 pointer-events-none"></div>
+      <div className="fixed top-[-10%] -right-[10%] w-[40%] h-[40%] bg-indigo-200/30 rounded-full mix-blend-multiply filter blur-3xl opacity-50 pointer-events-none"></div>
+      
+      <div className="relative z-10 flex flex-col min-h-screen">
+        <TopHeader variant="app" />
+        <main className="flex-1 w-full animate-fade-in relative">
+          {children}
+        </main>
+      </div>
     </div>
   );
 }

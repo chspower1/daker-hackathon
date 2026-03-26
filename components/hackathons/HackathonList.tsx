@@ -35,6 +35,7 @@ export function HackathonList() {
   const [hasError, setHasError] = useState(false);
   const [statusFilter, setStatusFilter] = useState<(typeof statusOptions)[number]>("all");
   const [tagFilter, setTagFilter] = useState("");
+  const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
     try {
@@ -109,14 +110,14 @@ export function HackathonList() {
   }
 
   return (
-    <div className="space-y-8">
-      <div className="border-4 border-content-base bg-white p-5 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-        <div className="flex flex-col gap-8 lg:flex-row lg:items-start lg:justify-between">
-          <div className="space-y-4">
-            <p className="text-xs font-bold uppercase tracking-wider text-content-subtle">
+    <div className="space-y-6">
+      <div className="rounded-3xl border border-slate-200 bg-white/80 backdrop-blur-md p-4 lg:p-5 shadow-lg">
+        <div className="flex flex-col gap-5 lg:flex-row lg:items-start lg:justify-between">
+          <div className="space-y-2">
+            <p className="text-xs font-semibold text-slate-600 mb-2">
               {listText?.filters?.statusLabel || "Status"}
             </p>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2">
               {statusOptions.map((option) => {
                 const isActive = statusFilter === option;
                 const label = option === "all"
@@ -138,11 +139,11 @@ export function HackathonList() {
             </div>
           </div>
 
-          <div className="space-y-4 lg:max-w-xl">
-            <p className="text-xs font-bold uppercase tracking-wider text-content-subtle">
+          <div className="space-y-2 lg:max-w-xl">
+            <p className="text-xs font-semibold text-slate-600 mb-2">
               {listText?.filters?.tagLabel || "Tags"}
             </p>
-            <div className="flex flex-wrap gap-3">
+            <div className="flex flex-wrap gap-2">
               <Button
                 variant={tagFilter === "" ? "primary" : "outline"}
                 size="sm"
@@ -167,8 +168,8 @@ export function HackathonList() {
 
           {(statusFilter !== "all" || tagFilter !== "") ? (
             <Button
-              className="self-start mt-8 lg:mt-0 bg-red-400 hover:bg-red-500 text-white"
-              variant="primary"
+              className="self-start mt-6 lg:mt-0 bg-slate-100 hover:bg-slate-200 text-slate-700 shadow-none hover:shadow-none border-none hover:-translate-y-0"
+              variant="outline"
               size="sm"
               type="button"
               onClick={() => {
@@ -188,69 +189,82 @@ export function HackathonList() {
           description={listText?.emptyFilteredDescription || "Try a different combination of filters."}
         />
       ) : (
-        <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
+        <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
           {filteredHackathons.map((hackathon) => {
             const startDate = formatDate(hackathon.period.startAt);
             const deadlineDate = formatDate(hackathon.period.submissionDeadlineAt);
             const endDate = formatDate(hackathon.period.endAt);
 
             return (
-              <Link key={hackathon.slug} href={hackathon.links.detail} className="group block">
-                <Card className="h-full overflow-hidden">
+              <Link key={hackathon.slug} href={hackathon.links.detail} className="group block h-full">
+                <Card className="h-full overflow-hidden hover:border-blue-200/60">
                   {hackathon.thumbnailUrl ? (
-                    <div className="aspect-[16/9] overflow-hidden bg-surface-subtle border-b-4 border-content-base">
-                      {/* eslint-disable-next-line @next/next/no-img-element */}
-                      <img
-                        alt={hackathon.title}
-                        className="h-full w-full object-cover grayscale transition-all duration-300 group-hover:grayscale-0 group-hover:scale-105"
-                        src={hackathon.thumbnailUrl}
-                      />
+                   <div className="aspect-[16/9] overflow-hidden bg-slate-50 border-b border-slate-100">
+                      {imageErrors[hackathon.slug] ? (
+                        <div className="h-full w-full bg-slate-100/50 flex items-center justify-center">
+                          <div className="w-16 h-16 rounded-full bg-slate-200/50 flex items-center justify-center">
+                            <div className="w-8 h-8 rounded-full bg-blue-100/50" />
+                          </div>
+                        </div>
+                      ) : (
+                        /* eslint-disable-next-line @next/next/no-img-element */
+                        <img
+                          alt={hackathon.title}
+                          className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                          src={hackathon.thumbnailUrl}
+                          onError={() => {
+                            setImageErrors((prev) => ({ ...prev, [hackathon.slug]: true }));
+                          }}
+                        />
+                      )}
                     </div>
                   ) : null}
 
-                  <CardHeader className="space-y-4">
-                    <div className="flex flex-wrap items-center gap-3">
+                  <CardHeader className="space-y-3 pb-3">
+                    <div className="flex flex-wrap items-center gap-2">
                       <Badge variant={getStatusBadgeVariant(hackathon.status)}>
                         {listText?.status?.[hackathon.status] || hackathon.status}
                       </Badge>
                       {'participantsCount' in hackathon && (
-                        <span className="text-sm font-bold text-content-subtle">
+                        <span className="text-sm font-semibold text-slate-600">
                           {(hackathon as unknown as { participantsCount?: number }).participantsCount?.toLocaleString(languageTag)} {"participants"}
                         </span>
                       )}
                     </div>
-                    <CardTitle className="group-hover:underline decoration-4 underline-offset-4 decoration-primary-base transition-all">{hackathon.title}</CardTitle>
+                    <CardTitle className="group-hover:text-blue-600 transition-colors duration-300">
+                      {hackathon.title}
+                    </CardTitle>
                   </CardHeader>
 
-                  <CardContent className="space-y-6">
-                    <div className="space-y-2 text-sm font-bold text-content-base border-l-4 border-primary-base pl-3">
+                  <CardContent className="space-y-4 pt-0">
+                    <div className="space-y-2 text-sm font-medium text-slate-700 bg-slate-50/80 p-3 rounded-xl border border-slate-100">
                       {startDate && endDate ? (
-                        <div className="flex items-start justify-between gap-2">
-                          <span className="text-content-subtle">{"Period"}</span>
-                          <span className="text-right">
+                        <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-2">
+                          <span className="text-slate-600">{"Period"}</span>
+                          <span className="text-left sm:text-right text-slate-900 font-semibold text-xs sm:text-sm">
                             {startDate} - {endDate}
                           </span>
                         </div>
                       ) : null}
                       {deadlineDate ? (
-                        <div className="flex items-start justify-between gap-2 text-red-600">
-                          <span>{"Deadline"}</span>
-                          <span className="text-right">{deadlineDate}</span>
+                        <div className="flex flex-col gap-1 text-red-700 sm:flex-row sm:items-start sm:justify-between sm:gap-2">
+                          <span className="font-semibold">{"Deadline"}</span>
+                          <span className="text-left sm:text-right font-semibold text-xs sm:text-sm">{deadlineDate}</span>
                         </div>
                       ) : null}
                     </div>
 
-                    <div className="flex flex-wrap gap-2 pt-2">
+                    <div className="flex flex-wrap gap-1.5 pt-1">
                       {hackathon.tags.slice(0, 3).map((tag) => (
                         <span
                           key={tag}
-                          className="border-2 border-content-base bg-white px-2 py-1 text-xs font-black uppercase tracking-widest text-content-base"
+                           className="px-2.5 py-1 rounded-full text-xs font-semibold bg-white border border-slate-200 text-slate-700 shadow-sm transition-colors group-hover:border-blue-200 group-hover:text-blue-700"
                         >
                           {tag}
                         </span>
                       ))}
                       {hackathon.tags.length > 3 ? (
-                        <span className="border-2 border-content-base bg-surface-muted px-2 py-1 text-xs font-black uppercase text-content-subtle">
+                         <span className="px-2.5 py-1 rounded-full text-xs font-semibold bg-slate-50 text-slate-700 border border-transparent">
                           +{hackathon.tags.length - 3}
                         </span>
                       ) : null}
@@ -265,4 +279,3 @@ export function HackathonList() {
     </div>
   );
 }
-
