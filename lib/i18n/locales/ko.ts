@@ -160,7 +160,14 @@ export const ko: Dictionary = {
     saveErrorDesc: "잠시 후 다시 시도해주세요.",
     createProfileInputLabel: "닉네임",
     createProfileInputPlaceholder: "닉네임",
-    profileHint: "이 브라우저에는 공개 닉네임만 저장됩니다."
+    profileHint: "이 브라우저에는 공개 닉네임만 저장됩니다.",
+    nextStep: "다음",
+    prevStep: "이전",
+    stepProfile: "프로필 설정",
+    stepBasic: "기본 정보",
+    stepDetails: "상세 정보",
+    stepProgress: "{total}단계 중 {current}단계",
+    closeModal: "모달 닫기",
   },
   campList: {
     filterTitle: "해커톤 필터",

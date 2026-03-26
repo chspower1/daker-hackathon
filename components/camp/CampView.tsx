@@ -1,24 +1,19 @@
 "use client";
 
-import { startTransition, useEffect, useMemo, useState } from "react";
+import { startTransition, useEffect, useMemo, useRef, useState } from "react";
 import { Alert } from "@/components/design-system/primitives/Alert";
 import { Button } from "@/components/design-system/primitives/Button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/design-system/primitives/Card";
-import { Checkbox } from "@/components/design-system/primitives/Checkbox";
-import { Input } from "@/components/design-system/primitives/Input";
-import { Select } from "@/components/design-system/primitives/Select";
-import { Textarea } from "@/components/design-system/primitives/Textarea";
-import { ActionGate } from "@/components/design-system/patterns/ActionGate";
 import { EmptyState } from "@/components/design-system/patterns/EmptyState";
 import { LoadingState } from "@/components/design-system/patterns/LoadingState";
 import { cn } from "@/lib/cn";
-import { createLocalTeamCode } from "@/lib/ids/local";
 import { toLanguageTag } from "@/lib/i18n/config";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { useDocumentMetadata } from "@/lib/i18n/useDocumentMetadata";
-import { createLocalProfile, getLocalProfile, saveLocalProfile } from "@/lib/profile/localProfile";
+import { getLocalProfile } from "@/lib/profile/localProfile";
 import { readHackathons } from "@/lib/storage/entities/hackathons";
 import { readTeams, writeTeams } from "@/lib/storage/entities/teams";
+import { CampWizardModal } from "./CampWizardModal";
 import type { HackathonSummary, TeamPost } from "@/types";
 
 interface CampViewProps {
@@ -31,12 +26,9 @@ type Notice = {
   description: string;
 };
 
-function parseRoles(value: string) {
-  return value
-    .split(",")
-    .map((role) => role.trim())
-    .filter((role) => role.length > 0);
-}
+type TeamSubmitResult =
+  | { ok: true }
+  | { ok: false; title: string; description: string };
 
 export function CampView({ initialHackathonSlug }: CampViewProps) {
   const { dict, locale } = useI18n();
@@ -45,17 +37,20 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
   const [hackathons, setHackathons] = useState<HackathonSummary[]>([]);
   const [profile, setProfile] = useState<ReturnType<typeof getLocalProfile>>(null);
   const [notice, setNotice] = useState<Notice | null>(null);
-  const [isComposerOpen, setIsComposerOpen] = useState(false);
-
-  const [nickname, setNickname] = useState("");
-  const [teamName, setTeamName] = useState("");
-  const [intro, setIntro] = useState("");
-  const [lookingFor, setLookingFor] = useState("");
-  const [contactUrl, setContactUrl] = useState("");
-  const [isOpen, setIsOpen] = useState(true);
-  const [teamHackathonSlug, setTeamHackathonSlug] = useState(initialHackathonSlug ?? "");
+  const [isWizardOpen, setIsWizardOpen] = useState(false);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const wasModalOpen = useRef(false);
 
   const filterHackathonSlug = initialHackathonSlug?.trim() || undefined;
+
+  useEffect(() => {
+    if (isWizardOpen) {
+      wasModalOpen.current = true;
+    } else if (wasModalOpen.current) {
+      triggerRef.current?.focus();
+      wasModalOpen.current = false;
+    }
+  }, [isWizardOpen]);
 
   useEffect(() => {
     const teamResult = readTeams();
@@ -102,93 +97,26 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
     return new Map(hackathons.map((hackathon) => [hackathon.slug, hackathon.title]));
   }, [hackathons]);
 
-  function resetComposer() {
-    setTeamName("");
-    setIntro("");
-    setLookingFor("");
-    setContactUrl("");
-    setIsOpen(true);
-    setTeamHackathonSlug(filterHackathonSlug ?? "");
-  }
-
-  function handleCreateProfile() {
-    const nextNickname = nickname.trim();
-
-    if (nextNickname.length === 0) {
-      return;
-    }
-
-    const nextProfile = createLocalProfile(nextNickname);
-
-    if (!saveLocalProfile(nextProfile)) {
-      setNotice({
-        variant: "danger",
-        title: dict.campForm?.createProfileErrorTitle || "Unable to save profile",
-        description: dict.campForm?.createProfileErrorDesc || "Please try again.",
-      });
-      return;
-    }
-
-    setProfile(nextProfile);
-    setNickname("");
-    setNotice({
-      variant: "success",
-      title: dict.campForm?.createProfileSuccessTitle || "Profile ready",
-      description: dict.campForm?.createProfileSuccessDesc || "You can now create a team post.",
-    });
-  }
-
-  function handleCreateTeam(event: React.SyntheticEvent<HTMLFormElement>) {
-    event.preventDefault();
-
-    if (profile === null) {
-      return;
-    }
-
-    const nextName = teamName.trim();
-    const nextIntro = intro.trim();
-
-    if (nextName.length === 0 || nextIntro.length === 0) {
-      return;
-    }
-
-    const createdAt = new Date().toISOString();
-    const nextTeam: TeamPost = {
-      teamCode: createLocalTeamCode(),
-      hackathonSlug: teamHackathonSlug || undefined,
-      ownerProfileId: profile.id,
-      ownerNicknameSnapshot: profile.nickname,
-      name: nextName,
-      isOpen,
-      lookingFor: parseRoles(lookingFor),
-      intro: nextIntro,
-      contact: {
-        type: "link",
-        url: contactUrl.trim(),
-      },
-      createdAt,
-    };
-
-    const nextTeams = [nextTeam, ...teams];
+  const handleWizardSubmit = (newTeam: TeamPost): TeamSubmitResult => {
+    const nextTeams = [newTeam, ...teams];
 
     if (!writeTeams(nextTeams)) {
-      setNotice({
-        variant: "danger",
+      return {
+        ok: false,
         title: dict.campForm?.saveErrorTitle || "Unable to save the team post",
         description: dict.campForm?.saveErrorDesc || "Please try again.",
-      });
-      return;
+      };
     }
 
     setTeams(nextTeams);
-    resetComposer();
-    setIsComposerOpen(false);
+    setIsWizardOpen(false);
     setNotice({
       variant: "success",
       title: dict.campForm?.saveSuccessTitle || "Team post created",
       description: dict.campForm?.saveSuccessDesc || "Your team post is now visible in the list.",
     });
-  }
+    return { ok: true };
+  };
 
   if (!isReady) {
     return (
@@ -222,18 +150,15 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
           </div>
           <div className="shrink-0">
             <Button
-              variant={isComposerOpen ? "outline" : "primary"}
-              className={isComposerOpen 
-                ? "h-10 px-5 text-sm font-medium rounded-full border border-slate-200/80 bg-white/80 backdrop-blur-sm hover:bg-slate-50/80 text-slate-700 shadow-sm transition-all" 
-                : "h-10 px-5 text-sm font-semibold rounded-full bg-blue-600 text-white shadow-[0_8px_16px_-6px_rgba(37,99,235,0.4)] hover:bg-blue-700 hover:-translate-y-0.5 hover:shadow-[0_12px_20px_-6px_rgba(37,99,235,0.5)] transition-all ring-1 ring-blue-600/50"}
+              ref={triggerRef}
+              variant="primary"
+              className="h-10 px-5 text-sm font-semibold rounded-full bg-blue-600 text-white shadow-[0_8px_16px_-6px_rgba(37,99,235,0.4)] hover:bg-blue-700 hover:-translate-y-0.5 hover:shadow-[0_12px_20px_-6px_rgba(37,99,235,0.5)] transition-all ring-1 ring-blue-600/50"
               onClick={() => {
-                setIsComposerOpen((current) => !current);
+                setIsWizardOpen(true);
                 setNotice(null);
               }}
             >
-              {isComposerOpen
-                ? dict.campForm?.toggleClose || "Close form"
-                : dict.campForm?.toggleOpen || "Create team post"}
+              {dict.campForm?.toggleOpen || "Create team post"}
             </Button>
           </div>
         </div>
@@ -254,148 +179,24 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
           </Alert>
         ) : null}
 
-        {isComposerOpen ? (
-          <div className="space-y-6 animate-in fade-in slide-in-from-top-4 duration-500">
-            <ActionGate
-              isAllowed={profile !== null}
-              title={dict.campForm?.createProfileTitle || "Profile required"}
-              description={dict.campForm?.createProfileDesc || "You need a profile before creating a team post."}
-            >
-              <Card className="border border-slate-200/60 bg-white/80 backdrop-blur-xl shadow-2xl shadow-slate-200/50 rounded-2xl overflow-hidden transition-all duration-500 ring-1 ring-white/50">
-                <CardHeader className="bg-slate-50/50 border-b border-slate-100/50 pb-4 px-5 pt-5">
-                  <CardTitle className="text-lg font-bold tracking-tight text-slate-900">{dict.campForm?.createTeamTitle || "Create a team"}</CardTitle>
-                  <p className="text-sm font-medium text-slate-500 mt-1">
-                    {dict.campForm?.postingAs || "Posting with your local profile:"} <span className="text-blue-600 font-semibold bg-blue-50 px-2 py-0.5 rounded-md">{profile?.nickname}</span>
-                  </p>
-                </CardHeader>
-                <CardContent className="p-5">
-                  <form onSubmit={handleCreateTeam} className="grid gap-5 md:grid-cols-2">
-                    <div className="md:col-span-2 space-y-1.5">
-                      <label htmlFor="camp-team-name" className="text-sm font-semibold text-slate-700 mb-1 block ml-1">
-                        {dict.campForm?.teamName || "Team name"}
-                      </label>
-                      <Input
-                        id="camp-team-name"
-                        value={teamName}
-                        onChange={(event) => setTeamName(event.target.value)}
-                        required
-                        className="text-sm bg-white/50 border border-slate-200/80 rounded-xl focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 transition-all shadow-sm h-10 px-3"
-                      />
-                    </div>
-
-                    <div className="md:col-span-2 space-y-1.5">
-                      <label htmlFor="camp-team-intro" className="text-sm font-semibold text-slate-700 mb-1 block ml-1">
-                        {dict.campForm?.intro || "Introduction"}
-                      </label>
-                      <Textarea
-                        id="camp-team-intro"
-                        value={intro}
-                        onChange={(event) => setIntro(event.target.value)}
-                        required
-                        className="text-sm bg-white/50 border border-slate-200/80 rounded-xl focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 transition-all shadow-sm min-h-[96px] p-3"
-                      />
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <label htmlFor="camp-team-looking-for" className="text-sm font-semibold text-slate-700 mb-1 block ml-1">
-                        {dict.campForm?.lookingFor || "Looking for"}
-                      </label>
-                      <Input
-                        id="camp-team-looking-for"
-                        value={lookingFor}
-                        onChange={(event) => setLookingFor(event.target.value)}
-                        placeholder={dict.campForm?.lookingForPlaceholder || "Frontend, Designer"}
-                        className="text-sm bg-white/50 border border-slate-200/80 rounded-xl focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 transition-all shadow-sm h-10 px-3"
-                      />
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <label htmlFor="camp-team-contact-url" className="text-sm font-semibold text-slate-700 mb-1 block ml-1">
-                        {dict.campForm?.contactUrl || "Contact URL"}
-                      </label>
-                      <Input
-                        id="camp-team-contact-url"
-                        type="url"
-                        value={contactUrl}
-                        onChange={(event) => setContactUrl(event.target.value)}
-                        placeholder="https://"
-                        className="text-sm bg-white/50 border border-slate-200/80 rounded-xl focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 transition-all shadow-sm h-10 px-3"
-                      />
-                    </div>
-
-                    <div className="space-y-1.5">
-                      <label htmlFor="camp-team-hackathon" className="text-sm font-semibold text-slate-700 mb-1 block ml-1">
-                        {dict.campForm?.hackathonSlug || "Hackathon"}
-                      </label>
-                      <Select
-                        id="camp-team-hackathon"
-                        value={teamHackathonSlug}
-                        onChange={(event) => setTeamHackathonSlug(event.target.value)}
-                        className="text-sm bg-white/50 border border-slate-200/80 rounded-xl focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 transition-all shadow-sm h-10 px-3"
-                      >
-                        <option value="">{dict.campForm?.hackathonNone || "No linked hackathon"}</option>
-                        {hackathons.map((hackathon) => (
-                          <option key={hackathon.slug} value={hackathon.slug}>
-                            {hackathon.title}
-                          </option>
-                        ))}
-                      </Select>
-                    </div>
-
-                    <div className="flex items-center gap-3 border border-slate-200/80 rounded-2xl bg-slate-50/50 px-4 py-2 h-10 shadow-sm">
-                      <Checkbox
-                        id="camp-team-open"
-                        checked={isOpen}
-                        onChange={(event) => setIsOpen(event.target.checked)}
-                        className="h-5 w-5 rounded-md border-slate-300 text-blue-600 focus:ring-blue-600/20"
-                      />
-                      <label htmlFor="camp-team-open" className="text-sm font-medium text-slate-700 cursor-pointer select-none">
-                        {dict.campForm?.isOpen || "Currently recruiting"}
-                      </label>
-                    </div>
-
-                    <div className="md:col-span-2 flex flex-wrap justify-end gap-4 pt-5 border-t border-slate-100/80 mt-1">
-                      <Button type="button" variant="outline" onClick={resetComposer} className="h-10 px-5 text-sm font-medium rounded-full border-slate-200 bg-white hover:bg-slate-50 text-slate-700 shadow-sm hover:shadow transition-all">
-                        {dict.campForm?.reset || "Reset"}
-                      </Button>
-                      <Button type="submit" variant="primary" className="h-10 px-6 text-sm font-semibold rounded-full bg-blue-600 text-white shadow-lg shadow-blue-600/20 hover:bg-blue-700 hover:-translate-y-0.5 hover:shadow-xl transition-all">
-                        {dict.campForm?.submit || "Create team post"}
-                      </Button>
-                    </div>
-                  </form>
-                </CardContent>
-              </Card>
-            </ActionGate>
-
-            {profile === null ? (
-              <Card className="max-w-xl mx-auto border border-blue-100/50 shadow-2xl shadow-blue-900/5 bg-white/90 backdrop-blur-xl rounded-2xl overflow-hidden mt-8 ring-1 ring-white/50">
-                <CardHeader className="bg-gradient-to-b from-blue-50/80 to-transparent border-b border-slate-100/50 pb-4 px-5 pt-5">
-                  <CardTitle className="text-lg font-bold tracking-tight text-slate-900">{dict.campForm?.createProfileBtn || "Create profile"}</CardTitle>
-                  <p className="text-sm text-slate-500 font-medium mt-1">
-                    {dict.campForm?.profileHint || "Only a nickname is stored in this browser."}
-                  </p>
-                </CardHeader>
-                <CardContent className="space-y-5 p-5 bg-transparent">
-                  <div className="space-y-1.5">
-                    <label htmlFor="camp-profile-nickname" className="text-sm font-semibold text-slate-700 mb-1 block ml-1">
-                      {dict.campForm?.createProfileInputLabel || "Nickname"}
-                    </label>
-                    <Input
-                      id="camp-profile-nickname"
-                      placeholder={dict.campForm?.createProfileInputPlaceholder || "Nickname"}
-                      value={nickname}
-                      onChange={(event) => setNickname(event.target.value)}
-                       className="text-sm bg-white/80 border border-slate-200/80 rounded-xl focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 transition-all shadow-sm h-10 px-3"
-                    />
-                  </div>
-                  <Button className="w-full h-10 mt-5 text-sm font-semibold rounded-full bg-blue-600 text-white shadow-lg shadow-blue-600/20 hover:bg-blue-700 hover:-translate-y-0.5 hover:shadow-xl transition-all" onClick={handleCreateProfile}>
-                    {dict.campForm?.createProfileBtn || "Create profile"}
-                  </Button>
-                </CardContent>
-              </Card>
-            ) : null}
-          </div>
-        ) : null}
+        {isWizardOpen && (
+          <CampWizardModal
+            isOpen={isWizardOpen}
+            onClose={() => setIsWizardOpen(false)}
+            profile={profile}
+            onProfileUpdate={(newProfile) => {
+              setProfile(newProfile);
+              setNotice({
+                variant: "success",
+                title: dict.campForm?.createProfileSuccessTitle || "Profile ready",
+                description: dict.campForm?.createProfileSuccessDesc || "You can now create a team post.",
+              });
+            }}
+            onSubmit={handleWizardSubmit}
+            hackathons={hackathons}
+            initialHackathonSlug={filterHackathonSlug}
+          />
+        )}
 
         {filteredTeams.length === 0 ? (
           <EmptyState

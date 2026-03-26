@@ -158,7 +158,14 @@ export const en = {
     saveErrorDesc: "Please try again.",
     createProfileInputLabel: "Nickname",
     createProfileInputPlaceholder: "Nickname",
-    profileHint: "Only a nickname is stored in this browser."
+    profileHint: "Only a nickname is stored in this browser.",
+    nextStep: "Next",
+    prevStep: "Back",
+    stepProfile: "Profile Setup",
+    stepBasic: "Basic Info",
+    stepDetails: "Details",
+    stepProgress: "Step {current} of {total}",
+    closeModal: "Close modal",
   },
   campList: {
     filterTitle: "Hackathon filter",
