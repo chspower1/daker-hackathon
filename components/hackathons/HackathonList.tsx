@@ -29,7 +29,7 @@ export function HackathonList() {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [statusFilter, setStatusFilter] = useState<(typeof statusOptions)[number]>("all");
-  const [tagFilter, setTagFilter] = useState("");
+  const [tagFilter, setTagFilter] = useState<string[]>([]);
   const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
@@ -49,14 +49,32 @@ export function HackathonList() {
 
   const availableTags = useMemo(() => {
     const tags = new Set<string>();
-    hackathons.forEach((h) => h.tags.forEach((t) => tags.add(t)));
+    hackathons.forEach((h) => {
+      h.tags.forEach((t) => {
+        tags.add(t);
+      });
+    });
     return [...tags].sort((a, b) => a.localeCompare(b, languageTag));
   }, [hackathons, languageTag]);
+
+  const statusCounts = useMemo(() => {
+    const counts = { all: 0, upcoming: 0, ongoing: 0, ended: 0 };
+    hackathons.forEach((h) => {
+      const tagMatches = tagFilter.length === 0 || tagFilter.some((t) => h.tags.includes(t));
+      if (tagMatches) {
+        counts.all++;
+        if (h.status === "upcoming") counts.upcoming++;
+        if (h.status === "ongoing") counts.ongoing++;
+        if (h.status === "ended") counts.ended++;
+      }
+    });
+    return counts;
+  }, [hackathons, tagFilter]);
 
   const filteredHackathons = useMemo(() => {
     return hackathons.filter((h) => {
       const statusMatches = statusFilter === "all" || h.status === statusFilter;
-      const tagMatches = tagFilter === "" || h.tags.includes(tagFilter);
+      const tagMatches = tagFilter.length === 0 || tagFilter.some((t) => h.tags.includes(t));
       return statusMatches && tagMatches;
     });
   }, [hackathons, statusFilter, tagFilter]);
@@ -99,11 +117,17 @@ export function HackathonList() {
                     type="button"
                     onClick={() => setStatusFilter(option)}
                     className={cn(
-                      "text-left px-3 py-2 rounded-lg text-sm transition-colors duration-200 font-medium",
+                      "flex items-center justify-between text-left px-3 py-2 rounded-lg text-sm transition-colors duration-200 font-medium",
                       isActive ? "bg-blue-50 text-blue-700" : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
                     )}
                   >
-                    {label}
+                    <span>{label}</span>
+                    <span className={cn(
+                      "text-xs px-2 py-0.5 rounded-full",
+                      isActive ? "bg-blue-100 text-blue-700" : "bg-slate-100 text-slate-500 group-hover:bg-slate-200"
+                    )}>
+                      {statusCounts[option]}
+                    </span>
                   </button>
                 );
               })}
@@ -115,37 +139,44 @@ export function HackathonList() {
             <div className="flex flex-wrap gap-2">
               <button
                 type="button"
-                onClick={() => setTagFilter("")}
+                onClick={() => setTagFilter([])}
                 className={cn(
                   "px-3 py-1.5 rounded-full text-xs transition-colors duration-200 border",
-                  tagFilter === "" ? "bg-slate-800 text-white border-slate-800 font-semibold" : "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+                  tagFilter.length === 0 ? "bg-slate-800 text-white border-slate-800 font-semibold" : "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
                 )}
               >
                 {listText?.filters?.allTags || "All tags"}
               </button>
-              {availableTags.map((tag) => (
-                <button
-                  key={tag}
-                  type="button"
-                  onClick={() => setTagFilter(tag)}
-                  className={cn(
-                    "px-3 py-1.5 rounded-full text-xs transition-colors duration-200 border",
-                    tagFilter === tag ? "bg-slate-800 text-white border-slate-800 font-semibold" : "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
-                  )}
-                >
-                  {tag}
-                </button>
-              ))}
+              {availableTags.map((tag) => {
+                const isSelected = tagFilter.includes(tag);
+                return (
+                  <button
+                    key={tag}
+                    type="button"
+                    onClick={() => {
+                      setTagFilter((prev) =>
+                        prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
+                      );
+                    }}
+                    className={cn(
+                      "px-3 py-1.5 rounded-full text-xs transition-colors duration-200 border",
+                      isSelected ? "bg-slate-800 text-white border-slate-800 font-semibold" : "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+                    )}
+                  >
+                    {tag}
+                  </button>
+                );
+              })}
             </div>
           </div>
 
-          {(statusFilter !== "all" || tagFilter !== "") && (
+          {(statusFilter !== "all" || tagFilter.length > 0) && (
             <div className="pt-2 border-t border-slate-100">
               <Button
                 variant="outline"
                 size="sm"
                 className="w-full justify-center text-slate-600 hover:bg-slate-100 border-slate-200"
-                onClick={() => { setStatusFilter("all"); setTagFilter(""); }}
+                onClick={() => { setStatusFilter("all"); setTagFilter([]); }}
               >
                 {listText?.filters?.clear || "Clear filters"}
               </Button>
@@ -219,7 +250,7 @@ export function HackathonList() {
                           <div className="flex justify-between items-center mt-2 pt-2 border-t border-slate-100">
                             <span>Participants</span>
                             <span className="font-medium text-slate-900">
-                              {(hackathon as any).participantsCount?.toLocaleString(languageTag)}
+                              {(hackathon as HackathonSummary & { participantsCount?: number }).participantsCount?.toLocaleString(languageTag)}
                             </span>
                           </div>
                         )}
