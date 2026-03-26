@@ -10,9 +10,10 @@ export interface ModalProps {
   closeLabel?: string;
   children: React.ReactNode;
   className?: string;
+  hideHeader?: boolean;
 }
 
-export function Modal({ isOpen, onClose, title, closeLabel, children, className }: ModalProps) {
+export function Modal({ isOpen, onClose, title, closeLabel, children, className, hideHeader = false }: ModalProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const titleId = useId();
 
@@ -60,31 +61,48 @@ export function Modal({ isOpen, onClose, title, closeLabel, children, className 
   return (
     <dialog
       ref={dialogRef}
-      aria-labelledby={title ? titleId : undefined}
+      aria-labelledby={title && !hideHeader ? titleId : undefined}
       aria-modal="true"
       className={cn(
-        "fixed inset-0 m-auto p-0 rounded-2xl bg-white shadow-2xl backdrop:bg-slate-900/50",
-        "w-full max-w-2xl max-h-[90vh] overflow-hidden",
-        "open:animate-in open:fade-in open:zoom-in-95 duration-200",
+        "fixed inset-0 m-auto p-0 rounded-3xl bg-white shadow-[0_32px_64px_-12px_rgba(0,0,0,0.14)] backdrop:bg-slate-900/60 backdrop:backdrop-blur-sm",
+        "w-full max-w-2xl max-h-[90vh] overflow-hidden border border-white/20",
+        "open:animate-in open:fade-in open:zoom-in-95 duration-300 ease-out",
         className
       )}
     >
-      <div className="flex flex-col h-full max-h-[90vh]">
-        <div className="flex items-center justify-between p-5 border-b border-slate-100">
-          <h2 id={title ? titleId : undefined} className="text-xl font-bold text-slate-900">{title}</h2>
-          <button
-            type="button"
-            onClick={onClose}
-            className="p-2 -mr-2 text-slate-400 hover:text-slate-600 rounded-full hover:bg-slate-100 transition-colors"
-            aria-label={closeLabel || "Close modal"}
-          >
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <title>{closeLabel || "Close modal"}</title>
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-        <div className="p-6 overflow-y-auto flex-1">
+      <div className="flex flex-col h-full max-h-[90vh] relative">
+        {!hideHeader && (
+          <div className="flex items-center justify-between px-8 pt-8 pb-2">
+            <h2 id={title ? titleId : undefined} className="text-2xl font-semibold tracking-tight text-slate-900">
+              {title}
+            </h2>
+            <button
+              type="button"
+              onClick={onClose}
+              className="p-2 -mr-2 text-slate-400 hover:text-slate-800 hover:bg-slate-100 rounded-full transition-all duration-200"
+              aria-label={closeLabel || "Close modal"}
+            >
+              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <title>{closeLabel || "Close modal"}</title>
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+              </svg>
+            </button>
+          </div>
+        )}
+        {hideHeader && (
+           <button
+             type="button"
+             onClick={onClose}
+             className="absolute top-6 right-6 z-10 p-2 text-slate-400 hover:text-slate-800 hover:bg-slate-100/80 rounded-full transition-all duration-200"
+             aria-label={closeLabel || "Close modal"}
+           >
+             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+               <title>{closeLabel || "Close modal"}</title>
+               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
+             </svg>
+           </button>
+        )}
+        <div className="px-8 pb-8 pt-4 overflow-y-auto flex-1 custom-scrollbar">
           {children}
         </div>
       </div>
