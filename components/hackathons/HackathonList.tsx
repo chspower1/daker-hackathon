@@ -322,6 +322,11 @@ export function HackathonList() {
             <DataTable>
               <TableHeader>
                 <TableRow className="hover:bg-transparent">
+                  <TableHead className="w-16 select-none">
+                    <div className="flex items-center">
+                      {listText.tableColumns.thumbnail}
+                    </div>
+                  </TableHead>
                   <TableHead
                     className={cn("cursor-pointer group hover:bg-slate-100/60 transition-colors select-none", sortField === "title" && "text-slate-900 bg-slate-50")}
                     onClick={() => toggleSort("title")}
@@ -359,6 +364,34 @@ export function HackathonList() {
               <TableBody>
                 {filteredHackathons.map((hackathon) => (
                   <TableRow key={hackathon.slug}>
+                    <TableCell>
+                      {hackathon.thumbnailUrl ? (
+                        <div className="w-12 h-12 rounded-md overflow-hidden bg-slate-50 border border-slate-100 relative shrink-0">
+                          {imageErrors[hackathon.slug] ? (
+                            <div className="h-full w-full bg-slate-100/50 flex items-center justify-center">
+                              <div className="w-6 h-6 rounded-full bg-slate-200/50 flex items-center justify-center">
+                                <div className="w-3 h-3 rounded-full bg-blue-100/50" />
+                              </div>
+                            </div>
+                          ) : (
+                            <img
+                              alt={hackathon.title}
+                              className="h-full w-full object-cover"
+                              src={hackathon.thumbnailUrl}
+                              onError={() => setImageErrors((prev) => ({ ...prev, [hackathon.slug]: true }))}
+                            />
+                          )}
+                        </div>
+                      ) : (
+                        <div className="w-12 h-12 rounded-md overflow-hidden bg-slate-50 border border-slate-100 relative shrink-0">
+                           <div className="h-full w-full bg-slate-100/50 flex items-center justify-center">
+                              <div className="w-6 h-6 rounded-full bg-slate-200/50 flex items-center justify-center">
+                                <div className="w-3 h-3 rounded-full bg-blue-100/50" />
+                              </div>
+                            </div>
+                        </div>
+                      )}
+                    </TableCell>
                     <TableCell>
                       <Link href={hackathon.links.detail} className="font-semibold text-blue-600 hover:underline">
                         {hackathon.title}

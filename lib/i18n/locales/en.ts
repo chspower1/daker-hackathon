@@ -244,6 +244,7 @@ export const en = {
     viewModeCard: "Card View",
     viewModeTable: "Table View",
     tableColumns: {
+      thumbnail: "Thumbnail",
       title: "Title",
       status: "Status",
       startDate: "Start Date",

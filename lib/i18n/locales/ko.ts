@@ -246,6 +246,7 @@ export const ko: Dictionary = {
     viewModeCard: "카드 뷰",
     viewModeTable: "테이블 뷰",
     tableColumns: {
+      thumbnail: "썸네일",
       title: "제목",
       status: "상태",
       startDate: "시작일",
