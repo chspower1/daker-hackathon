@@ -203,6 +203,9 @@ export const ko: Dictionary = {
       clear: "필터 초기화",
       allStatuses: "전체 상태",
       allTags: "전체 태그",
+      searchTagsPlaceholder: "태그 검색...",
+      searchTagsLabel: "태그 검색",
+      noTagsFound: "검색된 태그가 없습니다.",
     },
     status: {
       upcoming: "예정",

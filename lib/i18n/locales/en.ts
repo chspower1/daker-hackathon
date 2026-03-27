@@ -201,6 +201,9 @@ export const en = {
       clear: "Clear filters",
       allStatuses: "All statuses",
       allTags: "All tags",
+      searchTagsPlaceholder: "Search tags...",
+      searchTagsLabel: "Search tags",
+      noTagsFound: "No tags found.",
     },
     status: {
       upcoming: "Upcoming",

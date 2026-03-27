@@ -4,6 +4,7 @@ import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { Badge } from "@/components/design-system/primitives/Badge";
 import { Button } from "@/components/design-system/primitives/Button";
+import { Input } from "@/components/design-system/primitives/Input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/design-system/primitives/Card";
 import { EmptyState } from "@/components/design-system/patterns/EmptyState";
 import { ErrorState } from "@/components/design-system/patterns/ErrorState";
@@ -37,6 +38,7 @@ export function HackathonList() {
   const [hasError, setHasError] = useState(false);
   const [statusFilter, setStatusFilter] = useState<(typeof statusOptions)[number]>("all");
   const [tagFilter, setTagFilter] = useState<string[]>([]);
+  const [tagSearchQuery, setTagSearchQuery] = useState("");
   const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
 
   useEffect(() => {
@@ -63,6 +65,12 @@ export function HackathonList() {
     });
     return [...tags].sort((a, b) => a.localeCompare(b, languageTag));
   }, [hackathons, languageTag]);
+
+  const visibleTags = useMemo(() => {
+    if (!tagSearchQuery.trim()) return availableTags;
+    const query = tagSearchQuery.trim().toLowerCase();
+    return availableTags.filter((t) => t.toLowerCase().includes(query));
+  }, [availableTags, tagSearchQuery]);
 
   const statusCounts = useMemo(() => {
     const counts = { all: 0, upcoming: 0, ongoing: 0, ended: 0 };
@@ -96,9 +104,10 @@ export function HackathonList() {
 
   return (
     <div className="flex flex-col lg:flex-row gap-8 items-start">
-      <aside className="w-full lg:w-72 shrink-0 space-y-6 lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
-        <div className="space-y-6 bg-white/50 backdrop-blur-md p-6 rounded-2xl border border-slate-200 shadow-sm">
-          <div className="space-y-4">
+      <aside className="w-full lg:w-72 shrink-0 space-y-6 lg:sticky lg:top-24 lg:h-[calc(100vh-7rem)]">
+        <div className="flex flex-col h-full bg-white/50 backdrop-blur-md p-6 rounded-2xl border border-slate-200 shadow-sm">
+          <div className="shrink-0 space-y-6">
+            <div className="space-y-4">
             <div className="inline-flex w-fit items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700 shadow-sm">
               <span className="relative flex h-2 w-2 mr-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
@@ -122,6 +131,7 @@ export function HackathonList() {
                   <button
                     key={option}
                     type="button"
+                    aria-pressed={isActive}
                     onClick={() => setStatusFilter(option)}
                     className={cn(
                       "flex items-center justify-between text-left px-3 py-2 rounded-lg text-sm transition-colors duration-200 font-medium",
@@ -138,52 +148,71 @@ export function HackathonList() {
                   </button>
                 );
               })}
+              </div>
             </div>
           </div>
 
-          <div className="space-y-3">
-            <h3 className="text-sm font-semibold text-slate-900">{listText.filters.tagLabel}</h3>
-            <div className="flex flex-wrap gap-2">
-              <button
-                type="button"
-                onClick={() => setTagFilter([])}
-                className={cn(
-                  "px-3 py-1.5 rounded-full text-xs transition-colors duration-200 border",
-                  tagFilter.length === 0 ? "bg-slate-800 text-white border-slate-800 font-semibold" : "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+          <div className="mt-6 flex flex-col min-h-0 flex-1 space-y-3">
+            <h3 className="text-sm font-semibold text-slate-900 shrink-0">{listText.filters.tagLabel}</h3>
+            <div className="shrink-0">
+              <Input
+                placeholder={listText.filters.searchTagsPlaceholder}
+                value={tagSearchQuery}
+                onChange={(e) => setTagSearchQuery(e.target.value)}
+                aria-label={listText.filters.searchTagsLabel}
+                className="h-10 rounded-xl text-sm"
+              />
+            </div>
+            <div className="flex-1 overflow-y-auto pr-2 -mr-2">
+              <div className="flex flex-wrap gap-2 pb-2">
+                <button
+                  type="button"
+                  aria-pressed={tagFilter.length === 0}
+                  onClick={() => setTagFilter([])}
+                  className={cn(
+                    "px-3 py-1.5 rounded-full text-xs transition-colors duration-200 border",
+                    tagFilter.length === 0 ? "bg-slate-800 text-white border-slate-800 font-semibold" : "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+                  )}
+                >
+                  {listText.filters.allTags}
+                </button>
+                {visibleTags.map((tag) => {
+                  const isSelected = tagFilter.includes(tag);
+                  return (
+                     <button
+                       key={tag}
+                       type="button"
+                       aria-pressed={isSelected}
+                       onClick={() => {
+                         setTagFilter((prev) =>
+                          prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
+                        );
+                      }}
+                      className={cn(
+                        "px-3 py-1.5 rounded-full text-xs transition-colors duration-200 border",
+                        isSelected ? "bg-slate-800 text-white border-slate-800 font-semibold" : "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+                      )}
+                    >
+                      {tag}
+                    </button>
+                  );
+                })}
+                {visibleTags.length === 0 && (
+                  <p className="w-full text-sm text-slate-500 py-4 text-center">
+                    {listText.filters.noTagsFound}
+                  </p>
                 )}
-              >
-                {listText.filters.allTags}
-              </button>
-              {availableTags.map((tag) => {
-                const isSelected = tagFilter.includes(tag);
-                return (
-                  <button
-                    key={tag}
-                    type="button"
-                    onClick={() => {
-                      setTagFilter((prev) =>
-                        prev.includes(tag) ? prev.filter((t) => t !== tag) : [...prev, tag]
-                      );
-                    }}
-                    className={cn(
-                      "px-3 py-1.5 rounded-full text-xs transition-colors duration-200 border",
-                      isSelected ? "bg-slate-800 text-white border-slate-800 font-semibold" : "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
-                    )}
-                  >
-                    {tag}
-                  </button>
-                );
-              })}
+              </div>
             </div>
           </div>
 
-          {(statusFilter !== "all" || tagFilter.length > 0) && (
-            <div className="pt-2 border-t border-slate-100">
+          {(statusFilter !== "all" || tagFilter.length > 0 || tagSearchQuery) && (
+            <div className="pt-4 mt-4 border-t border-slate-100 shrink-0">
               <Button
                 variant="outline"
                 size="sm"
                 className="w-full justify-center text-slate-600 hover:bg-slate-100 border-slate-200"
-                onClick={() => { setStatusFilter("all"); setTagFilter([]); }}
+                onClick={() => { setStatusFilter("all"); setTagFilter([]); setTagSearchQuery(""); }}
               >
                 {listText.filters.clear}
               </Button>
