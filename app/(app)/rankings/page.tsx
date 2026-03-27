@@ -1,16 +1,25 @@
 "use client";
 
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useMemo } from "react";
 import { EmptyState } from "@/components/design-system/patterns/EmptyState";
 import { ErrorState } from "@/components/design-system/patterns/ErrorState";
 import { LoadingState } from "@/components/design-system/patterns/LoadingState";
+import { toLanguageTag } from "@/lib/i18n/config";
 import { useI18n } from "@/lib/i18n/I18nProvider";
+import { useDocumentMetadata } from "@/lib/i18n/useDocumentMetadata";
 import { readRankings } from "@/lib/storage/entities/rankings";
 import type { UserRankingEntry } from "@/types";
 import { storageKeys } from "@/lib/storage/keys";
 
 export default function RankingsPage() {
-  const { dict } = useI18n();
+  const { dict, locale } = useI18n();
+
+  useDocumentMetadata({
+    title: `${dict.appPages.rankingsTitle} | ${dict.metadata.shortName}`,
+    description: dict.appPages.rankingsDesc,
+  });
+
+  const languageTag = useMemo(() => toLanguageTag(locale), [locale]);
 
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
@@ -65,29 +74,29 @@ export default function RankingsPage() {
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
           </span>
-          {dict.misc?.rankingsBadge || "Live Standings"}
+          {dict.misc.rankingsBadge}
         </div>
         <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 leading-tight mb-2">
-          {dict.appPages?.rankingsTitle || "Rankings"}
+          {dict.appPages.rankingsTitle}
         </h1>
         <p className="text-base md:text-lg text-slate-600 max-w-2xl">
-          {dict.appPages?.rankingsDesc || "Global leaderboard"}
+          {dict.appPages.rankingsDesc}
         </p>
       </div>
 
       <div className="mt-6 relative z-10">
         {isLoading ? (
-          <LoadingState label={dict.appPages?.loadingLabel} />
+          <LoadingState label={dict.appPages.loadingLabel} />
         ) : isError ? (
           <ErrorState 
-            title={dict.appPages?.errorTitle} 
-            message={dict.appPages?.errorDesc} 
+            title={dict.appPages.errorTitle} 
+            message={dict.appPages.errorDesc} 
             onRetry={loadData}
           />
         ) : rankings.length === 0 ? (
           <EmptyState
-            title={dict.appPages?.rankingsEmpty || "No rankings available"}
-            description={dict.appPages?.rankingsEmptyDesc || "The season has just started. Submit your projects to appear here."}
+            title={dict.appPages.rankingsEmpty}
+            description={dict.appPages.rankingsEmptyDesc}
           />
         ) : (
           <div className="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
@@ -95,9 +104,9 @@ export default function RankingsPage() {
               <table className="w-full text-left border-collapse">
                 <thead>
                   <tr className="border-b border-slate-100 bg-slate-50 text-slate-600 font-semibold text-xs uppercase tracking-wider">
-                    <th className="py-3 px-4 font-medium w-20">{dict.misc?.tableRank || "Rank"}</th>
-                    <th className="py-3 px-4 font-medium">{dict.misc?.tableNickname || "Nickname"}</th>
-                    <th className="py-3 px-4 font-medium text-right">{dict.misc?.tablePoints || "Points"}</th>
+                    <th className="py-3 px-4 font-medium w-20">{dict.misc.tableRank}</th>
+                    <th className="py-3 px-4 font-medium">{dict.misc.tableNickname}</th>
+                    <th className="py-3 px-4 font-medium text-right">{dict.misc.tablePoints}</th>
                   </tr>
                 </thead>
                 <tbody>
@@ -110,7 +119,7 @@ export default function RankingsPage() {
                         {entry.nickname}
                       </td>
                       <td className="py-3 px-4 font-mono text-slate-700 font-medium text-right text-base tabular-nums">
-                        {entry.points.toLocaleString()}
+                        {entry.points.toLocaleString(languageTag)}
                       </td>
                     </tr>
                   ))}

@@ -71,11 +71,11 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
   );
 
   const pageDescription = activeHackathon !== undefined
-    ? `${dict.appPages?.campDesc || "Find your team and collaborate."} ${activeHackathon.title}`
-    : dict.appPages?.campDesc || "Find your team and collaborate.";
+    ? `${dict.appPages.campDesc} ${activeHackathon.title}`
+    : dict.appPages.campDesc;
 
   useDocumentMetadata({
-    title: `${dict.appPages?.campTitle || "Camp"} | HackPlatform`,
+    title: `${dict.appPages.campTitle} | ${dict.metadata.shortName}`,
     description: pageDescription,
   });
 
@@ -104,8 +104,8 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
     if (!writeTeams(nextTeams)) {
       return {
         ok: false,
-        title: dict.campForm?.saveErrorTitle || "Unable to save the team post",
-        description: dict.campForm?.saveErrorDesc || "Please try again.",
+        title: dict.campForm.saveErrorTitle,
+        description: dict.campForm.saveErrorDesc,
       };
     }
 
@@ -113,14 +113,14 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
     setIsWizardOpen(false);
     setNotice({
       variant: "success",
-      title: dict.campForm?.saveSuccessTitle || "Team post created",
-      description: dict.campForm?.saveSuccessDesc || "Your team post is now visible in the list.",
+      title: dict.campForm.saveSuccessTitle,
+      description: dict.campForm.saveSuccessDesc,
     });
     return { ok: true };
   };
 
   if (!isReady) {
-    return <LoadingState label={dict.appPages?.loadingLabel} />;
+    return <LoadingState label={dict.appPages.loadingLabel} />;
   }
 
   return (
@@ -133,10 +133,10 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
               </span>
-              {dict.appNav?.camp || "Camp"}
+              {dict.appNav.camp}
             </div>
             <div>
-              <h1 className="text-2xl font-bold tracking-tight text-slate-900">{dict.appPages?.campTitle || "Camp"}</h1>
+              <h1 className="text-2xl font-bold tracking-tight text-slate-900">{dict.appPages.campTitle}</h1>
               <p className="text-sm text-slate-600 mt-2 leading-relaxed">{pageDescription}</p>
             </div>
           </div>
@@ -147,17 +147,17 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
             className="w-full justify-center shadow-md bg-blue-600 hover:bg-blue-700 font-semibold"
             onClick={() => { setIsWizardOpen(true); setNotice(null); }}
           >
-            {dict.campForm?.toggleOpen || "Create team post"}
+            {dict.campForm.toggleOpen}
           </Button>
         </div>
 
         {filterHackathonSlug !== undefined && activeHackathon !== undefined && (
            <div className="bg-amber-50 p-5 rounded-2xl border border-amber-200/60 shadow-sm space-y-2">
-             <p className="text-xs font-semibold text-amber-800 uppercase tracking-wider">{dict.campList?.filterTitle || "Hackathon Filter"}</p>
-             <p className="text-sm text-amber-900">{dict.campList?.filterDesc || "Showing posts for"} <strong className="font-semibold text-amber-950">{activeHackathon.title}</strong></p>
+             <p className="text-xs font-semibold text-amber-800 uppercase tracking-wider">{dict.campList.filterTitle}</p>
+             <p className="text-sm text-amber-900">{dict.campList.filterDesc} <strong className="font-semibold text-amber-950">{activeHackathon.title}</strong></p>
              <Link href="/camp" className="text-xs font-semibold text-amber-700 hover:text-amber-900 flex items-center gap-1 mt-3">
-               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
-               {dict.hackathonList?.filters?.clear || "Clear filter"}
+               <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12"/></svg>
+               {dict.hackathonList.filters.clear}
              </Link>
            </div>
         )}
@@ -173,7 +173,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
 
           <div className="flex items-center justify-between mb-4">
             <p className="text-sm font-medium text-slate-500">
-              {filteredTeams.length} results found
+              {dict.campList.resultsFound.replace("{count}", String(filteredTeams.length))}
             </p>
           </div>
 
@@ -186,8 +186,8 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                 setProfile(newProfile);
                 setNotice({
                   variant: "success",
-                  title: dict.campForm?.createProfileSuccessTitle || "Profile ready",
-                  description: dict.campForm?.createProfileSuccessDesc || "You can now create a team post.",
+                  title: dict.campForm.createProfileSuccessTitle,
+                  description: dict.campForm.createProfileSuccessDesc,
                 });
               }}
               onSubmit={handleWizardSubmit}
@@ -198,14 +198,14 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
 
           {filteredTeams.length === 0 ? (
             <EmptyState
-              title={dict.appPages?.campEmpty || "No teams looking for members"}
-              description={dict.appPages?.campEmptyDesc || "Be the first to create a team and start recruiting."}
+              title={dict.appPages.campEmpty}
+              description={dict.appPages.campEmptyDesc}
             />
           ) : (
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
               {filteredTeams.map((team) => {
                 const hackathonTitle = team.hackathonSlug
-                  ? hackathonTitleBySlug.get(team.hackathonSlug) ?? (dict.campList?.hackathonLabel || "Hackathon")
+                  ? hackathonTitleBySlug.get(team.hackathonSlug) ?? (dict.campList.hackathonLabel)
                   : undefined;
 
                 return (
@@ -222,8 +222,8 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                           )}
                         >
                           {team.isOpen
-                            ? dict.campList?.statusOpen || "Open"
-                            : dict.campList?.statusClosed || "Closed"}
+                            ? dict.campList.statusOpen
+                            : dict.campList.statusClosed}
                         </span>
                       </div>
                       {team.ownerNicknameSnapshot !== undefined && (
@@ -243,14 +243,14 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                       <div className="mt-4 flex flex-col justify-end space-y-3 border-t border-slate-100 pt-4 text-sm">
                         {team.hackathonSlug !== undefined && (
                           <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
-                            <span className="font-semibold text-slate-500">{dict.campList?.hackathonLabel || "Hackathon"}</span>
+                            <span className="font-semibold text-slate-500">{dict.campList.hackathonLabel}</span>
                             <span className="text-left sm:text-right font-semibold text-slate-900 max-w-full sm:max-w-[150px] line-clamp-2">{hackathonTitle}</span>
                           </div>
                         )}
 
                         {team.lookingFor.length > 0 && (
                           <div className="space-y-2 pt-1 border-t border-slate-50">
-                            <span className="font-semibold text-slate-500 block">{dict.campList?.lookingForLabel || "Looking for"}</span>
+                            <span className="font-semibold text-slate-500 block">{dict.campList.lookingForLabel}</span>
                             <div className="flex flex-wrap gap-1.5">
                               {team.lookingFor.map((role) => (
                                 <span
@@ -265,7 +265,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                         )}
 
                         <div className="flex items-center justify-between gap-4 pt-2 border-t border-slate-100">
-                          <span className="font-semibold text-slate-500">{dict.campList?.createdAtLabel || "Created"}</span>
+                          <span className="font-semibold text-slate-500">{dict.campList.createdAtLabel}</span>
                           <span className="text-right font-medium text-slate-500 text-xs">
                             {dateFormatter.format(new Date(team.createdAt))}
                           </span>
@@ -279,8 +279,9 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                                 rel="noreferrer"
                                 className="w-full font-semibold text-blue-600 hover:text-blue-700 transition-colors flex items-center justify-center gap-1.5 bg-blue-50 hover:bg-blue-100 px-3 py-2 rounded-lg"
                               >
-                                {dict.campList?.contactLink || "Contact Team"}
+                                {dict.campList.contactLink}
                                 <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">
+                                  <title>{dict.campList.contactLink}</title>
                                   <path strokeLinecap="round" strokeLinejoin="round" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
                                 </svg>
                               </a>

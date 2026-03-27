@@ -61,8 +61,8 @@ export function TopHeader({ variant = "app", rightSlot }: TopHeaderProps) {
               </svg>
             </div>
             <div className="flex flex-col ml-1">
-              <span className="hidden sm:block text-lg leading-none text-slate-900 font-extrabold tracking-tighter">HACK</span>
-              <span className="hidden sm:block text-[0.6rem] leading-none text-blue-600 font-bold tracking-[0.2em] uppercase mt-0.5">Platform</span>
+              <span className="hidden sm:block text-lg leading-none text-slate-900 font-extrabold tracking-tighter">{dict.brand.hack}</span>
+              <span className="hidden sm:block text-[0.6rem] leading-none text-blue-600 font-bold tracking-[0.2em] uppercase mt-0.5">{dict.brand.platform}</span>
             </div>
           </Link>
           

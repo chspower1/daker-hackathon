@@ -107,6 +107,7 @@ export function LandingPage() {
                     {idx === 0 && (
                       <div className="relative w-9 h-9 flex items-center justify-center">
                         <svg viewBox="0 0 24 24" fill="none" className="w-8 h-8 drop-shadow-sm animate-lively-explore" stroke="currentColor">
+                          <title>{feature.title}</title>
                           <circle cx="12" cy="12" r="10" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="opacity-80 fill-blue-600/10 group-hover:fill-white/10 transition-colors duration-500" />
                           <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="fill-white group-hover:fill-blue-600 transition-colors duration-500" />
                           <circle cx="12" cy="12" r="1" fill="currentColor" />
@@ -116,6 +117,7 @@ export function LandingPage() {
                     {idx === 1 && (
                       <div className="relative w-9 h-9 flex items-center justify-center">
                         <svg viewBox="0 0 24 24" fill="none" className="w-8 h-8 drop-shadow-sm animate-lively-team" strokeWidth="2" stroke="currentColor" strokeLinecap="round" strokeLinejoin="round">
+                          <title>{feature.title}</title>
                           <path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2" />
                           <circle cx="9" cy="7" r="4" className="fill-blue-600/10 group-hover:fill-white/10 transition-colors duration-500" />
                           <path d="M22 21v-2a4 4 0 0 0-3-3.87" className="opacity-60" />
@@ -126,6 +128,7 @@ export function LandingPage() {
                     {idx === 2 && (
                       <div className="relative w-9 h-9 flex items-center justify-center">
                         <svg viewBox="0 0 24 24" fill="none" className="w-8 h-8 drop-shadow-sm animate-lively-rank" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <title>{feature.title}</title>
                           <path d="M8 21h8" />
                           <path d="M12 17v4" />
                           <path d="M7 4h10" />
@@ -138,6 +141,7 @@ export function LandingPage() {
                     {idx > 2 && (
                       <div className="relative w-9 h-9 flex items-center justify-center">
                         <svg viewBox="0 0 24 24" fill="none" className="w-8 h-8 drop-shadow-sm animate-lively-host" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                          <title>{feature.title}</title>
                           <path d="M4.5 16.5c-1.5 1.26-2 5-2 5s3.74-.5 5-2c.71-.84.7-2.13-.09-2.91a2.18 2.18 0 0 0-2.91-.09z" className="opacity-60" />
                           <path d="m12 15-3-3a22 22 0 0 1 2-3.95A12.88 12.88 0 0 1 22 2c0 2.72-.78 7.5-6 11a22.35 22.35 0 0 1-4 2z" className="fill-blue-600/10 group-hover:fill-white/10 transition-colors duration-500" />
                           <path d="M9 12H4s.55-3.03 2-4c1.62-1.08 5 0 5 0" className="opacity-60" />
@@ -185,7 +189,7 @@ export function LandingPage() {
               {dict.misc.rankingsBadge}
             </div>
             <h2 className="text-4xl md:text-5xl font-bold tracking-tight text-slate-900 leading-tight">{dict.misc.rankingsTitle}</h2>
-            <p className="text-xl text-slate-500 leading-relaxed">Who is leading the charge this season? Discover the top teams reshaping the future.</p>
+            <p className="text-xl text-slate-500 leading-relaxed">{dict.misc.rankingsDesc}</p>
             <Link href={landingRouteMap.rankings} className="inline-flex h-14 items-center justify-center rounded-full bg-slate-900 px-8 text-base font-semibold text-white shadow-lg shadow-slate-900/20 transition-all hover:bg-blue-600 hover:-translate-y-1 hover:shadow-xl mt-4">
               {dict.misc.viewFull}
             </Link>

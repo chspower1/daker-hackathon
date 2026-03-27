@@ -2,6 +2,7 @@
 
 import { useEffect, useId, useRef } from "react";
 import { cn } from "@/lib/cn";
+import { useI18n } from "@/lib/i18n/I18nProvider";
 
 export interface ModalProps {
   isOpen: boolean;
@@ -16,6 +17,8 @@ export interface ModalProps {
 export function Modal({ isOpen, onClose, title, closeLabel, children, className, hideHeader = false }: ModalProps) {
   const dialogRef = useRef<HTMLDialogElement>(null);
   const titleId = useId();
+  const { dict } = useI18n();
+  const defaultCloseLabel = closeLabel || dict.campForm.closeModal;
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -80,10 +83,10 @@ export function Modal({ isOpen, onClose, title, closeLabel, children, className,
               type="button"
               onClick={onClose}
               className="p-2 -mr-2 text-slate-400 hover:text-slate-800 hover:bg-slate-100 rounded-full transition-all duration-200"
-              aria-label={closeLabel || "Close modal"}
+              aria-label={defaultCloseLabel}
             >
               <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <title>{closeLabel || "Close modal"}</title>
+                <title>{defaultCloseLabel}</title>
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
               </svg>
             </button>
@@ -94,10 +97,10 @@ export function Modal({ isOpen, onClose, title, closeLabel, children, className,
              type="button"
              onClick={onClose}
              className="absolute top-6 right-6 z-10 p-2 text-slate-400 hover:text-slate-800 hover:bg-slate-100/80 rounded-full transition-all duration-200"
-             aria-label={closeLabel || "Close modal"}
+             aria-label={defaultCloseLabel}
            >
              <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-               <title>{closeLabel || "Close modal"}</title>
+               <title>{defaultCloseLabel}</title>
                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2.5} d="M6 18L18 6M6 6l12 12" />
              </svg>
            </button>

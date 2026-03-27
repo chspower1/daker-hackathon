@@ -148,8 +148,8 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
   const [summary, setSummary] = useState<HackathonSummary | null>(null);
   const [teams, setTeams] = useState<TeamPost[]>([]);
 
-  const pageTitle = detail?.title || summary?.title || dict.appPages?.hackathonDetailTitle || "Hackathon Detail";
-  const pageDescription = detail?.sections.overview?.summary || dict.appPages?.hackathonDetailDesc || dict.metadata.description;
+  const pageTitle = detail?.title || summary?.title || dict.appPages.hackathonDetailTitle;
+  const pageDescription = detail?.sections.overview?.summary || dict.appPages.hackathonDetailDesc;
 
   useDocumentMetadata({
     title: `${pageTitle} - ${dict.metadata.title}`,
@@ -204,7 +204,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
 
   const formatDateTime = (value?: string) => {
     if (value === undefined) {
-      return dict.hackathonDetail?.labels?.noValue || "-";
+      return dict.hackathonDetail.labels.noValue;
     }
 
     return dateFormatter.format(new Date(value));
@@ -212,7 +212,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
 
   const formatNumber = (value?: number) => {
     if (value === undefined) {
-      return dict.hackathonDetail?.labels?.noValue || "-";
+      return dict.hackathonDetail.labels.noValue;
     }
 
     return value.toLocaleString(languageTag);
@@ -223,7 +223,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
 
     if (trimmedNickname.length === 0) {
       setFeedback({
-        message: dict.hackathonDetail?.messages?.profileCreateFailed || "Unable to create a profile.",
+        message: dict.hackathonDetail.messages.profileCreateFailed,
         variant: "danger",
       });
       return;
@@ -233,7 +233,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
 
     if (!saveLocalProfile(nextProfile)) {
       setFeedback({
-        message: dict.hackathonDetail?.messages?.profileCreateFailed || "Unable to create a profile.",
+        message: dict.hackathonDetail.messages.profileCreateFailed,
         variant: "danger",
       });
       return;
@@ -241,7 +241,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
 
     setProfile(nextProfile);
     setFeedback({
-      message: dict.hackathonDetail?.messages?.profileReady || "Profile ready.",
+      message: dict.hackathonDetail.messages.profileReady,
       variant: "success",
     });
   };
@@ -251,14 +251,14 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
       return;
     }
 
-    const teamName = String(formData.get("teamName") || "").trim();
-    const notesValue = String(formData.get("notes") || "").trim();
+    const teamName = String(formData.get("teamName")).trim();
+    const notesValue = String(formData.get("notes")).trim();
     const now = new Date();
     const nowIso = now.toISOString();
     const previousSubmissions = readSubmissions().value;
 
     const artifacts = submissionFields.reduce<Record<string, string>>((result, field) => {
-      const value = String(formData.get(`artifact-${field.key}`) || "").trim();
+      const value = String(formData.get(`artifact-${field.key}`)).trim();
 
       if (value.length > 0) {
         result[field.key] = value;
@@ -287,7 +287,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
 
     if (!writeSubmissions(nextSubmissions)) {
       setFeedback({
-        message: dict.hackathonDetail?.messages?.saveFailed || "Unable to save changes.",
+        message: dict.hackathonDetail.messages.saveFailed,
         variant: "danger",
       });
       return;
@@ -319,7 +319,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
       if (!writeLeaderboards([...otherLeaderboards, nextLeaderboard])) {
         writeSubmissions(previousSubmissions);
         setFeedback({
-          message: dict.hackathonDetail?.messages?.submitFailed || "Unable to submit your entry.",
+          message: dict.hackathonDetail.messages.submitFailed,
           variant: "danger",
         });
         return;
@@ -327,12 +327,12 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
 
       setLeaderboard(nextLeaderboard);
       setFeedback({
-        message: dict.hackathonDetail?.messages?.submitted || "Successfully submitted.",
+        message: dict.hackathonDetail.messages.submitted,
         variant: "success",
       });
     } else {
       setFeedback({
-        message: dict.hackathonDetail?.messages?.draftSaved || "Draft saved.",
+        message: dict.hackathonDetail.messages.draftSaved,
         variant: "success",
       });
     }
@@ -341,14 +341,14 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
   };
 
   if (isLoading) {
-    return <LoadingState label={dict.appPages?.loadingLabel} />;
+    return <LoadingState label={dict.appPages.loadingLabel} />;
   }
 
   if (hasError) {
     return (
       <ErrorState
-        title={dict.appPages?.errorTitle || "Unable to load this page"}
-        message={dict.appPages?.errorDesc || "Please try again."}
+        title={dict.appPages.errorTitle}
+        message={dict.appPages.errorDesc}
       />
     );
   }
@@ -356,16 +356,16 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
   if (summary === null && detail === null) {
     return (
       <EmptyState
-        title={dict.appPages?.hackathonDetailEmpty || "Content not found"}
-        description={dict.appPages?.hackathonDetailEmptyDesc || "The details for this hackathon are not available yet."}
+        title={dict.appPages.hackathonDetailEmpty}
+        description={dict.appPages.hackathonDetailEmptyDesc}
       />
     );
   }
 
-  const sectionText = dict.hackathonDetail?.sections;
-  const labelText = dict.hackathonDetail?.labels;
-  const statusText = dict.hackathonDetail?.status;
-  const emptyText = dict.hackathonDetail?.empty;
+  const sectionText = dict.hackathonDetail.sections;
+  const labelText = dict.hackathonDetail.labels;
+  const statusText = dict.hackathonDetail.status;
+  const emptyText = dict.hackathonDetail.empty;
   const leaderboardUpdatedAt = leaderboard?.updatedAt ? formatDateTime(leaderboard.updatedAt) : null;
 
   return (
@@ -375,7 +375,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
         description={pageDescription}
         actions={summary ? (
           <Badge variant="default" className="text-base py-1 px-4 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
-            {dict.hackathonList?.status?.[summary.status] || summary.status}
+            {dict.hackathonList.status[summary.status] || summary.status}
           </Badge>
         ) : undefined}
       />
@@ -388,38 +388,38 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
               href={`#${sectionId}`}
               className="border-2 border-content-base px-4 py-1.5 text-sm font-bold uppercase tracking-wider text-content-base transition-all hover:bg-yellow-300 hover:-translate-y-1 hover:shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] bg-[#f4f4f0]"
             >
-              {sectionText?.[sectionId] || sectionId}
+              {sectionText[sectionId] || sectionId}
             </a>
           ))}
         </div>
       </nav>
 
       {feedback ? (
-        <Alert variant={feedback.variant} title={feedback.variant === "success" ? pageTitle : dict.appPages?.errorTitle}>
+        <Alert variant={feedback.variant} title={feedback.variant === "success" ? pageTitle : dict.appPages.errorTitle}>
           {feedback.message}
         </Alert>
       ) : null}
 
-      <SectionBlock id="overview" title={sectionText?.overview || "Overview"}>
+      <SectionBlock id="overview" title={sectionText.overview}>
         {detail?.sections.overview ? (
           <Card>
             <CardContent className="space-y-5 pt-5">
               <p className="text-sm font-medium leading-relaxed text-content-base border-l-4 border-primary-base pl-6 py-2">
-                {detail.sections.overview.summary || (labelText?.noValue || "-")}
+                {detail.sections.overview.summary || (labelText.noValue)}
               </p>
               <KeyValueList
                 items={[
                   {
-                    label: labelText?.allowSolo || "Solo participation",
+                    label: labelText.allowSolo,
                     value: detail.sections.overview.teamPolicy?.allowSolo === undefined
-                      ? labelText?.noValue || "-"
+                      ? labelText.noValue
                       : detail.sections.overview.teamPolicy.allowSolo
-                        ? labelText?.allowSolo || "Solo participation allowed"
-                        : labelText?.noSolo || "Team participation only",
+                        ? labelText.allowSolo
+                        : labelText.noSolo,
                   },
                   {
-                    label: labelText?.maxTeamSize || "Max team size",
-                    value: detail.sections.overview.teamPolicy?.maxTeamSize || (labelText?.noValue || "-"),
+                    label: labelText.maxTeamSize,
+                    value: detail.sections.overview.teamPolicy?.maxTeamSize || (labelText.noValue),
                   },
                 ]}
               />
@@ -427,13 +427,13 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
           </Card>
         ) : (
           <EmptyState
-            title={emptyText?.sectionTitle || "No details available"}
-            description={emptyText?.sectionDescription || "This section does not have public information yet."}
+            title={emptyText.sectionTitle}
+            description={emptyText.sectionDescription}
           />
         )}
       </SectionBlock>
 
-      <SectionBlock id="info" title={sectionText?.info || "Info & Notice"}>
+      <SectionBlock id="info" title={sectionText.info}>
         {detail?.sections.info ? (
           <Card>
             <CardContent className="space-y-5 pt-5">
@@ -455,7 +455,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                     rel="noreferrer"
                     className="inline-flex items-center justify-center border-4 border-content-base bg-[#f4f4f0] px-8 py-4 text-xl font-black uppercase tracking-widest text-content-base transition-all hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:bg-yellow-300"
                   >
-                    {labelText?.rules || "Rules"} →
+                    {labelText.rules} →
                   </a>
                 ) : null}
                 {detail.sections.info.links?.faq ? (
@@ -465,7 +465,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                     rel="noreferrer"
                     className="inline-flex items-center justify-center border-4 border-content-base bg-[#f4f4f0] px-8 py-4 text-xl font-black uppercase tracking-widest text-content-base transition-all hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] hover:bg-yellow-300"
                   >
-                    {labelText?.faq || "FAQ"} →
+                    {labelText.faq} →
                   </a>
                 ) : null}
               </div>
@@ -473,29 +473,29 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
           </Card>
         ) : (
           <EmptyState
-            title={emptyText?.sectionTitle || "No details available"}
-            description={emptyText?.sectionDescription || "This section does not have public information yet."}
+            title={emptyText.sectionTitle}
+            description={emptyText.sectionDescription}
           />
         )}
       </SectionBlock>
 
-      <SectionBlock id="eval" title={sectionText?.eval || "Evaluation"}>
+      <SectionBlock id="eval" title={sectionText.eval}>
         {detail?.sections.eval ? (
           <Card>
             <CardContent className="space-y-10 pt-8">
               <KeyValueList
                 items={[
                   {
-                    label: labelText?.metricName || "Metric",
-                    value: detail.sections.eval.metricName || (labelText?.noValue || "-"),
+                    label: labelText.metricName,
+                    value: detail.sections.eval.metricName || (labelText.noValue),
                   },
                   {
-                    label: labelText?.description || "Description",
-                    value: detail.sections.eval.description || (labelText?.noValue || "-"),
+                    label: labelText.description,
+                    value: detail.sections.eval.description || (labelText.noValue),
                   },
                   {
-                    label: labelText?.scoreSource || "Score source",
-                    value: detail.sections.eval.scoreSource || (labelText?.noValue || "-"),
+                    label: labelText.scoreSource,
+                    value: detail.sections.eval.scoreSource || (labelText.noValue),
                   },
                 ]}
               />
@@ -503,7 +503,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
               {detail.sections.eval.scoreDisplay?.breakdown && detail.sections.eval.scoreDisplay.breakdown.length > 0 ? (
                 <div className="space-y-6">
                   <h3 className="text-2xl font-black uppercase tracking-widest text-content-base inline-block border-b-4 border-content-base pb-2">
-                    {labelText?.breakdown || "Breakdown"}
+                    {labelText.breakdown}
                   </h3>
                   <div className="space-y-4">
                     {detail.sections.eval.scoreDisplay.breakdown.map((item) => (
@@ -520,12 +520,12 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                 <div className="flex flex-wrap gap-4 p-6 border-4 border-content-base bg-blue-100 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)] rotate-[1deg]">
                   {detail.sections.eval.limits.maxRuntimeSec ? (
                     <Badge variant="default" className="text-lg">
-                      {labelText?.maxRuntime || "Max runtime"}: {detail.sections.eval.limits.maxRuntimeSec}s
+                      {labelText.maxRuntime}: {detail.sections.eval.limits.maxRuntimeSec}{labelText.runtimeUnit}
                     </Badge>
                   ) : null}
                   {detail.sections.eval.limits.maxSubmissionsPerDay ? (
                     <Badge variant="default" className="text-lg">
-                      {labelText?.maxSubmissions || "Max submissions"}: {detail.sections.eval.limits.maxSubmissionsPerDay}
+                      {labelText.maxSubmissions}: {detail.sections.eval.limits.maxSubmissionsPerDay}
                     </Badge>
                   ) : null}
                 </div>
@@ -534,19 +534,19 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
           </Card>
         ) : (
           <EmptyState
-            title={emptyText?.sectionTitle || "No details available"}
-            description={emptyText?.sectionDescription || "This section does not have public information yet."}
+            title={emptyText.sectionTitle}
+            description={emptyText.sectionDescription}
           />
         )}
       </SectionBlock>
 
-      <SectionBlock id="schedule" title={sectionText?.schedule || "Schedule"}>
+      <SectionBlock id="schedule" title={sectionText.schedule}>
         {detail?.sections.schedule?.milestones && detail.sections.schedule.milestones.length > 0 ? (
           <Card>
             <CardContent className="space-y-5 pt-5">
               {detail.sections.schedule.timezone ? (
                 <div className="inline-block border-4 border-content-base bg-content-base text-white px-4 py-1.5 font-black uppercase tracking-widest text-lg shadow-[4px_4px_0px_0px_rgba(37,99,235,1)]">
-                  {labelText?.timezone || "Timezone"}: {detail.sections.schedule.timezone}
+                  {labelText.timezone}: {detail.sections.schedule.timezone}
                 </div>
               ) : null}
               <div className="space-y-6 relative before:absolute before:inset-0 before:ml-6 before:-translate-x-px md:before:mx-auto md:before:translate-x-0 before:h-full before:w-1 before:bg-content-base">
@@ -570,13 +570,13 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
           </Card>
         ) : (
           <EmptyState
-            title={emptyText?.sectionTitle || "No details available"}
-            description={emptyText?.sectionDescription || "This section does not have public information yet."}
+            title={emptyText.sectionTitle}
+            description={emptyText.sectionDescription}
           />
         )}
       </SectionBlock>
 
-      <SectionBlock id="prize" title={sectionText?.prize || "Prize"}>
+      <SectionBlock id="prize" title={sectionText.prize}>
         {detail?.sections.prize?.items && detail.sections.prize.items.length > 0 ? (
           <div className="grid grid-cols-1 gap-8 md:grid-cols-2 xl:grid-cols-3">
             {detail.sections.prize.items.map((item, idx) => (
@@ -586,7 +586,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                 </CardHeader>
                 <CardContent className="pt-8">
                   <p className="text-4xl lg:text-5xl font-black tracking-tighter text-content-base">
-                    KRW <br/><span className="text-primary-base">{item.amountKRW.toLocaleString(languageTag)}</span>
+                    {labelText.prizeCurrency} <br/><span className="text-primary-base">{item.amountKRW.toLocaleString(languageTag)}</span>
                   </p>
                 </CardContent>
               </Card>
@@ -594,22 +594,22 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
           </div>
         ) : (
           <EmptyState
-            title={emptyText?.sectionTitle || "No details available"}
-            description={labelText?.emptyPrize || "No prize information available."}
+            title={emptyText.sectionTitle}
+            description={labelText.emptyPrize}
           />
         )}
       </SectionBlock>
 
-      <SectionBlock id="teams" title={sectionText?.teams || "Teams"}>
+      <SectionBlock id="teams" title={sectionText.teams}>
         <div className="flex flex-wrap items-center justify-between gap-6 border-4 border-content-base bg-[#f4f4f0] p-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
           <p className="text-xl font-black text-content-base uppercase tracking-widest">
-            {teams.length.toLocaleString(languageTag)} {labelText?.teamCount || "teams"}
+            {labelText.teamCount.replace("{count}", teams.length.toLocaleString(languageTag))}
           </p>
           <Link
             href={`/camp?hackathon=${encodeURIComponent(slug)}`}
             className="inline-flex h-14 items-center justify-center border-4 border-content-base bg-primary-base px-8 text-sm font-bold uppercase tracking-wider text-white transition-all shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:-translate-y-1 hover:shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]"
           >
-            {labelText?.goToCamp || "Go to Camp"} →
+            {labelText.goToCamp} →
           </Link>
         </div>
 
@@ -621,7 +621,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                   <div className="flex items-start justify-between gap-4">
                     <CardTitle className="text-lg text-white">{team.name}</CardTitle>
                     <Badge variant={getTeamStatusVariant(team.isOpen)} className="text-sm py-1 px-3">
-                      {team.isOpen ? statusText?.recruiting || "Recruiting" : statusText?.closed || "Closed"}
+                      {team.isOpen ? statusText.recruiting : statusText.closed}
                     </Badge>
                   </div>
                   <p className="text-sm font-medium leading-relaxed">{team.intro}</p>
@@ -630,25 +630,25 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                   <KeyValueList
                     items={[
                       {
-                        label: labelText?.memberCount || "Members",
-                        value: team.memberCount || (labelText?.noValue || "-"),
+                        label: labelText.memberCount,
+                        value: team.memberCount || (labelText.noValue),
                       },
                       {
-                        label: labelText?.createdAt || "Created",
+                        label: labelText.createdAt,
                         value: formatDateTime(team.createdAt),
                       },
                     ]}
                   />
 
                   <div className="space-y-3">
-                     <p className="font-black uppercase tracking-widest text-sm text-content-subtle">Looking For</p>
+                     <p className="font-black uppercase tracking-widest text-sm text-content-subtle">{labelText.lookingFor}</p>
                      <div className="flex flex-wrap gap-3">
                       {team.lookingFor.length > 0 ? team.lookingFor.map((role) => (
                         <span key={role} className="border-2 border-content-base bg-blue-100 px-3 py-1 font-bold text-content-base shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
                           {role}
                         </span>
                       )) : (
-                        <span className="border-2 border-content-base bg-[#f4f4f0] px-3 py-1 font-bold text-content-base">{labelText?.noValue || "-"}</span>
+                        <span className="border-2 border-content-base bg-[#f4f4f0] px-3 py-1 font-bold text-content-base">{labelText.noValue}</span>
                       )}
                     </div>
                   </div>
@@ -659,7 +659,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                     rel="noreferrer"
                     className="inline-flex w-full justify-center border-4 border-content-base bg-yellow-300 py-4 text-xl font-black uppercase tracking-widest text-content-base transition-all hover:bg-content-base hover:text-white shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] hover:translate-x-[2px] hover:translate-y-[2px] hover:shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] mt-4"
                   >
-                    {labelText?.contact || "Contact"} →
+                    {labelText.contact} →
                   </a>
                 </CardContent>
               </Card>
@@ -667,38 +667,38 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
           </div>
         ) : (
           <EmptyState
-            title={emptyText?.sectionTitle || "No details available"}
-            description={labelText?.emptyTeams || "No teams looking for members yet."}
+            title={emptyText.sectionTitle}
+            description={labelText.emptyTeams}
           />
         )}
       </SectionBlock>
 
-      <SectionBlock id="submit" title={sectionText?.submit || "Submit"}>
+      <SectionBlock id="submit" title={sectionText.submit}>
         {detail?.sections.submit ? (
           profile === null ? (
             <Card className="bg-red-50">
               <CardContent className="space-y-5 pt-5">
-                <Alert variant="danger" title={labelText?.profileRequired || "Profile required"}>
-                  {labelText?.createProfileDesc || "You need a local profile to submit."}
+                <Alert variant="danger" title={labelText.profileRequired}>
+                  {labelText.createProfileDesc}
                 </Alert>
                 <form
                   onSubmit={(event) => {
                     event.preventDefault();
                     const formData = new FormData(event.currentTarget);
-                    handleProfileCreate(String(formData.get("nickname") || ""));
+                    handleProfileCreate(String(formData.get("nickname")));
                   }}
                   className="flex flex-col gap-6 sm:flex-row sm:items-end border-4 border-content-base p-8 bg-white shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
                 >
                   <div className="flex-1">
-                    <FormField label={labelText?.nickname || "Nickname"} required>
+                    <FormField label={labelText.nickname} required>
                       <Input
                         name="nickname"
-                        placeholder={dict.hackathonDetail?.placeholders?.nickname || labelText?.nickname || "Nickname"}
+                        placeholder={dict.hackathonDetail.placeholders.nickname || labelText.nickname}
                         required
                       />
                     </FormField>
                   </div>
-                  <Button type="submit" variant="primary" className="h-12 w-full sm:w-auto px-8">{labelText?.createProfile || "Create Profile"}</Button>
+                  <Button type="submit" variant="primary" className="h-12 w-full sm:w-auto px-8">{labelText.createProfile}</Button>
                 </form>
               </CardContent>
             </Card>
@@ -708,7 +708,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                 <div className="flex items-center gap-4 border-4 border-content-base bg-blue-100 p-6 shadow-[6px_6px_0px_0px_rgba(0,0,0,1)]">
                   <div className="w-12 h-12 bg-content-base text-white flex items-center justify-center font-black text-2xl">👤</div>
                   <div>
-                    <p className="text-sm font-black uppercase tracking-widest text-content-subtle">{labelText?.currentProfile || "Current profile"}</p>
+                    <p className="text-sm font-black uppercase tracking-widest text-content-subtle">{labelText.currentProfile}</p>
                     <p className="text-2xl font-black text-content-base">{profile.nickname}</p>
                   </div>
                 </div>
@@ -716,7 +716,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                 {detail.sections.submit.guide && detail.sections.submit.guide.length > 0 ? (
                   <div className="space-y-4 border-4 border-content-base bg-yellow-100 p-8 shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]">
                     <h3 className="text-xl font-black uppercase tracking-widest text-content-base mb-4 inline-block border-b-4 border-content-base pb-2">
-                      {labelText?.submitGuide || "Submission guide"}
+                      {labelText.submitGuide}
                     </h3>
                     <ul className="space-y-3 text-sm font-medium leading-relaxed text-content-base">
                       {detail.sections.submit.guide.map((item) => (
@@ -730,7 +730,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                 ) : null}
 
                 <form
-                  key={`${activeSubmission?.id || "new"}-${activeSubmission?.updatedAt || "empty"}`}
+                  key={`${activeSubmission?.id}-${activeSubmission?.updatedAt}`}
                   onSubmit={(event) => {
                     event.preventDefault();
                     const formData = new FormData(event.currentTarget);
@@ -739,11 +739,11 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                   }}
                   className="space-y-8 border-4 border-content-base p-8 bg-[#f4f4f0] shadow-[8px_8px_0px_0px_rgba(0,0,0,1)]"
                 >
-                  <FormField label={labelText?.teamName || "Team name"} required>
+                  <FormField label={labelText.teamName} required>
                     <Input
                       name="teamName"
                       defaultValue={activeSubmission?.teamName}
-                      placeholder={dict.hackathonDetail?.placeholders?.teamName || labelText?.teamName || "Team name"}
+                      placeholder={dict.hackathonDetail.placeholders.teamName || labelText.teamName}
                       required
                     />
                   </FormField>
@@ -762,33 +762,33 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                     </FormField>
                   ))}
 
-                  <FormField label={labelText?.notes || "Notes"}>
+                  <FormField label={labelText.notes}>
                     <Textarea
                       name="notes"
                       defaultValue={activeSubmission?.notes}
-                      placeholder={dict.hackathonDetail?.placeholders?.notes || labelText?.notes || "Notes"}
+                      placeholder={dict.hackathonDetail.placeholders.notes || labelText.notes}
                     />
                   </FormField>
 
                   <div className="flex flex-wrap gap-4 pt-4 border-t-4 border-content-base pt-8">
                     <Button type="submit" variant="outline" name="action" value="draft" className="h-16 px-10 text-xl flex-1 md:flex-none bg-white">
-                      {labelText?.saveDraft || "Save Draft"}
+                      {labelText.saveDraft}
                     </Button>
                     <Button type="submit" variant="primary" name="action" value="submit" className="h-16 px-10 text-xl flex-1 md:flex-none bg-primary-base text-white border-content-base">
-                      {labelText?.finalSubmit || "Final Submit"}
+                      {labelText.finalSubmit}
                     </Button>
                   </div>
 
                   {activeSubmission ? (
                     <div className="mt-8 border-4 border-content-base bg-white p-6 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)]">
                       <p className="text-lg font-bold text-content-base">
-                        <span className="font-black uppercase">{labelText?.currentStatus || "Current status"}:</span>{" "}
+                        <span className="font-black uppercase">{labelText.currentStatus}:</span>{" "}
                         <Badge variant={activeSubmission.status === "submitted" ? "success" : "default"} className="mx-2">
-                          {statusText?.[activeSubmission.status] || activeSubmission.status}
+                          {statusText[activeSubmission.status] || activeSubmission.status}
                         </Badge>
                         <br className="md:hidden" />
                         <span className="md:inline hidden">{" · "}</span>
-                        <span className="font-black uppercase ml-0 md:ml-2">{labelText?.lastUpdated || "Last updated"}:</span> {formatDateTime(activeSubmission.updatedAt)}
+                        <span className="font-black uppercase ml-0 md:ml-2">{labelText.lastUpdated}:</span> {formatDateTime(activeSubmission.updatedAt)}
                       </p>
                     </div>
                   ) : null}
@@ -798,20 +798,20 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
           )
         ) : (
           <EmptyState
-            title={emptyText?.sectionTitle || "No details available"}
-            description={emptyText?.sectionDescription || "This section does not have public information yet."}
+            title={emptyText.sectionTitle}
+            description={emptyText.sectionDescription}
           />
         )}
       </SectionBlock>
 
-      <SectionBlock id="leaderboard" title={sectionText?.leaderboard || "Leaderboard"}>
+      <SectionBlock id="leaderboard" title={sectionText.leaderboard}>
         {leaderboardEntries.length > 0 ? (
           <div className="border-4 border-content-base bg-white shadow-[12px_12px_0px_0px_rgba(37,99,235,1)]">
             <div className="flex flex-col md:flex-row md:items-center justify-between gap-4 border-b-4 border-content-base bg-[#f4f4f0] p-8">
-              <h3 className="text-xl font-black uppercase tracking-tighter">{sectionText?.leaderboard || "Leaderboard"}</h3>
+              <h3 className="text-xl font-black uppercase tracking-tighter">{sectionText.leaderboard}</h3>
               {leaderboardUpdatedAt ? (
                 <p className="text-xs font-bold text-content-subtle bg-white border-2 border-content-base px-3 py-1 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)]">
-                  {labelText?.lastUpdated || "Last updated"}: {leaderboardUpdatedAt}
+                  {labelText.lastUpdated}: {leaderboardUpdatedAt}
                 </p>
               ) : null}
             </div>
@@ -819,18 +819,18 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
               <DataTable>
                 <TableHeader>
                   <TableRow>
-                    <TableHead className="w-24">{dict.misc?.tableRank || "Rank"}</TableHead>
-                    <TableHead>{dict.misc?.tableTeam || "Team"}</TableHead>
-                    <TableHead>{dict.misc?.tableScore || "Score"}</TableHead>
-                    <TableHead>{labelText?.submittedAt || "Submitted at"}</TableHead>
-                    <TableHead>{labelText?.artifacts || "Artifacts"}</TableHead>
+                    <TableHead className="w-24">{dict.misc.tableRank}</TableHead>
+                    <TableHead>{dict.misc.tableTeam}</TableHead>
+                    <TableHead>{dict.misc.tableScore}</TableHead>
+                    <TableHead>{labelText.submittedAt}</TableHead>
+                    <TableHead>{labelText.artifacts}</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
                   {leaderboardEntries.map((entry, idx) => (
-                    <TableRow key={`${entry.teamName}-${entry.submittedAt || entry.rank || "entry"}`} className={idx < 3 ? "bg-yellow-50" : ""}>
+                    <TableRow key={`${entry.teamName}-${entry.submittedAt || entry.rank}`} className={idx < 3 ? "bg-yellow-50" : ""}>
                       <TableCell className="font-black text-2xl">
-                        {idx === 0 ? "🏆" : idx === 1 ? "🥈" : idx === 2 ? "🥉" : entry.rank ?? (labelText?.noValue || "-")}
+                        {idx === 0 ? "🏆" : idx === 1 ? "🥈" : idx === 2 ? "🥉" : entry.rank ?? (labelText.noValue)}
                       </TableCell>
                       <TableCell>
                         <div className="space-y-2">
@@ -838,7 +838,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                           {entry.status ? (
                             <Badge variant={entry.status === "submitted" ? "success" : "default"}>
                               {entry.status === "submitted"
-                                ? statusText?.submitted || entry.status
+                                ? statusText.submitted || entry.status
                                 : entry.status}
                             </Badge>
                           ) : null}
@@ -864,16 +864,16 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                         <div className="flex flex-wrap gap-2 text-sm font-black uppercase tracking-widest">
                           {entry.artifacts?.webUrl ? (
                             <a href={entry.artifacts.webUrl} target="_blank" rel="noreferrer" className="block border-2 border-content-base bg-white px-3 py-1 hover:bg-yellow-300 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all">
-                              Web
+                              {labelText.web}
                             </a>
                           ) : null}
                           {entry.artifacts?.pdfUrl ? (
                             <a href={entry.artifacts.pdfUrl} target="_blank" rel="noreferrer" className="block border-2 border-content-base bg-white px-3 py-1 hover:bg-yellow-300 shadow-[2px_2px_0px_0px_rgba(0,0,0,1)] transition-all">
-                              PDF
+                              {labelText.pdf}
                             </a>
                           ) : null}
                           {entry.artifacts?.planTitle ? <div className="border-2 border-content-base bg-surface-muted px-3 py-1">{entry.artifacts.planTitle}</div> : null}
-                          {entry.artifacts === undefined ? <span>{labelText?.noValue || "-"}</span> : null}
+                          {entry.artifacts === undefined ? <span>{labelText.noValue}</span> : null}
                         </div>
                       </TableCell>
                     </TableRow>
@@ -884,8 +884,8 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
           </div>
         ) : (
           <EmptyState
-            title={emptyText?.sectionTitle || "No details available"}
-            description={labelText?.emptyLeaderboard || "Leaderboard is empty."}
+            title={emptyText.sectionTitle}
+            description={labelText.emptyLeaderboard}
           />
         )}
       </SectionBlock>

@@ -10,6 +10,7 @@ import { ErrorState } from "@/components/design-system/patterns/ErrorState";
 import { LoadingState } from "@/components/design-system/patterns/LoadingState";
 import { toLanguageTag } from "@/lib/i18n/config";
 import { useI18n } from "@/lib/i18n/I18nProvider";
+import { useDocumentMetadata } from "@/lib/i18n/useDocumentMetadata";
 import { listSeedHackathons } from "@/lib/data/hackathons";
 import { readHackathons } from "@/lib/storage/entities/hackathons";
 import { cn } from "@/lib/cn";
@@ -25,6 +26,12 @@ function getStatusBadgeVariant(status: HackathonStatus) {
 
 export function HackathonList() {
   const { dict, locale } = useI18n();
+
+  useDocumentMetadata({
+    title: `${dict.appPages.hackathonsTitle} | ${dict.metadata.shortName}`,
+    description: dict.appPages.hackathonsDesc,
+  });
+
   const [hackathons, setHackathons] = useState<HackathonSummary[]>([]);
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
@@ -83,9 +90,9 @@ export function HackathonList() {
 
   const formatDate = (value?: string) => value ? dateFormatter.format(new Date(value)) : null;
 
-  if (isLoading) return <LoadingState label={dict.appPages?.loadingLabel} />;
-  if (hasError) return <ErrorState title={listText?.errorTitle || dict.appPages?.errorTitle || "Unable to load this page"} message={listText?.errorDescription || dict.appPages?.errorDesc || "Please try again."} />;
-  if (hackathons.length === 0) return <EmptyState title={dict.appPages?.hackathonsEmpty || "No hackathons found"} description={dict.appPages?.hackathonsEmptyDesc || "There are currently no hackathons available. Check back later."} />;
+  if (isLoading) return <LoadingState label={dict.appPages.loadingLabel} />;
+  if (hasError) return <ErrorState title={listText.errorTitle} message={listText.errorDescription} />;
+  if (hackathons.length === 0) return <EmptyState title={dict.appPages.hackathonsEmpty} description={dict.appPages.hackathonsEmptyDesc} />;
 
   return (
     <div className="flex flex-col lg:flex-row gap-8 items-start">
@@ -97,20 +104,20 @@ export function HackathonList() {
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
               </span>
-              {dict.nav?.discover || "Discover"}
+              {dict.nav.discover}
             </div>
             <div>
-              <h1 className="text-2xl font-bold tracking-tight text-slate-900">{dict.appPages?.hackathonsTitle || "Hackathons"}</h1>
-              <p className="text-sm text-slate-600 mt-2 leading-relaxed">{dict.appPages?.hackathonsDesc || "Discover and join upcoming events."}</p>
+              <h1 className="text-2xl font-bold tracking-tight text-slate-900">{dict.appPages.hackathonsTitle}</h1>
+              <p className="text-sm text-slate-600 mt-2 leading-relaxed">{dict.appPages.hackathonsDesc}</p>
             </div>
           </div>
           <div className="h-px bg-slate-200 w-full"></div>
           <div className="space-y-3">
-            <h3 className="text-sm font-semibold text-slate-900">{listText?.filters?.statusLabel || "Status"}</h3>
+            <h3 className="text-sm font-semibold text-slate-900">{listText.filters.statusLabel}</h3>
             <div className="flex flex-col gap-1">
               {statusOptions.map((option) => {
                 const isActive = statusFilter === option;
-                const label = option === "all" ? listText?.filters?.allStatuses || "All statuses" : listText?.status?.[option] || option;
+                const label = option === "all" ? listText.filters.allStatuses : listText.status[option];
                 return (
                   <button
                     key={option}
@@ -135,7 +142,7 @@ export function HackathonList() {
           </div>
 
           <div className="space-y-3">
-            <h3 className="text-sm font-semibold text-slate-900">{listText?.filters?.tagLabel || "Tags"}</h3>
+            <h3 className="text-sm font-semibold text-slate-900">{listText.filters.tagLabel}</h3>
             <div className="flex flex-wrap gap-2">
               <button
                 type="button"
@@ -145,7 +152,7 @@ export function HackathonList() {
                   tagFilter.length === 0 ? "bg-slate-800 text-white border-slate-800 font-semibold" : "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
                 )}
               >
-                {listText?.filters?.allTags || "All tags"}
+                {listText.filters.allTags}
               </button>
               {availableTags.map((tag) => {
                 const isSelected = tagFilter.includes(tag);
@@ -178,7 +185,7 @@ export function HackathonList() {
                 className="w-full justify-center text-slate-600 hover:bg-slate-100 border-slate-200"
                 onClick={() => { setStatusFilter("all"); setTagFilter([]); }}
               >
-                {listText?.filters?.clear || "Clear filters"}
+                {listText.filters.clear}
               </Button>
             </div>
           )}
@@ -188,12 +195,12 @@ export function HackathonList() {
       <main className="flex-1 w-full min-w-0">
         <div className="flex items-center justify-between mb-4">
           <p className="text-sm font-medium text-slate-500">
-            {filteredHackathons.length} results found
+            {listText.resultsFound.replace("{count}", String(filteredHackathons.length))}
           </p>
         </div>
 
         {filteredHackathons.length === 0 ? (
-          <EmptyState title={listText?.emptyFilteredTitle || "No matching hackathons"} description={listText?.emptyFilteredDescription || "Try a different combination of filters."} />
+          <EmptyState title={listText.emptyFilteredTitle} description={listText.emptyFilteredDescription} />
         ) : (
           <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
             {filteredHackathons.map((hackathon) => {
@@ -222,7 +229,7 @@ export function HackathonList() {
                         )}
                         <div className="absolute top-3 left-3 flex gap-2">
                           <Badge variant={getStatusBadgeVariant(hackathon.status)} className="shadow-sm backdrop-blur-md bg-white/90">
-                            {listText?.status?.[hackathon.status] || hackathon.status}
+                            {listText.status[hackathon.status]}
                           </Badge>
                         </div>
                       </div>
@@ -236,19 +243,19 @@ export function HackathonList() {
                       <div className="mt-auto space-y-1.5 text-xs text-slate-600">
                         {startDate && endDate && (
                           <div className="flex justify-between items-center">
-                            <span>Period</span>
+                            <span>{listText.labels.period}</span>
                             <span className="font-medium text-slate-900">{startDate} - {endDate}</span>
                           </div>
                         )}
                         {deadlineDate && (
                           <div className="flex justify-between items-center text-red-600">
-                            <span>Deadline</span>
+                            <span>{listText.labels.deadline}</span>
                             <span className="font-semibold">{deadlineDate}</span>
                           </div>
                         )}
                         {"participantsCount" in hackathon && (
                           <div className="flex justify-between items-center mt-2 pt-2 border-t border-slate-100">
-                            <span>Participants</span>
+                            <span>{listText.labels.participants}</span>
                             <span className="font-medium text-slate-900">
                               {(hackathon as HackathonSummary & { participantsCount?: number }).participantsCount?.toLocaleString(languageTag)}
                             </span>
