@@ -96,7 +96,7 @@ export function HackathonList() {
 
   return (
     <div className="flex flex-col lg:flex-row gap-8 items-start">
-      <aside className="w-full lg:w-72 shrink-0 space-y-6 lg:sticky lg:top-24">
+      <aside className="w-full lg:w-72 shrink-0 space-y-6 lg:sticky lg:top-24 lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
         <div className="space-y-6 bg-white/50 backdrop-blur-md p-6 rounded-2xl border border-slate-200 shadow-sm">
           <div className="space-y-4">
             <div className="inline-flex w-fit items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700 shadow-sm">
