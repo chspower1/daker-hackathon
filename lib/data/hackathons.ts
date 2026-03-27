@@ -129,6 +129,186 @@ const additionalHackathons: HackathonSummary[] = [
       faq: "https://example.com/public/faq/creator-tools-hackfest-202512",
     },
   },
+  {
+    slug: "fintech-risk-lab-2026-07",
+    title: "핀테크 리스크 랩 2026",
+    status: "upcoming",
+    tags: ["Fintech", "Risk", "Analytics"],
+    thumbnailUrl: "https://example.com/public/img/fintech-risk-lab-202607.png",
+    period: {
+      timezone: "Asia/Seoul",
+      startAt: "2026-07-09T10:00:00+09:00",
+      submissionDeadlineAt: "2026-07-17T18:00:00+09:00",
+      endAt: "2026-07-19T18:00:00+09:00",
+    },
+    links: {
+      detail: "/hackathons/fintech-risk-lab-2026-07",
+      rules: "https://example.com/public/rules/fintech-risk-lab-202607",
+      faq: "https://example.com/public/faq/fintech-risk-lab-202607",
+    },
+  },
+  {
+    slug: "biohealth-signal-hack-2026-08",
+    title: "바이오헬스 시그널 해커톤 2026",
+    status: "upcoming",
+    tags: ["BioHealth", "AI", "Signal"],
+    thumbnailUrl: "https://example.com/public/img/biohealth-signal-hack-202608.png",
+    period: {
+      timezone: "Asia/Seoul",
+      startAt: "2026-08-06T10:00:00+09:00",
+      submissionDeadlineAt: "2026-08-14T18:00:00+09:00",
+      endAt: "2026-08-16T18:00:00+09:00",
+    },
+    links: {
+      detail: "/hackathons/biohealth-signal-hack-2026-08",
+      rules: "https://example.com/public/rules/biohealth-signal-hack-202608",
+      faq: "https://example.com/public/faq/biohealth-signal-hack-202608",
+    },
+  },
+  {
+    slug: "local-commerce-ai-open-2026-05",
+    title: "로컬 커머스 AI 오픈 2026",
+    status: "ongoing",
+    tags: ["Commerce", "Retail", "Recommendation"],
+    thumbnailUrl: "https://example.com/public/img/local-commerce-ai-open-202605.png",
+    period: {
+      timezone: "Asia/Seoul",
+      startAt: "2026-05-07T10:00:00+09:00",
+      submissionDeadlineAt: "2026-05-15T18:00:00+09:00",
+      endAt: "2026-05-17T18:00:00+09:00",
+    },
+    links: {
+      detail: "/hackathons/local-commerce-ai-open-2026-05",
+      rules: "https://example.com/public/rules/local-commerce-ai-open-202605",
+      faq: "https://example.com/public/faq/local-commerce-ai-open-202605",
+    },
+  },
+  {
+    slug: "smart-mobility-ops-jam-2026-02",
+    title: "스마트 모빌리티 운영 최적화 잼 2026",
+    status: "ended",
+    tags: ["Mobility", "Optimization", "Routing"],
+    thumbnailUrl: "https://example.com/public/img/smart-mobility-ops-jam-202602.png",
+    period: {
+      timezone: "Asia/Seoul",
+      startAt: "2026-02-11T10:00:00+09:00",
+      submissionDeadlineAt: "2026-02-19T18:00:00+09:00",
+      endAt: "2026-02-21T18:00:00+09:00",
+    },
+    links: {
+      detail: "/hackathons/smart-mobility-ops-jam-2026-02",
+      rules: "https://example.com/public/rules/smart-mobility-ops-jam-202602",
+      faq: "https://example.com/public/faq/smart-mobility-ops-jam-202602",
+    },
+  },
+  {
+    slug: "edu-personalization-sprint-2026-07",
+    title: "에듀 퍼스널라이제이션 스프린트 2026",
+    status: "upcoming",
+    tags: ["EdTech", "Personalization", "Learning"],
+    thumbnailUrl: "https://example.com/public/img/edu-personalization-sprint-202607.png",
+    period: {
+      timezone: "Asia/Seoul",
+      startAt: "2026-07-23T10:00:00+09:00",
+      submissionDeadlineAt: "2026-07-31T18:00:00+09:00",
+      endAt: "2026-08-02T18:00:00+09:00",
+    },
+    links: {
+      detail: "/hackathons/edu-personalization-sprint-2026-07",
+      rules: "https://example.com/public/rules/edu-personalization-sprint-202607",
+      faq: "https://example.com/public/faq/edu-personalization-sprint-202607",
+    },
+  },
+  {
+    slug: "logistics-robotics-mini-hack-2026-03",
+    title: "로지스틱스 로보틱스 미니 해커톤 2026",
+    status: "ended",
+    tags: ["Logistics", "Robotics", "Automation"],
+    thumbnailUrl: "https://example.com/public/img/logistics-robotics-mini-hack-202603.png",
+    period: {
+      timezone: "Asia/Seoul",
+      startAt: "2026-03-05T10:00:00+09:00",
+      submissionDeadlineAt: "2026-03-12T18:00:00+09:00",
+      endAt: "2026-03-14T18:00:00+09:00",
+    },
+    links: {
+      detail: "/hackathons/logistics-robotics-mini-hack-2026-03",
+      rules: "https://example.com/public/rules/logistics-robotics-mini-hack-202603",
+      faq: "https://example.com/public/faq/logistics-robotics-mini-hack-202603",
+    },
+  },
+  {
+    slug: "devtooling-observability-rush-2026-05",
+    title: "개발도구 옵저버빌리티 러시 2026",
+    status: "ongoing",
+    tags: ["DevTools", "Observability", "Platform"],
+    thumbnailUrl: "https://example.com/public/img/devtooling-observability-rush-202605.png",
+    period: {
+      timezone: "Asia/Seoul",
+      startAt: "2026-05-21T10:00:00+09:00",
+      submissionDeadlineAt: "2026-05-29T18:00:00+09:00",
+      endAt: "2026-05-31T18:00:00+09:00",
+    },
+    links: {
+      detail: "/hackathons/devtooling-observability-rush-2026-05",
+      rules: "https://example.com/public/rules/devtooling-observability-rush-202605",
+      faq: "https://example.com/public/faq/devtooling-observability-rush-202605",
+    },
+  },
+  {
+    slug: "media-archive-remix-2026-01",
+    title: "미디어 아카이브 리믹스 챌린지 2026",
+    status: "ended",
+    tags: ["Media", "Search", "Archive"],
+    thumbnailUrl: "https://example.com/public/img/media-archive-remix-202601.png",
+    period: {
+      timezone: "Asia/Seoul",
+      startAt: "2026-01-15T10:00:00+09:00",
+      submissionDeadlineAt: "2026-01-23T18:00:00+09:00",
+      endAt: "2026-01-25T18:00:00+09:00",
+    },
+    links: {
+      detail: "/hackathons/media-archive-remix-2026-01",
+      rules: "https://example.com/public/rules/media-archive-remix-202601",
+      faq: "https://example.com/public/faq/media-archive-remix-202601",
+    },
+  },
+  {
+    slug: "ruraltech-data-coop-2026-06",
+    title: "리저널 데이터 협업 해커톤 2026",
+    status: "upcoming",
+    tags: ["Regional", "Data", "GovTech"],
+    thumbnailUrl: "https://example.com/public/img/ruraltech-data-coop-202606.png",
+    period: {
+      timezone: "Asia/Seoul",
+      startAt: "2026-06-18T10:00:00+09:00",
+      submissionDeadlineAt: "2026-06-26T18:00:00+09:00",
+      endAt: "2026-06-28T18:00:00+09:00",
+    },
+    links: {
+      detail: "/hackathons/ruraltech-data-coop-2026-06",
+      rules: "https://example.com/public/rules/ruraltech-data-coop-202606",
+      faq: "https://example.com/public/faq/ruraltech-data-coop-202606",
+    },
+  },
+  {
+    slug: "privacy-first-assistant-buildoff-2026-04",
+    title: "프라이버시 퍼스트 어시스턴트 빌드오프 2026",
+    status: "ongoing",
+    tags: ["Privacy", "Assistant", "Security"],
+    thumbnailUrl: "https://example.com/public/img/privacy-first-assistant-buildoff-202604.png",
+    period: {
+      timezone: "Asia/Seoul",
+      startAt: "2026-04-24T10:00:00+09:00",
+      submissionDeadlineAt: "2026-05-02T18:00:00+09:00",
+      endAt: "2026-05-04T18:00:00+09:00",
+    },
+    links: {
+      detail: "/hackathons/privacy-first-assistant-buildoff-2026-04",
+      rules: "https://example.com/public/rules/privacy-first-assistant-buildoff-202604",
+      faq: "https://example.com/public/faq/privacy-first-assistant-buildoff-202604",
+    },
+  },
 ];
 
 const additionalHackathonDetails: HackathonDetail[] = [
@@ -920,6 +1100,856 @@ const additionalHackathonDetails: HackathonDetail[] = [
       leaderboard: {
         publicLeaderboardUrl: "/hackathons/creator-tools-hackfest-2025-12#leaderboard",
         note: "심사 종료 시점의 시연 품질과 워크플로 설명을 합산해 순위를 산정합니다.",
+      },
+    },
+  },
+  {
+    slug: "fintech-risk-lab-2026-07",
+    title: "핀테크 리스크 랩 2026",
+    sections: {
+      overview: {
+        summary: "거래 이상 징후와 금융 리스크를 조기에 탐지하는 분석 워크플로를 설계하는 해커톤입니다.",
+        teamPolicy: {
+          allowSolo: false,
+          maxTeamSize: 5,
+        },
+      },
+      info: {
+        notice: [
+          "리스크 설명 가능성과 대응 시나리오를 함께 제출해야 합니다.",
+          "실거래 데이터 대신 제공 샘플과 가공 데이터셋을 사용합니다.",
+        ],
+        links: {
+          rules: "https://example.com/public/rules/fintech-risk-lab-202607",
+          faq: "https://example.com/public/faq/fintech-risk-lab-202607",
+        },
+      },
+      eval: {
+        metricName: "RiskInsightScore",
+        description: "탐지 정확도, 설명 가능성, 운영 적용성을 종합 평가합니다.",
+        scoreSource: "judge",
+      },
+      schedule: {
+        timezone: "Asia/Seoul",
+        milestones: [
+          {
+            name: "데이터셋 공개",
+            at: "2026-07-09T10:00:00+09:00",
+          },
+          {
+            name: "최종 제출 마감",
+            at: "2026-07-17T18:00:00+09:00",
+          },
+          {
+            name: "데모데이",
+            at: "2026-07-19T18:00:00+09:00",
+          },
+        ],
+      },
+      prize: {
+        items: [
+          {
+            place: "1st",
+            amountKRW: 3500000,
+          },
+          {
+            place: "2nd",
+            amountKRW: 1800000,
+          },
+        ],
+      },
+      teams: {
+        campEnabled: true,
+        listUrl: "/camp?hackathon=fintech-risk-lab-2026-07",
+      },
+      submit: {
+        allowedArtifactTypes: ["url", "pdf"],
+        submissionUrl: "/hackathons/fintech-risk-lab-2026-07#submit",
+        guide: [
+          "데모 링크와 리스크 분석 요약 자료를 함께 제출합니다.",
+          "오탐/미탐 대응 전략을 메모에 정리해 주세요.",
+        ],
+        submissionItems: [
+          {
+            key: "web",
+            title: "데모 URL",
+            format: "url",
+          },
+          {
+            key: "pdf",
+            title: "분석 요약 자료",
+            format: "pdf_url",
+          },
+        ],
+      },
+      leaderboard: {
+        publicLeaderboardUrl: "/hackathons/fintech-risk-lab-2026-07#leaderboard",
+        note: "심사 종료 후 운영 적합성 코멘트와 함께 순위가 공개됩니다.",
+      },
+    },
+  },
+  {
+    slug: "biohealth-signal-hack-2026-08",
+    title: "바이오헬스 시그널 해커톤 2026",
+    sections: {
+      overview: {
+        summary: "웨어러블과 건강 기록 데이터를 활용해 이상 징후를 포착하는 서비스 프로토타입을 만드는 해커톤입니다.",
+        teamPolicy: {
+          allowSolo: true,
+          maxTeamSize: 4,
+        },
+      },
+      info: {
+        notice: [
+          "민감정보 보호 원칙과 비식별화 전략을 함께 설명해야 합니다.",
+          "의료 판단이 아닌 조기 신호 탐지와 안내 경험에 초점을 맞춥니다.",
+        ],
+        links: {
+          rules: "https://example.com/public/rules/biohealth-signal-hack-202608",
+          faq: "https://example.com/public/faq/biohealth-signal-hack-202608",
+        },
+      },
+      eval: {
+        metricName: "SignalScore",
+        description: "신호 탐지 설계, 사용자 이해도, 안전한 안내 경험을 평가합니다.",
+        scoreSource: "judge",
+      },
+      schedule: {
+        timezone: "Asia/Seoul",
+        milestones: [
+          {
+            name: "오리엔테이션",
+            at: "2026-08-06T10:00:00+09:00",
+          },
+          {
+            name: "중간 멘토링",
+            at: "2026-08-11T14:00:00+09:00",
+          },
+          {
+            name: "최종 제출 마감",
+            at: "2026-08-14T18:00:00+09:00",
+          },
+        ],
+      },
+      prize: {
+        items: [
+          {
+            place: "1st",
+            amountKRW: 3000000,
+          },
+          {
+            place: "2nd",
+            amountKRW: 1500000,
+          },
+        ],
+      },
+      teams: {
+        campEnabled: true,
+        listUrl: "/camp?hackathon=biohealth-signal-hack-2026-08",
+      },
+      submit: {
+        allowedArtifactTypes: ["url", "pdf", "text"],
+        submissionUrl: "/hackathons/biohealth-signal-hack-2026-08#submit",
+        guide: [
+          "프로토타입 링크와 안전성 설명 자료를 제출합니다.",
+          "데이터 처리 방식은 메모에 요약합니다.",
+        ],
+        submissionItems: [
+          {
+            key: "web",
+            title: "프로토타입 URL",
+            format: "url",
+          },
+          {
+            key: "pdf",
+            title: "안전성 요약 자료",
+            format: "pdf_url",
+          },
+        ],
+      },
+      leaderboard: {
+        publicLeaderboardUrl: "/hackathons/biohealth-signal-hack-2026-08#leaderboard",
+        note: "민감정보 처리 전략 항목은 심사 코멘트로 별도 공개될 수 있습니다.",
+      },
+    },
+  },
+  {
+    slug: "local-commerce-ai-open-2026-05",
+    title: "로컬 커머스 AI 오픈 2026",
+    sections: {
+      overview: {
+        summary: "동네 상권의 판매·재고·고객 데이터를 활용해 운영 효율을 높이는 커머스 AI 서비스를 설계합니다.",
+        teamPolicy: {
+          allowSolo: true,
+          maxTeamSize: 5,
+        },
+      },
+      info: {
+        notice: [
+          "소상공인 관점의 실제 운영 문제를 명확히 정의해야 합니다.",
+          "추천, 재고 예측, 프로모션 자동화 중 하나 이상을 포함하면 좋습니다.",
+        ],
+        links: {
+          rules: "https://example.com/public/rules/local-commerce-ai-open-202605",
+          faq: "https://example.com/public/faq/local-commerce-ai-open-202605",
+        },
+      },
+      eval: {
+        metricName: "CommerceOpsScore",
+        description: "운영 개선 효과, 데이터 활용도, 현장 적용성을 평가합니다.",
+        scoreSource: "judge",
+      },
+      schedule: {
+        timezone: "Asia/Seoul",
+        milestones: [
+          {
+            name: "과제 공개",
+            at: "2026-05-07T10:00:00+09:00",
+          },
+          {
+            name: "중간 점검",
+            at: "2026-05-12T14:00:00+09:00",
+          },
+          {
+            name: "최종 제출 마감",
+            at: "2026-05-15T18:00:00+09:00",
+          },
+        ],
+      },
+      prize: {
+        items: [
+          {
+            place: "1st",
+            amountKRW: 2500000,
+          },
+          {
+            place: "2nd",
+            amountKRW: 1200000,
+          },
+        ],
+      },
+      teams: {
+        campEnabled: true,
+        listUrl: "/camp?hackathon=local-commerce-ai-open-2026-05",
+      },
+      submit: {
+        allowedArtifactTypes: ["url", "pdf"],
+        submissionUrl: "/hackathons/local-commerce-ai-open-2026-05#submit",
+        guide: [
+          "서비스 링크와 운영 시나리오 자료를 제출합니다.",
+          "적용 대상 매장 가정을 메모에 적어 주세요.",
+        ],
+        submissionItems: [
+          {
+            key: "web",
+            title: "서비스 URL",
+            format: "url",
+          },
+          {
+            key: "pdf",
+            title: "운영 시나리오 자료",
+            format: "pdf_url",
+          },
+        ],
+      },
+      leaderboard: {
+        publicLeaderboardUrl: "/hackathons/local-commerce-ai-open-2026-05#leaderboard",
+        note: "실행 가능성과 현장 적용성 항목의 심사 비중이 큽니다.",
+      },
+    },
+  },
+  {
+    slug: "smart-mobility-ops-jam-2026-02",
+    title: "스마트 모빌리티 운영 최적화 잼 2026",
+    sections: {
+      overview: {
+        summary: "배차, 경로, 관제 데이터를 활용해 도심 이동 서비스 운영을 개선하는 해커톤입니다.",
+        teamPolicy: {
+          allowSolo: false,
+          maxTeamSize: 5,
+        },
+      },
+      info: {
+        notice: [
+          "단순 경로 추천보다 운영 효율과 사용자 경험 개선을 함께 보여줘야 합니다.",
+          "실시간성 가정은 명확한 근거와 함께 제시해 주세요.",
+        ],
+        links: {
+          rules: "https://example.com/public/rules/smart-mobility-ops-jam-202602",
+          faq: "https://example.com/public/faq/smart-mobility-ops-jam-202602",
+        },
+      },
+      eval: {
+        metricName: "MobilityOpsScore",
+        description: "최적화 품질, 운영 해석력, 서비스 설득력을 종합 평가합니다.",
+        scoreSource: "judge",
+      },
+      schedule: {
+        timezone: "Asia/Seoul",
+        milestones: [
+          {
+            name: "데이터셋 배포",
+            at: "2026-02-11T10:00:00+09:00",
+          },
+          {
+            name: "제출 마감",
+            at: "2026-02-19T18:00:00+09:00",
+          },
+          {
+            name: "발표 세션",
+            at: "2026-02-21T18:00:00+09:00",
+          },
+        ],
+      },
+      prize: {
+        items: [
+          {
+            place: "1st",
+            amountKRW: 2800000,
+          },
+          {
+            place: "2nd",
+            amountKRW: 1300000,
+          },
+        ],
+      },
+      teams: {
+        campEnabled: true,
+        listUrl: "/camp?hackathon=smart-mobility-ops-jam-2026-02",
+      },
+      submit: {
+        allowedArtifactTypes: ["url", "pdf"],
+        submissionUrl: "/hackathons/smart-mobility-ops-jam-2026-02#submit",
+        guide: [
+          "시뮬레이션 결과나 데모 링크를 제출합니다.",
+          "운영 지표 변화는 요약 자료에 정리해 주세요.",
+        ],
+        submissionItems: [
+          {
+            key: "web",
+            title: "데모 또는 시뮬레이션 URL",
+            format: "url",
+          },
+          {
+            key: "pdf",
+            title: "운영 개선 요약 자료",
+            format: "pdf_url",
+          },
+        ],
+      },
+      leaderboard: {
+        publicLeaderboardUrl: "/hackathons/smart-mobility-ops-jam-2026-02#leaderboard",
+        note: "발표 심사 이후 운영 지표 기반 순위가 고정됩니다.",
+      },
+    },
+  },
+  {
+    slug: "edu-personalization-sprint-2026-07",
+    title: "에듀 퍼스널라이제이션 스프린트 2026",
+    sections: {
+      overview: {
+        summary: "학습자의 수준과 목표에 맞는 개인화 학습 경험을 설계하는 에듀테크 해커톤입니다.",
+        teamPolicy: {
+          allowSolo: true,
+          maxTeamSize: 4,
+        },
+      },
+      info: {
+        notice: [
+          "학습 동기 유지와 피드백 경험을 함께 설계해야 합니다.",
+          "단순 추천보다 학습 루프 전체 설명이 중요합니다.",
+        ],
+        links: {
+          rules: "https://example.com/public/rules/edu-personalization-sprint-202607",
+          faq: "https://example.com/public/faq/edu-personalization-sprint-202607",
+        },
+      },
+      eval: {
+        metricName: "LearningFitScore",
+        description: "개인화 적합성, 피드백 품질, 학습 설계 완성도를 평가합니다.",
+        scoreSource: "judge",
+      },
+      schedule: {
+        timezone: "Asia/Seoul",
+        milestones: [
+          {
+            name: "킥오프",
+            at: "2026-07-23T10:00:00+09:00",
+          },
+          {
+            name: "중간 리뷰",
+            at: "2026-07-28T14:00:00+09:00",
+          },
+          {
+            name: "최종 제출 마감",
+            at: "2026-07-31T18:00:00+09:00",
+          },
+        ],
+      },
+      prize: {
+        items: [
+          {
+            place: "1st",
+            amountKRW: 2600000,
+          },
+          {
+            place: "2nd",
+            amountKRW: 1200000,
+          },
+        ],
+      },
+      teams: {
+        campEnabled: true,
+        listUrl: "/camp?hackathon=edu-personalization-sprint-2026-07",
+      },
+      submit: {
+        allowedArtifactTypes: ["url", "pdf", "text"],
+        submissionUrl: "/hackathons/edu-personalization-sprint-2026-07#submit",
+        guide: [
+          "프로토타입 링크와 학습 설계 요약을 제출합니다.",
+          "개인화 기준은 메모에 간단히 설명합니다.",
+        ],
+        submissionItems: [
+          {
+            key: "web",
+            title: "프로토타입 URL",
+            format: "url",
+          },
+          {
+            key: "pdf",
+            title: "학습 설계 자료",
+            format: "pdf_url",
+          },
+        ],
+      },
+      leaderboard: {
+        publicLeaderboardUrl: "/hackathons/edu-personalization-sprint-2026-07#leaderboard",
+        note: "학습 흐름 설계와 피드백 품질이 주요 평가 포인트입니다.",
+      },
+    },
+  },
+  {
+    slug: "logistics-robotics-mini-hack-2026-03",
+    title: "로지스틱스 로보틱스 미니 해커톤 2026",
+    sections: {
+      overview: {
+        summary: "물류 거점 자동화와 작업 동선 최적화를 주제로 빠른 실험을 진행하는 해커톤입니다.",
+        teamPolicy: {
+          allowSolo: false,
+          maxTeamSize: 4,
+        },
+      },
+      info: {
+        notice: [
+          "창고 자동화 시나리오와 현장 적용 조건을 함께 설명해야 합니다.",
+          "복잡한 하드웨어 구현보다 운영 흐름 설계와 시뮬레이션을 권장합니다.",
+        ],
+        links: {
+          rules: "https://example.com/public/rules/logistics-robotics-mini-hack-202603",
+          faq: "https://example.com/public/faq/logistics-robotics-mini-hack-202603",
+        },
+      },
+      eval: {
+        metricName: "OpsAutomationScore",
+        description: "자동화 타당성, 작업 효율, 시연 완성도를 평가합니다.",
+        scoreSource: "judge",
+      },
+      schedule: {
+        timezone: "Asia/Seoul",
+        milestones: [
+          {
+            name: "과제 브리핑",
+            at: "2026-03-05T10:00:00+09:00",
+          },
+          {
+            name: "제출 마감",
+            at: "2026-03-12T18:00:00+09:00",
+          },
+          {
+            name: "현장 발표",
+            at: "2026-03-14T18:00:00+09:00",
+          },
+        ],
+      },
+      prize: {
+        items: [
+          {
+            place: "1st",
+            amountKRW: 2400000,
+          },
+          {
+            place: "2nd",
+            amountKRW: 1100000,
+          },
+        ],
+      },
+      teams: {
+        campEnabled: true,
+        listUrl: "/camp?hackathon=logistics-robotics-mini-hack-2026-03",
+      },
+      submit: {
+        allowedArtifactTypes: ["url", "pdf"],
+        submissionUrl: "/hackathons/logistics-robotics-mini-hack-2026-03#submit",
+        guide: [
+          "시뮬레이션 또는 데모 링크를 제출합니다.",
+          "자동화 대상 공정과 기대 효과를 요약합니다.",
+        ],
+        submissionItems: [
+          {
+            key: "web",
+            title: "데모 URL",
+            format: "url",
+          },
+          {
+            key: "pdf",
+            title: "공정 개선 자료",
+            format: "pdf_url",
+          },
+        ],
+      },
+      leaderboard: {
+        publicLeaderboardUrl: "/hackathons/logistics-robotics-mini-hack-2026-03#leaderboard",
+        note: "작업 시간 단축과 운영 안정성 설명을 중심으로 순위를 산정합니다.",
+      },
+    },
+  },
+  {
+    slug: "devtooling-observability-rush-2026-05",
+    title: "개발도구 옵저버빌리티 러시 2026",
+    sections: {
+      overview: {
+        summary: "개발 생산성을 높이는 로그, 트레이스, 배포 가시화 도구를 만드는 플랫폼 해커톤입니다.",
+        teamPolicy: {
+          allowSolo: true,
+          maxTeamSize: 5,
+        },
+      },
+      info: {
+        notice: [
+          "개발자 워크플로에서 어느 지점을 얼마나 줄여주는지 설명해야 합니다.",
+          "시각화보다 실제 문제 해결 흐름을 보여주는 데 집중합니다.",
+        ],
+        links: {
+          rules: "https://example.com/public/rules/devtooling-observability-rush-202605",
+          faq: "https://example.com/public/faq/devtooling-observability-rush-202605",
+        },
+      },
+      eval: {
+        metricName: "DeveloperFlowScore",
+        description: "문제 해결 속도, 가시성 품질, 도입 용이성을 평가합니다.",
+        scoreSource: "judge",
+      },
+      schedule: {
+        timezone: "Asia/Seoul",
+        milestones: [
+          {
+            name: "킥오프",
+            at: "2026-05-21T10:00:00+09:00",
+          },
+          {
+            name: "중간 리뷰",
+            at: "2026-05-26T14:00:00+09:00",
+          },
+          {
+            name: "최종 제출 마감",
+            at: "2026-05-29T18:00:00+09:00",
+          },
+        ],
+      },
+      prize: {
+        items: [
+          {
+            place: "1st",
+            amountKRW: 2800000,
+          },
+          {
+            place: "2nd",
+            amountKRW: 1300000,
+          },
+        ],
+      },
+      teams: {
+        campEnabled: true,
+        listUrl: "/camp?hackathon=devtooling-observability-rush-2026-05",
+      },
+      submit: {
+        allowedArtifactTypes: ["url", "pdf", "text"],
+        submissionUrl: "/hackathons/devtooling-observability-rush-2026-05#submit",
+        guide: [
+          "서비스 링크와 개선된 개발 흐름을 함께 제출합니다.",
+          "로그/트레이스 예시는 메모로 보강해 주세요.",
+        ],
+        submissionItems: [
+          {
+            key: "web",
+            title: "서비스 URL",
+            format: "url",
+          },
+          {
+            key: "pdf",
+            title: "개발 흐름 자료",
+            format: "pdf_url",
+          },
+        ],
+      },
+      leaderboard: {
+        publicLeaderboardUrl: "/hackathons/devtooling-observability-rush-2026-05#leaderboard",
+        note: "문제 재현과 원인 파악 속도를 얼마나 개선했는지가 중요합니다.",
+      },
+    },
+  },
+  {
+    slug: "media-archive-remix-2026-01",
+    title: "미디어 아카이브 리믹스 챌린지 2026",
+    sections: {
+      overview: {
+        summary: "텍스트, 이미지, 영상 아카이브를 다시 탐색하고 재구성하는 경험을 설계하는 해커톤입니다.",
+        teamPolicy: {
+          allowSolo: true,
+          maxTeamSize: 4,
+        },
+      },
+      info: {
+        notice: [
+          "검색성과 탐색 경험을 동시에 개선하는 방향을 권장합니다.",
+          "아카이브 출처 표기와 재사용 정책을 명확히 해야 합니다.",
+        ],
+        links: {
+          rules: "https://example.com/public/rules/media-archive-remix-202601",
+          faq: "https://example.com/public/faq/media-archive-remix-202601",
+        },
+      },
+      eval: {
+        metricName: "ArchiveDiscoveryScore",
+        description: "탐색 경험, 정보 구조, 콘텐츠 재구성 품질을 평가합니다.",
+        scoreSource: "judge",
+      },
+      schedule: {
+        timezone: "Asia/Seoul",
+        milestones: [
+          {
+            name: "데이터 공개",
+            at: "2026-01-15T10:00:00+09:00",
+          },
+          {
+            name: "제출 마감",
+            at: "2026-01-23T18:00:00+09:00",
+          },
+          {
+            name: "결과 발표",
+            at: "2026-01-25T18:00:00+09:00",
+          },
+        ],
+      },
+      prize: {
+        items: [
+          {
+            place: "1st",
+            amountKRW: 2300000,
+          },
+          {
+            place: "2nd",
+            amountKRW: 1000000,
+          },
+        ],
+      },
+      teams: {
+        campEnabled: true,
+        listUrl: "/camp?hackathon=media-archive-remix-2026-01",
+      },
+      submit: {
+        allowedArtifactTypes: ["url", "pdf"],
+        submissionUrl: "/hackathons/media-archive-remix-2026-01#submit",
+        guide: [
+          "탐색 데모와 정보 구조 설명 자료를 제출합니다.",
+          "재사용한 아카이브 출처는 메모에 적어 주세요.",
+        ],
+        submissionItems: [
+          {
+            key: "web",
+            title: "데모 URL",
+            format: "url",
+          },
+          {
+            key: "pdf",
+            title: "구조 설명 자료",
+            format: "pdf_url",
+          },
+        ],
+      },
+      leaderboard: {
+        publicLeaderboardUrl: "/hackathons/media-archive-remix-2026-01#leaderboard",
+        note: "탐색 편의성과 콘텐츠 재맥락화 완성도를 기준으로 평가합니다.",
+      },
+    },
+  },
+  {
+    slug: "ruraltech-data-coop-2026-06",
+    title: "리저널 데이터 협업 해커톤 2026",
+    sections: {
+      overview: {
+        summary: "지역 데이터와 공공 자원을 연결해 생활 문제를 해결하는 협업형 해커톤입니다.",
+        teamPolicy: {
+          allowSolo: false,
+          maxTeamSize: 5,
+        },
+      },
+      info: {
+        notice: [
+          "지역 주민과 행정의 관점을 함께 고려한 문제 정의가 필요합니다.",
+          "단순 시각화보다 실행 가능한 협업 흐름을 제시하는 팀을 우대합니다.",
+        ],
+        links: {
+          rules: "https://example.com/public/rules/ruraltech-data-coop-202606",
+          faq: "https://example.com/public/faq/ruraltech-data-coop-202606",
+        },
+      },
+      eval: {
+        metricName: "RegionalImpactScore",
+        description: "지역 적합성, 협업 구조, 데이터 활용도를 종합 평가합니다.",
+        scoreSource: "judge",
+      },
+      schedule: {
+        timezone: "Asia/Seoul",
+        milestones: [
+          {
+            name: "과제 설명회",
+            at: "2026-06-18T10:00:00+09:00",
+          },
+          {
+            name: "중간 피드백",
+            at: "2026-06-23T14:00:00+09:00",
+          },
+          {
+            name: "최종 제출 마감",
+            at: "2026-06-26T18:00:00+09:00",
+          },
+        ],
+      },
+      prize: {
+        items: [
+          {
+            place: "1st",
+            amountKRW: 3200000,
+          },
+          {
+            place: "2nd",
+            amountKRW: 1500000,
+          },
+        ],
+      },
+      teams: {
+        campEnabled: true,
+        listUrl: "/camp?hackathon=ruraltech-data-coop-2026-06",
+      },
+      submit: {
+        allowedArtifactTypes: ["url", "pdf", "text"],
+        submissionUrl: "/hackathons/ruraltech-data-coop-2026-06#submit",
+        guide: [
+          "서비스 링크와 협업 시나리오 자료를 제출합니다.",
+          "지역 문제 정의와 기대 효과를 메모에 적습니다.",
+        ],
+        submissionItems: [
+          {
+            key: "web",
+            title: "서비스 URL",
+            format: "url",
+          },
+          {
+            key: "pdf",
+            title: "협업 시나리오 자료",
+            format: "pdf_url",
+          },
+        ],
+      },
+      leaderboard: {
+        publicLeaderboardUrl: "/hackathons/ruraltech-data-coop-2026-06#leaderboard",
+        note: "지역 적용성과 이해관계자 협업 설계가 주요 평가 기준입니다.",
+      },
+    },
+  },
+  {
+    slug: "privacy-first-assistant-buildoff-2026-04",
+    title: "프라이버시 퍼스트 어시스턴트 빌드오프 2026",
+    sections: {
+      overview: {
+        summary: "개인정보를 최소화하면서도 유용한 어시스턴트 경험을 구현하는 보안 중심 해커톤입니다.",
+        teamPolicy: {
+          allowSolo: true,
+          maxTeamSize: 4,
+        },
+      },
+      info: {
+        notice: [
+          "개인정보 최소 수집과 보관 정책을 명확히 설명해야 합니다.",
+          "온디바이스 또는 로컬 우선 처리 전략을 제안하면 가산점을 받을 수 있습니다.",
+        ],
+        links: {
+          rules: "https://example.com/public/rules/privacy-first-assistant-buildoff-202604",
+          faq: "https://example.com/public/faq/privacy-first-assistant-buildoff-202604",
+        },
+      },
+      eval: {
+        metricName: "PrivacyUXScore",
+        description: "프라이버시 보호, 사용성, 구현 설득력을 함께 평가합니다.",
+        scoreSource: "judge",
+      },
+      schedule: {
+        timezone: "Asia/Seoul",
+        milestones: [
+          {
+            name: "오리엔테이션",
+            at: "2026-04-24T10:00:00+09:00",
+          },
+          {
+            name: "보안 리뷰",
+            at: "2026-04-29T14:00:00+09:00",
+          },
+          {
+            name: "최종 제출 마감",
+            at: "2026-05-02T18:00:00+09:00",
+          },
+        ],
+      },
+      prize: {
+        items: [
+          {
+            place: "1st",
+            amountKRW: 3400000,
+          },
+          {
+            place: "2nd",
+            amountKRW: 1600000,
+          },
+        ],
+      },
+      teams: {
+        campEnabled: true,
+        listUrl: "/camp?hackathon=privacy-first-assistant-buildoff-2026-04",
+      },
+      submit: {
+        allowedArtifactTypes: ["url", "pdf", "text"],
+        submissionUrl: "/hackathons/privacy-first-assistant-buildoff-2026-04#submit",
+        guide: [
+          "프로토타입 링크와 개인정보 처리 설계 자료를 제출합니다.",
+          "보안·프라이버시 설계 포인트를 메모에 적어 주세요.",
+        ],
+        submissionItems: [
+          {
+            key: "web",
+            title: "프로토타입 URL",
+            format: "url",
+          },
+          {
+            key: "pdf",
+            title: "프라이버시 설계 자료",
+            format: "pdf_url",
+          },
+        ],
+      },
+      leaderboard: {
+        publicLeaderboardUrl: "/hackathons/privacy-first-assistant-buildoff-2026-04#leaderboard",
+        note: "개인정보 최소화와 사용성 균형을 기준으로 최종 순위를 결정합니다.",
       },
     },
   },
