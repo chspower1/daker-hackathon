@@ -6,6 +6,7 @@ import { Badge } from "@/components/design-system/primitives/Badge";
 import { Button } from "@/components/design-system/primitives/Button";
 import { Input } from "@/components/design-system/primitives/Input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/design-system/primitives/Card";
+import { DataTable, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/design-system/primitives/DataTable";
 import { EmptyState } from "@/components/design-system/patterns/EmptyState";
 import { ErrorState } from "@/components/design-system/patterns/ErrorState";
 import { LoadingState } from "@/components/design-system/patterns/LoadingState";
@@ -16,6 +17,9 @@ import { listSeedHackathons } from "@/lib/data/hackathons";
 import { readHackathons } from "@/lib/storage/entities/hackathons";
 import { cn } from "@/lib/cn";
 import type { HackathonStatus, HackathonSummary } from "@/types";
+
+type SortField = "title" | "status" | "startDate" | "endDate";
+type SortOrder = "asc" | "desc";
 
 const statusOptions: Array<"all" | HackathonStatus> = ["all", "upcoming", "ongoing", "ended"];
 
@@ -40,6 +44,10 @@ export function HackathonList() {
   const [tagFilter, setTagFilter] = useState<string[]>([]);
   const [tagSearchQuery, setTagSearchQuery] = useState("");
   const [imageErrors, setImageErrors] = useState<Record<string, boolean>>({});
+  const [viewMode, setViewMode] = useState<"card" | "table">("card");
+  const [sortField, setSortField] = useState<SortField>("startDate");
+  const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
+  const [keywordSearch, setKeywordSearch] = useState("");
 
   useEffect(() => {
     try {
@@ -76,7 +84,9 @@ export function HackathonList() {
     const counts = { all: 0, upcoming: 0, ongoing: 0, ended: 0 };
     hackathons.forEach((h) => {
       const tagMatches = tagFilter.length === 0 || tagFilter.some((t) => h.tags.includes(t));
-      if (tagMatches) {
+      const keyword = keywordSearch.trim().toLowerCase();
+      const keywordMatches = !keyword || h.title.toLowerCase().includes(keyword) || h.tags.some((t) => t.toLowerCase().includes(keyword));
+      if (tagMatches && keywordMatches) {
         counts.all++;
         if (h.status === "upcoming") counts.upcoming++;
         if (h.status === "ongoing") counts.ongoing++;
@@ -84,15 +94,54 @@ export function HackathonList() {
       }
     });
     return counts;
-  }, [hackathons, tagFilter]);
+  }, [hackathons, tagFilter, keywordSearch]);
 
   const filteredHackathons = useMemo(() => {
-    return hackathons.filter((h) => {
+    let result = hackathons.filter((h) => {
       const statusMatches = statusFilter === "all" || h.status === statusFilter;
       const tagMatches = tagFilter.length === 0 || tagFilter.some((t) => h.tags.includes(t));
-      return statusMatches && tagMatches;
+      const keyword = keywordSearch.trim().toLowerCase();
+      const keywordMatches = !keyword || h.title.toLowerCase().includes(keyword) || h.tags.some((t) => t.toLowerCase().includes(keyword));
+      return statusMatches && tagMatches && keywordMatches;
     });
-  }, [hackathons, statusFilter, tagFilter]);
+
+    if (viewMode === "table") {
+      result = [...result].sort((a, b) => {
+        let cmp = 0;
+        if (sortField === "title") {
+          cmp = a.title.localeCompare(b.title, languageTag);
+        } else if (sortField === "status") {
+          cmp = a.status.localeCompare(b.status, languageTag);
+        } else if (sortField === "startDate") {
+          const dateA = a.period.startAt ? new Date(a.period.startAt).getTime() : 0;
+          const dateB = b.period.startAt ? new Date(b.period.startAt).getTime() : 0;
+          cmp = dateA - dateB;
+        } else if (sortField === "endDate") {
+          const dateA = a.period.endAt ? new Date(a.period.endAt).getTime() : 0;
+          const dateB = b.period.endAt ? new Date(b.period.endAt).getTime() : 0;
+          cmp = dateA - dateB;
+        }
+        return sortOrder === "asc" ? cmp : -cmp;
+      });
+    }
+
+    return result;
+  }, [hackathons, statusFilter, tagFilter, keywordSearch, viewMode, sortField, sortOrder, languageTag]);
+
+  const toggleSort = (field: SortField) => {
+    if (sortField === field) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortField(field);
+      setSortOrder("asc");
+    }
+  };
+
+  
+  const renderSortIcon = (field: SortField) => {
+    if (sortField !== field) return <span className="ml-1 text-slate-300">↕</span>;
+    return <span className="ml-1 text-slate-600">{sortOrder === "asc" ? "↑" : "↓"}</span>;
+  };
 
   const listText = dict.hackathonList;
 
@@ -152,6 +201,20 @@ export function HackathonList() {
             </div>
           </div>
 
+          
+          <div className="mt-6 flex flex-col min-h-0 flex-1 space-y-3">
+            <h3 className="text-sm font-semibold text-slate-900 shrink-0">{listText.filters.searchKeywordLabel}</h3>
+            <div className="shrink-0">
+              <Input
+                placeholder={listText.filters.searchKeywordPlaceholder}
+                value={keywordSearch}
+                onChange={(e) => setKeywordSearch(e.target.value)}
+                aria-label={listText.filters.searchKeywordLabel}
+                className="h-10 rounded-xl text-sm"
+              />
+            </div>
+          </div>
+
           <div className="mt-6 flex flex-col min-h-0 flex-1 space-y-3">
             <h3 className="text-sm font-semibold text-slate-900 shrink-0">{listText.filters.tagLabel}</h3>
             <div className="shrink-0">
@@ -206,13 +269,13 @@ export function HackathonList() {
             </div>
           </div>
 
-          {(statusFilter !== "all" || tagFilter.length > 0 || tagSearchQuery) && (
+          {(statusFilter !== "all" || tagFilter.length > 0 || tagSearchQuery || keywordSearch) && (
             <div className="pt-4 mt-4 border-t border-slate-100 shrink-0">
               <Button
                 variant="outline"
                 size="sm"
                 className="w-full justify-center text-slate-600 hover:bg-slate-100 border-slate-200"
-                onClick={() => { setStatusFilter("all"); setTagFilter([]); setTagSearchQuery(""); }}
+                onClick={() => { setStatusFilter("all"); setTagFilter([]); setTagSearchQuery(""); setKeywordSearch(""); }}
               >
                 {listText.filters.clear}
               </Button>
@@ -222,16 +285,70 @@ export function HackathonList() {
       </aside>
 
       <main className="flex-1 w-full min-w-0">
+        
         <div className="flex items-center justify-between mb-4">
           <p className="text-sm font-medium text-slate-500">
             {listText.resultsFound.replace("{count}", String(filteredHackathons.length))}
           </p>
+          <div className="flex bg-slate-100 p-1 rounded-lg">
+            <button
+              onClick={() => setViewMode("card")}
+              className={cn("px-3 py-1.5 text-xs font-medium rounded-md transition-colors", viewMode === "card" ? "bg-white text-slate-900 shadow-sm" : "text-slate-600 hover:text-slate-900")}
+            >
+              {listText.viewModeCard}
+            </button>
+            <button
+              onClick={() => setViewMode("table")}
+              className={cn("px-3 py-1.5 text-xs font-medium rounded-md transition-colors", viewMode === "table" ? "bg-white text-slate-900 shadow-sm" : "text-slate-600 hover:text-slate-900")}
+            >
+              {listText.viewModeTable}
+            </button>
+          </div>
         </div>
+
 
         {filteredHackathons.length === 0 ? (
           <EmptyState title={listText.emptyFilteredTitle} description={listText.emptyFilteredDescription} />
-        ) : (
-          <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+        ) : viewMode === "table" ? (
+            <DataTable>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="cursor-pointer hover:bg-slate-50" onClick={() => toggleSort("title")}>
+                    {listText.tableColumns.title} {renderSortIcon("title")}
+                  </TableHead>
+                  <TableHead className="cursor-pointer hover:bg-slate-50" onClick={() => toggleSort("status")}>
+                    {listText.tableColumns.status} {renderSortIcon("status")}
+                  </TableHead>
+                  <TableHead className="cursor-pointer hover:bg-slate-50" onClick={() => toggleSort("startDate")}>
+                    {listText.tableColumns.startDate} {renderSortIcon("startDate")}
+                  </TableHead>
+                  <TableHead className="cursor-pointer hover:bg-slate-50" onClick={() => toggleSort("endDate")}>
+                    {listText.tableColumns.endDate} {renderSortIcon("endDate")}
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredHackathons.map((hackathon) => (
+                  <TableRow key={hackathon.slug}>
+                    <TableCell>
+                      <Link href={hackathon.links.detail} className="font-semibold text-blue-600 hover:underline">
+                        {hackathon.title}
+                      </Link>
+                    </TableCell>
+                    <TableCell>
+                      <Badge variant={getStatusBadgeVariant(hackathon.status)}>
+                        {listText.status[hackathon.status]}
+                      </Badge>
+                    </TableCell>
+                    <TableCell>{formatDate(hackathon.period.startAt) ?? "-"}</TableCell>
+                    <TableCell>{formatDate(hackathon.period.endAt) ?? "-"}</TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </DataTable>
+          ) : (
+            <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+
             {filteredHackathons.map((hackathon) => {
               const startDate = formatDate(hackathon.period.startAt);
               const deadlineDate = formatDate(hackathon.period.submissionDeadlineAt);

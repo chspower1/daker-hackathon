@@ -5,6 +5,7 @@ import Link from "next/link";
 import { Alert } from "@/components/design-system/primitives/Alert";
 import { Button } from "@/components/design-system/primitives/Button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/design-system/primitives/Card";
+import { DataTable, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/design-system/primitives/DataTable";
 import { Input } from "@/components/design-system/primitives/Input";
 import { EmptyState } from "@/components/design-system/patterns/EmptyState";
 import { LoadingState } from "@/components/design-system/patterns/LoadingState";
@@ -39,6 +40,9 @@ type CampTagSelection = {
   groupId: CampTagGroupId;
   value: string;
 };
+
+type SortField = "teamName" | "owner" | "hackathon" | "status" | "lookingFor" | "createdAt";
+type SortOrder = "asc" | "desc";
 
 type CampTagGroup = {
   id: CampTagGroupId;
@@ -94,6 +98,10 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
   const [statusFilter, setStatusFilter] = useState<CampStatusFilter>("all");
   const [selectedTagKeys, setSelectedTagKeys] = useState<string[]>([]);
   const [tagSearchQuery, setTagSearchQuery] = useState("");
+  const [keywordSearch, setKeywordSearch] = useState("");
+  const [viewMode, setViewMode] = useState<"card" | "table">("card");
+  const [sortField, setSortField] = useState<SortField>("createdAt");
+  const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
   const triggerRef = useRef<HTMLButtonElement>(null);
   const wasModalOpen = useRef(false);
 
@@ -212,13 +220,28 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
       .filter((group) => group.tags.length > 0);
   }, [availableTagGroups, tagSearchQuery]);
 
+  const hackathonTitleBySlug = useMemo(() => {
+    return new Map(hackathons.map((h) => [h.slug, h.title]));
+  }, [hackathons]);
+
   const statusCounts = useMemo(() => {
     const counts: Record<CampStatusFilter, number> = { all: 0, open: 0, closed: 0 };
 
     baseTeams.forEach((team) => {
       const tagMatches = selectedTags.length === 0 || selectedTags.some((selection) => matchesCampTag(team, selection));
+      const keyword = keywordSearch.trim().toLowerCase();
+      const hackathonTitle = team.hackathonSlug ? hackathonTitleBySlug.get(team.hackathonSlug) : "";
+      const statusText = team.isOpen ? listText.statusOpen : listText.statusClosed;
+      const keywordMatches = !keyword || 
+        team.name.toLowerCase().includes(keyword) || 
+        team.intro.toLowerCase().includes(keyword) || 
+        (team.ownerNicknameSnapshot && team.ownerNicknameSnapshot.toLowerCase().includes(keyword)) || 
+        (hackathonTitle && hackathonTitle.toLowerCase().includes(keyword)) ||
+        team.lookingFor.some(r => r.toLowerCase().includes(keyword)) ||
+        (team.teamStyle ?? []).some(s => s.toLowerCase().includes(keyword)) ||
+        statusText.toLowerCase().includes(keyword);
 
-      if (tagMatches) {
+      if (tagMatches && keywordMatches) {
         counts.all += 1;
         if (team.isOpen) {
           counts.open += 1;
@@ -229,21 +252,74 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
     });
 
     return counts;
-  }, [baseTeams, selectedTags]);
+  }, [baseTeams, selectedTags, keywordSearch, hackathonTitleBySlug, listText.statusClosed, listText.statusOpen]);
 
-  const filteredTeams = useMemo(() => {
-    return baseTeams.filter((team) => {
+
+
+    const filteredTeams = useMemo(() => {
+    let result = baseTeams.filter((team) => {
       const statusMatches = matchesCampStatus(team, statusFilter);
       const tagMatches = selectedTags.length === 0 || selectedTags.some((selection) => matchesCampTag(team, selection));
-      return statusMatches && tagMatches;
+      
+      const keyword = keywordSearch.trim().toLowerCase();
+      const hackathonTitle = team.hackathonSlug ? hackathonTitleBySlug.get(team.hackathonSlug) : "";
+      const statusText = team.isOpen ? listText.statusOpen : listText.statusClosed;
+      const keywordMatches = !keyword || 
+        team.name.toLowerCase().includes(keyword) || 
+        team.intro.toLowerCase().includes(keyword) || 
+        (team.ownerNicknameSnapshot && team.ownerNicknameSnapshot.toLowerCase().includes(keyword)) || 
+        (hackathonTitle && hackathonTitle.toLowerCase().includes(keyword)) ||
+        team.lookingFor.some(r => r.toLowerCase().includes(keyword)) ||
+        (team.teamStyle ?? []).some(s => s.toLowerCase().includes(keyword)) ||
+        statusText.toLowerCase().includes(keyword);
+      
+      return statusMatches && tagMatches && keywordMatches;
     });
-  }, [baseTeams, selectedTags, statusFilter]);
 
-  const hackathonTitleBySlug = useMemo(() => {
-    return new Map(hackathons.map((h) => [h.slug, h.title]));
-  }, [hackathons]);
+    if (viewMode === "table") {
+      result = [...result].sort((a, b) => {
+        let cmp = 0;
+        if (sortField === "teamName") {
+          cmp = a.name.localeCompare(b.name, languageTag);
+        } else if (sortField === "owner") {
+          const ownerA = a.ownerNicknameSnapshot || "";
+          const ownerB = b.ownerNicknameSnapshot || "";
+          cmp = ownerA.localeCompare(ownerB, languageTag);
+        } else if (sortField === "hackathon") {
+          const hA = a.hackathonSlug ? hackathonTitleBySlug.get(a.hackathonSlug) || "" : "";
+          const hB = b.hackathonSlug ? hackathonTitleBySlug.get(b.hackathonSlug) || "" : "";
+          cmp = hA.localeCompare(hB, languageTag);
+                } else if (sortField === "status") {
+          cmp = (a.isOpen === b.isOpen) ? 0 : a.isOpen ? -1 : 1;
+        } else if (sortField === "lookingFor") {
+          const lA = a.lookingFor.join(", ");
+          const lB = b.lookingFor.join(", ");
+          cmp = lA.localeCompare(lB, languageTag);
+        } else if (sortField === "createdAt") {
+          cmp = new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+        }
+        return sortOrder === "asc" ? cmp : -cmp;
+      });
+    }
 
-  const hasActiveSidebarFilters = statusFilter !== "all" || selectedTagKeys.length > 0 || tagSearchQuery.trim().length > 0;
+    return result;
+  }, [baseTeams, selectedTags, statusFilter, keywordSearch, hackathonTitleBySlug, viewMode, sortField, sortOrder, languageTag, listText.statusClosed, listText.statusOpen]);
+
+  const toggleSort = (field: SortField) => {
+    if (sortField === field) {
+      setSortOrder(sortOrder === "asc" ? "desc" : "asc");
+    } else {
+      setSortField(field);
+      setSortOrder("asc");
+    }
+  };
+
+  const renderSortIcon = (field: SortField) => {
+    if (sortField !== field) return <span className="ml-1 text-slate-300">↕</span>;
+    return <span className="ml-1 text-slate-600">{sortOrder === "asc" ? "↑" : "↓"}</span>;
+  };
+
+  const hasActiveSidebarFilters = statusFilter !== "all" || selectedTagKeys.length > 0 || tagSearchQuery.trim().length > 0 || keywordSearch.trim().length > 0;
 
   const handleWizardSubmit = (newTeam: TeamPost): TeamSubmitResult => {
     const nextTeams = [newTeam, ...teams];
@@ -341,6 +417,20 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
             </div>
           </div>
 
+          
+          <div className="mt-6 flex flex-col min-h-0 flex-1 space-y-3">
+            <h3 className="text-sm font-semibold text-slate-900 shrink-0">{listText.filters.searchKeywordLabel}</h3>
+            <div className="shrink-0">
+              <Input
+                placeholder={listText.filters.searchKeywordPlaceholder}
+                value={keywordSearch}
+                onChange={(e) => setKeywordSearch(e.target.value)}
+                aria-label={listText.filters.searchKeywordLabel}
+                className="h-10 rounded-xl text-sm"
+              />
+            </div>
+          </div>
+
           <div className="mt-6 flex flex-col min-h-0 flex-1 space-y-3">
             <h3 className="text-sm font-semibold text-slate-900 shrink-0">{listText.filters.tagLabel}</h3>
             <div className="shrink-0 space-y-3">
@@ -418,6 +508,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                   setStatusFilter("all");
                   setSelectedTagKeys([]);
                   setTagSearchQuery("");
+                  setKeywordSearch("");
                 }}
               >
                 {listText.filters.clear}
@@ -448,11 +539,27 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
             </Alert>
           )}
 
+          
           <div className="flex items-center justify-between mb-4">
             <p className="text-sm font-medium text-slate-500">
               {listText.resultsFound.replace("{count}", String(filteredTeams.length))}
             </p>
+            <div className="flex bg-slate-100 p-1 rounded-lg">
+              <button
+                onClick={() => setViewMode("card")}
+                className={cn("px-3 py-1.5 text-xs font-medium rounded-md transition-colors", viewMode === "card" ? "bg-white text-slate-900 shadow-sm" : "text-slate-600 hover:text-slate-900")}
+              >
+                {listText.viewModeCard}
+              </button>
+              <button
+                onClick={() => setViewMode("table")}
+                className={cn("px-3 py-1.5 text-xs font-medium rounded-md transition-colors", viewMode === "table" ? "bg-white text-slate-900 shadow-sm" : "text-slate-600 hover:text-slate-900")}
+              >
+                {listText.viewModeTable}
+              </button>
+            </div>
           </div>
+
 
           {isWizardOpen && (
             <CampWizardModal
@@ -473,13 +580,68 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
             />
           )}
 
+          
           {filteredTeams.length === 0 ? (
             <EmptyState
               title={hasActiveSidebarFilters ? listText.emptyFilteredTitle : dict.appPages.campEmpty}
               description={hasActiveSidebarFilters ? listText.emptyFilteredDescription : dict.appPages.campEmptyDesc}
             />
+          ) : viewMode === "table" ? (
+            <DataTable>
+              <TableHeader>
+                <TableRow>
+                  <TableHead className="cursor-pointer hover:bg-slate-50" onClick={() => toggleSort("teamName")}>
+                    {listText.tableColumns.teamName} {renderSortIcon("teamName")}
+                  </TableHead>
+                  <TableHead className="cursor-pointer hover:bg-slate-50" onClick={() => toggleSort("owner")}>
+                    {listText.tableColumns.owner} {renderSortIcon("owner")}
+                  </TableHead>
+                  <TableHead className="cursor-pointer hover:bg-slate-50" onClick={() => toggleSort("hackathon")}>
+                    {listText.tableColumns.hackathon} {renderSortIcon("hackathon")}
+                  </TableHead>
+                  <TableHead className="cursor-pointer hover:bg-slate-50" onClick={() => toggleSort("status")}>
+                    {listText.tableColumns.status} {renderSortIcon("status")}
+                  </TableHead>
+                  <TableHead className="cursor-pointer hover:bg-slate-50" onClick={() => toggleSort("lookingFor")}>
+                    {listText.tableColumns.lookingFor} {renderSortIcon("lookingFor")}
+                  </TableHead>
+                  <TableHead className="cursor-pointer hover:bg-slate-50" onClick={() => toggleSort("createdAt")}>
+                    {listText.tableColumns.createdAt} {renderSortIcon("createdAt")}
+                  </TableHead>
+                </TableRow>
+              </TableHeader>
+              <TableBody>
+                {filteredTeams.map((team) => {
+                  const hackathonTitle = team.hackathonSlug
+                    ? hackathonTitleBySlug.get(team.hackathonSlug) ?? listText.hackathonLabel
+                    : "-";
+                  return (
+                    <TableRow key={team.teamCode}>
+                      <TableCell className="font-semibold text-slate-900">{team.name}</TableCell>
+                      <TableCell>{team.ownerNicknameSnapshot ?? "-"}</TableCell>
+                      <TableCell>{hackathonTitle}</TableCell>
+                      <TableCell>
+                        <span className={cn("px-2 py-1 rounded-full text-xs font-semibold", team.isOpen ? "bg-blue-50 text-blue-700" : "bg-slate-50 text-slate-500")}>
+                          {team.isOpen ? listText.statusOpen : listText.statusClosed}
+                        </span>
+                      </TableCell>
+                      <TableCell>
+                        <div className="flex flex-wrap gap-1">
+                          {team.lookingFor.slice(0, 2).map((role) => (
+                            <span key={role} className="bg-slate-100 text-slate-700 px-1.5 py-0.5 text-[10px] rounded">{role}</span>
+                          ))}
+                          {team.lookingFor.length > 2 && <span className="bg-slate-50 text-slate-500 px-1.5 py-0.5 text-[10px] rounded">+{team.lookingFor.length - 2}</span>}
+                        </div>
+                      </TableCell>
+                      <TableCell>{dateFormatter.format(new Date(team.createdAt))}</TableCell>
+                    </TableRow>
+                  );
+                })}
+              </TableBody>
+            </DataTable>
           ) : (
             <div className="grid grid-cols-1 gap-5 md:grid-cols-2 xl:grid-cols-3">
+
               {filteredTeams.map((team) => {
                 const hackathonTitle = team.hackathonSlug
                   ? hackathonTitleBySlug.get(team.hackathonSlug) ?? listText.hackathonLabel

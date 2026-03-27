@@ -35,7 +35,8 @@
 ## 쓰기 동작 규칙
 
 - 팀 모집글 작성 -> `teams` 갱신 -> 새 모집글이 목록에 즉시 반영되고 새로고침 후에도 유지된다.
-- 팀 모집글은 `lookingFor` 와 `teamStyle` 태그를 함께 저장해 캠프 목록의 카테고리 필터에 바로 반영한다.
+- 팀 모집글은 `lookingFor` 와 `teamStyle` 태그를 함께 저장해 캠프 목록의 카테고리 필터 및 키워드 검색에 바로 반영한다.
+- 목록 데이터 표시 방식은 카드와 테이블 뷰를 모두 지원하며 클라이언트 상태로 토글 및 정렬 순서를 관리한다.
 - 제출 초안 저장 -> `submissions` 에 `draft` 상태 저장 -> 같은 프로필의 최근 제출 상태가 화면에 표시된다.
 - 최종 제출 -> `submissions` 를 `submitted` 로 갱신하고 `leaderboards` 도 함께 갱신 -> 해커톤 리더보드에 반영된다.
 - 쓰기 데이터에는 `profileId`, `ownerNicknameSnapshot`, `profileNicknameSnapshot` 같은 공개용 스냅샷을 함께 저장해 당시 표시명을 유지한다.
