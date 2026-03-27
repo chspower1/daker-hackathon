@@ -2,13 +2,12 @@ import publicHackathonDetail from "@/docs/requirements/예시자료/public_hacka
 import publicHackathons from "@/docs/requirements/예시자료/public_hackathons.json";
 import type { HackathonDetail, HackathonSummary } from "@/types";
 
-const additionalHackathons: HackathonSummary[] = [
+const additionalHackathons: Omit<HackathonSummary, "thumbnailUrl">[] = [
   {
     slug: "climate-ai-sprint-2026-04",
     title: "기후테크 AI 스프린트 2026",
     status: "upcoming",
     tags: ["Climate", "AI", "Data"],
-    thumbnailUrl: "https://example.com/public/img/climate-ai-sprint-202604.png",
     period: {
       timezone: "Asia/Seoul",
       startAt: "2026-04-10T10:00:00+09:00",
@@ -26,7 +25,6 @@ const additionalHackathons: HackathonSummary[] = [
     title: "캠퍼스 빌더 위켄드 : 학생 서비스 MVP 해커톤",
     status: "ongoing",
     tags: ["Campus", "Web", "MVP"],
-    thumbnailUrl: "https://example.com/public/img/campus-builder-weekend-202604.png",
     period: {
       timezone: "Asia/Seoul",
       startAt: "2026-04-04T09:00:00+09:00",
@@ -44,7 +42,6 @@ const additionalHackathons: HackathonSummary[] = [
     title: "공공데이터 시각화 챌린지 2026",
     status: "ended",
     tags: ["DataViz", "PublicData", "Dashboard"],
-    thumbnailUrl: "https://example.com/public/img/gov-data-viz-202601.png",
     period: {
       timezone: "Asia/Seoul",
       startAt: "2026-01-08T10:00:00+09:00",
@@ -62,7 +59,6 @@ const additionalHackathons: HackathonSummary[] = [
     title: "멀티모달 안전성 점검 잼 2026",
     status: "upcoming",
     tags: ["Multimodal", "Safety", "Evaluation"],
-    thumbnailUrl: "https://example.com/public/img/multimodal-safety-jam-202605.png",
     period: {
       timezone: "Asia/Seoul",
       startAt: "2026-05-14T10:00:00+09:00",
@@ -80,7 +76,6 @@ const additionalHackathons: HackathonSummary[] = [
     title: "엣지 에이전틱스 해크 나이트",
     status: "ongoing",
     tags: ["Agents", "Edge", "IoT"],
-    thumbnailUrl: "https://example.com/public/img/edge-agentics-hack-night-202603.png",
     period: {
       timezone: "Asia/Seoul",
       startAt: "2026-03-20T18:00:00+09:00",
@@ -98,7 +93,6 @@ const additionalHackathons: HackathonSummary[] = [
     title: "소셜 임팩트 AI 위크 해커톤",
     status: "upcoming",
     tags: ["SocialImpact", "LLM", "Accessibility"],
-    thumbnailUrl: "https://example.com/public/img/social-impact-ai-week-202606.png",
     period: {
       timezone: "Asia/Seoul",
       startAt: "2026-06-05T10:00:00+09:00",
@@ -116,7 +110,6 @@ const additionalHackathons: HackathonSummary[] = [
     title: "크리에이터 툴즈 해크페스트 2025",
     status: "ended",
     tags: ["Creator", "Video", "Automation"],
-    thumbnailUrl: "https://example.com/public/img/creator-tools-hackfest-202512.png",
     period: {
       timezone: "Asia/Seoul",
       startAt: "2025-12-05T10:00:00+09:00",
@@ -134,7 +127,6 @@ const additionalHackathons: HackathonSummary[] = [
     title: "핀테크 리스크 랩 2026",
     status: "upcoming",
     tags: ["Fintech", "Risk", "Analytics"],
-    thumbnailUrl: "https://example.com/public/img/fintech-risk-lab-202607.png",
     period: {
       timezone: "Asia/Seoul",
       startAt: "2026-07-09T10:00:00+09:00",
@@ -152,7 +144,6 @@ const additionalHackathons: HackathonSummary[] = [
     title: "바이오헬스 시그널 해커톤 2026",
     status: "upcoming",
     tags: ["BioHealth", "AI", "Signal"],
-    thumbnailUrl: "https://example.com/public/img/biohealth-signal-hack-202608.png",
     period: {
       timezone: "Asia/Seoul",
       startAt: "2026-08-06T10:00:00+09:00",
@@ -170,7 +161,6 @@ const additionalHackathons: HackathonSummary[] = [
     title: "로컬 커머스 AI 오픈 2026",
     status: "ongoing",
     tags: ["Commerce", "Retail", "Recommendation"],
-    thumbnailUrl: "https://example.com/public/img/local-commerce-ai-open-202605.png",
     period: {
       timezone: "Asia/Seoul",
       startAt: "2026-05-07T10:00:00+09:00",
@@ -188,7 +178,6 @@ const additionalHackathons: HackathonSummary[] = [
     title: "스마트 모빌리티 운영 최적화 잼 2026",
     status: "ended",
     tags: ["Mobility", "Optimization", "Routing"],
-    thumbnailUrl: "https://example.com/public/img/smart-mobility-ops-jam-202602.png",
     period: {
       timezone: "Asia/Seoul",
       startAt: "2026-02-11T10:00:00+09:00",
@@ -206,7 +195,6 @@ const additionalHackathons: HackathonSummary[] = [
     title: "에듀 퍼스널라이제이션 스프린트 2026",
     status: "upcoming",
     tags: ["EdTech", "Personalization", "Learning"],
-    thumbnailUrl: "https://example.com/public/img/edu-personalization-sprint-202607.png",
     period: {
       timezone: "Asia/Seoul",
       startAt: "2026-07-23T10:00:00+09:00",
@@ -224,7 +212,6 @@ const additionalHackathons: HackathonSummary[] = [
     title: "로지스틱스 로보틱스 미니 해커톤 2026",
     status: "ended",
     tags: ["Logistics", "Robotics", "Automation"],
-    thumbnailUrl: "https://example.com/public/img/logistics-robotics-mini-hack-202603.png",
     period: {
       timezone: "Asia/Seoul",
       startAt: "2026-03-05T10:00:00+09:00",
@@ -242,7 +229,6 @@ const additionalHackathons: HackathonSummary[] = [
     title: "개발도구 옵저버빌리티 러시 2026",
     status: "ongoing",
     tags: ["DevTools", "Observability", "Platform"],
-    thumbnailUrl: "https://example.com/public/img/devtooling-observability-rush-202605.png",
     period: {
       timezone: "Asia/Seoul",
       startAt: "2026-05-21T10:00:00+09:00",
@@ -260,7 +246,6 @@ const additionalHackathons: HackathonSummary[] = [
     title: "미디어 아카이브 리믹스 챌린지 2026",
     status: "ended",
     tags: ["Media", "Search", "Archive"],
-    thumbnailUrl: "https://example.com/public/img/media-archive-remix-202601.png",
     period: {
       timezone: "Asia/Seoul",
       startAt: "2026-01-15T10:00:00+09:00",
@@ -278,7 +263,6 @@ const additionalHackathons: HackathonSummary[] = [
     title: "리저널 데이터 협업 해커톤 2026",
     status: "upcoming",
     tags: ["Regional", "Data", "GovTech"],
-    thumbnailUrl: "https://example.com/public/img/ruraltech-data-coop-202606.png",
     period: {
       timezone: "Asia/Seoul",
       startAt: "2026-06-18T10:00:00+09:00",
@@ -296,7 +280,6 @@ const additionalHackathons: HackathonSummary[] = [
     title: "프라이버시 퍼스트 어시스턴트 빌드오프 2026",
     status: "ongoing",
     tags: ["Privacy", "Assistant", "Security"],
-    thumbnailUrl: "https://example.com/public/img/privacy-first-assistant-buildoff-202604.png",
     period: {
       timezone: "Asia/Seoul",
       startAt: "2026-04-24T10:00:00+09:00",
@@ -1955,6 +1938,10 @@ const additionalHackathonDetails: HackathonDetail[] = [
   },
 ];
 
+function getLocalThumbnailUrl(slug: string): string {
+  return `/hackathons/thumbnails/${slug}.svg`;
+}
+
 function normalizeHackathonStatus(status: string): HackathonSummary["status"] {
   if (status === "upcoming" || status === "ongoing" || status === "ended") {
     return status;
@@ -1973,7 +1960,7 @@ function normalizeHackathonSummary(hackathon: (typeof publicHackathons)[number])
     title: hackathon.title,
     status: normalizeHackathonStatus(hackathon.status),
     tags: [...hackathon.tags],
-    thumbnailUrl: hackathon.thumbnailUrl,
+    thumbnailUrl: getLocalThumbnailUrl(hackathon.slug),
     period: {
       timezone: hackathon.period.timezone,
       submissionDeadlineAt: hackathon.period.submissionDeadlineAt,
@@ -2009,7 +1996,10 @@ const allHackathonDetails: HackathonDetail[] = [
 export function listSeedHackathons(): HackathonSummary[] {
   return [
     ...publicHackathons.map((hackathon) => normalizeHackathonSummary(hackathon)),
-    ...structuredClone(additionalHackathons),
+    ...structuredClone(additionalHackathons).map((hackathon) => ({
+      ...hackathon,
+      thumbnailUrl: getLocalThumbnailUrl(hackathon.slug),
+    })),
   ];
 }
 

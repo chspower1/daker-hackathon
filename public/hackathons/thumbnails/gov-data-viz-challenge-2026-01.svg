@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 800 600" width="800" height="600">
+  <defs>
+    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" stop-color="#4f46e5" />
+      <stop offset="100%" stop-color="#818cf8" />
+    </linearGradient>
+    <linearGradient id="grad2" x1="0%" y1="100%" x2="100%" y2="0%">
+      <stop offset="0%" stop-color="#ffffff" stop-opacity="0.2" />
+      <stop offset="100%" stop-color="#818cf8" stop-opacity="0.8" />
+    </linearGradient>
+  </defs>
+  
+  <rect width="800" height="600" fill="url(#grad1)" />
+  
+  <!-- Decorative Background Shapes -->
+  <polygon points="400,100 650,500 150,500" fill="url(#grad2)" opacity="0.8" />
+            <polygon points="600,200 750,450 450,450" fill="url(#grad2)" opacity="0.6" transform="rotate(30 600 350)" />
+  
+  <!-- Subtle Grid/Pattern -->
+  <g stroke="#ffffff" stroke-width="1" stroke-opacity="0.1">
+    <path d="M 0 150 L 800 150 M 0 300 L 800 300 M 0 450 L 800 450" />
+    <path d="M 200 0 L 200 600 M 400 0 L 400 600 M 600 0 L 600 600" />
+  </g>
+
+  <!-- Typography -->
+  <text x="400" y="300" font-family="system-ui, -apple-system, sans-serif" font-size="48" font-weight="800" fill="#ffffff" text-anchor="middle" dominant-baseline="middle">
+    Gov Data Viz
+  </text>
+  <text x="400" y="360" font-family="system-ui, -apple-system, sans-serif" font-size="24" font-weight="500" fill="#ffffff" opacity="0.8" text-anchor="middle" dominant-baseline="middle">
+    Hackathon Event
+  </text>
+</svg>
