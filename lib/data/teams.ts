@@ -1,6 +1,13 @@
 import publicTeams from "@/docs/requirements/예시자료/public_teams.json";
 import type { TeamPost } from "@/types";
 
+const seedTeamStyleByCode: Record<string, string[]> = {
+  "T-ALPHA": ["Experiment-driven", "Technical validation"],
+  "T-BETA": ["Product-minded", "UX collaboration"],
+  "T-HANDOVER-01": ["Fast execution", "Builder-first"],
+  "T-HANDOVER-02": ["Structured", "Documentation-friendly"],
+};
+
 function normalizeTeamPost(teamPost: (typeof publicTeams)[number]): TeamPost {
   return {
     teamCode: teamPost.teamCode,
@@ -9,6 +16,7 @@ function normalizeTeamPost(teamPost: (typeof publicTeams)[number]): TeamPost {
     isOpen: teamPost.isOpen,
     memberCount: teamPost.memberCount,
     lookingFor: [...teamPost.lookingFor],
+    teamStyle: [...(seedTeamStyleByCode[teamPost.teamCode] ?? [])],
     intro: teamPost.intro,
     contact: {
       type: "link",

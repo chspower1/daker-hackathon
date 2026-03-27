@@ -12,6 +12,7 @@ export interface TeamPost {
   isOpen: boolean;
   memberCount?: number;
   lookingFor: string[];
+  teamStyle?: string[];
   intro: string;
   contact: TeamContact;
   createdAt: string;

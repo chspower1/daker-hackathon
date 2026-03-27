@@ -88,6 +88,7 @@ export function CampWizardModal({
   const [teamHackathonSlug, setTeamHackathonSlug] = useState(normalizedInitialHackathonSlug);
   const [intro, setIntro] = useState("");
   const [lookingFor, setLookingFor] = useState("");
+  const [teamStyle, setTeamStyle] = useState("");
   const [contactUrl, setContactUrl] = useState("");
   const [isTeamOpen, setIsTeamOpen] = useState(true);
 
@@ -155,6 +156,7 @@ export function CampWizardModal({
       name: nextName,
       isOpen: isTeamOpen,
       lookingFor: parseRoles(lookingFor),
+      teamStyle: parseRoles(teamStyle),
       intro: nextIntro,
       contact: {
         type: "link",
@@ -339,6 +341,26 @@ export function CampWizardModal({
                   </div>
                 </div>
 
+                <div className="space-y-2">
+                  <label htmlFor="wizard-team-style" className="text-sm font-semibold text-slate-700 ml-1">
+                    {dict.campForm.teamStyle}
+                  </label>
+                  <div className="relative">
+                    <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                      <UsersIcon />
+                    </div>
+                    <Input
+                      id="wizard-team-style"
+                      value={teamStyle}
+                      onChange={(e) => setTeamStyle(e.target.value)}
+                      placeholder={dict.campForm.teamStylePlaceholder}
+                      className="pl-11 h-12 text-sm bg-slate-50 border-slate-200 rounded-2xl focus:bg-white focus:ring-4 focus:ring-blue-600/10 focus:border-blue-600 shadow-sm transition-all"
+                    />
+                  </div>
+                </div>
+              </div>
+
+              <div className="grid grid-cols-1 gap-5">
                 <div className="space-y-2">
                   <label htmlFor="wizard-contact" className="text-sm font-semibold text-slate-700 ml-1">
                     {dict.campForm.contactUrl}

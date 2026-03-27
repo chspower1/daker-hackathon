@@ -6,6 +6,7 @@ import {
   isBoolean,
   isOptionalNumber,
   isOptionalString,
+  isOptionalStringArray,
   isRecord,
   isString,
   isStringArray,
@@ -26,6 +27,7 @@ function isTeamPost(value: unknown): value is TeamPost {
     isOpen,
     memberCount,
     lookingFor,
+    teamStyle,
     intro,
     contact,
     createdAt,
@@ -40,6 +42,7 @@ function isTeamPost(value: unknown): value is TeamPost {
     && isBoolean(isOpen)
     && isOptionalNumber(memberCount)
     && isStringArray(lookingFor)
+    && isOptionalStringArray(teamStyle)
     && isString(intro)
     && isRecord(contact)
     && contact.type === "link"

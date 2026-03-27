@@ -30,10 +30,12 @@
 - 브라우저 영속 키는 `localProfile`, `hackathons`, `teams`, `submissions`, `leaderboards`, `rankings` 를 사용한다.
 - 저장 값이 없거나 JSON 파싱에 실패하면 가능한 경우 시드 데이터로 복구한다.
 - `hackathons`, `teams`, `submissions`, `leaderboards`, `rankings` 는 앱 진입 시 bootstrap 대상으로 관리한다.
+- `teams` 엔티티는 모집 상태(`isOpen`), 모집 분야(`lookingFor`), 팀 성향(`teamStyle`) 같은 캠프 필터용 공개 필드를 함께 보관한다.
 
 ## 쓰기 동작 규칙
 
 - 팀 모집글 작성 -> `teams` 갱신 -> 새 모집글이 목록에 즉시 반영되고 새로고침 후에도 유지된다.
+- 팀 모집글은 `lookingFor` 와 `teamStyle` 태그를 함께 저장해 캠프 목록의 카테고리 필터에 바로 반영한다.
 - 제출 초안 저장 -> `submissions` 에 `draft` 상태 저장 -> 같은 프로필의 최근 제출 상태가 화면에 표시된다.
 - 최종 제출 -> `submissions` 를 `submitted` 로 갱신하고 `leaderboards` 도 함께 갱신 -> 해커톤 리더보드에 반영된다.
 - 쓰기 데이터에는 `profileId`, `ownerNicknameSnapshot`, `profileNicknameSnapshot` 같은 공개용 스냅샷을 함께 저장해 당시 표시명을 유지한다.

@@ -34,6 +34,10 @@ export function isOptionalNumber(value: unknown): value is number | undefined {
   return value === undefined || isNumber(value);
 }
 
+export function isOptionalStringArray(value: unknown): value is string[] | undefined {
+  return value === undefined || isStringArray(value);
+}
+
 export function isOptionalRecordOfStrings(value: unknown): value is Record<string, string> | undefined {
   return value === undefined || (isRecord(value) && Object.values(value).every((item) => isString(item)));
 }
