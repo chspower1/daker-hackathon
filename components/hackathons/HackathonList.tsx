@@ -139,8 +139,15 @@ export function HackathonList() {
 
   
   const renderSortIcon = (field: SortField) => {
-    if (sortField !== field) return <span className="ml-1 text-slate-300">↕</span>;
-    return <span className="ml-1 text-slate-600">{sortOrder === "asc" ? "↑" : "↓"}</span>;
+    const isActive = sortField === field;
+    return (
+      <span className={cn(
+        "ml-1.5 inline-flex items-center text-[10px] transition-colors",
+        isActive ? "text-blue-600 font-bold" : "text-slate-300 group-hover:text-slate-400"
+      )}>
+        {isActive ? (sortOrder === "asc" ? "▲" : "▼") : "↕"}
+      </span>
+    );
   };
 
   const listText = dict.hackathonList;
@@ -292,12 +299,14 @@ export function HackathonList() {
           </p>
           <div className="flex bg-slate-100 p-1 rounded-lg">
             <button
+              type="button"
               onClick={() => setViewMode("card")}
               className={cn("px-3 py-1.5 text-xs font-medium rounded-md transition-colors", viewMode === "card" ? "bg-white text-slate-900 shadow-sm" : "text-slate-600 hover:text-slate-900")}
             >
               {listText.viewModeCard}
             </button>
             <button
+              type="button"
               onClick={() => setViewMode("table")}
               className={cn("px-3 py-1.5 text-xs font-medium rounded-md transition-colors", viewMode === "table" ? "bg-white text-slate-900 shadow-sm" : "text-slate-600 hover:text-slate-900")}
             >
@@ -312,18 +321,38 @@ export function HackathonList() {
         ) : viewMode === "table" ? (
             <DataTable>
               <TableHeader>
-                <TableRow>
-                  <TableHead className="cursor-pointer hover:bg-slate-50" onClick={() => toggleSort("title")}>
-                    {listText.tableColumns.title} {renderSortIcon("title")}
+                <TableRow className="hover:bg-transparent">
+                  <TableHead
+                    className={cn("cursor-pointer group hover:bg-slate-100/60 transition-colors select-none", sortField === "title" && "text-slate-900 bg-slate-50")}
+                    onClick={() => toggleSort("title")}
+                  >
+                    <div className="flex items-center">
+                      {listText.tableColumns.title} {renderSortIcon("title")}
+                    </div>
                   </TableHead>
-                  <TableHead className="cursor-pointer hover:bg-slate-50" onClick={() => toggleSort("status")}>
-                    {listText.tableColumns.status} {renderSortIcon("status")}
+                  <TableHead
+                    className={cn("cursor-pointer group hover:bg-slate-100/60 transition-colors select-none", sortField === "status" && "text-slate-900 bg-slate-50")}
+                    onClick={() => toggleSort("status")}
+                  >
+                    <div className="flex items-center">
+                      {listText.tableColumns.status} {renderSortIcon("status")}
+                    </div>
                   </TableHead>
-                  <TableHead className="cursor-pointer hover:bg-slate-50" onClick={() => toggleSort("startDate")}>
-                    {listText.tableColumns.startDate} {renderSortIcon("startDate")}
+                  <TableHead
+                    className={cn("cursor-pointer group hover:bg-slate-100/60 transition-colors select-none", sortField === "startDate" && "text-slate-900 bg-slate-50")}
+                    onClick={() => toggleSort("startDate")}
+                  >
+                    <div className="flex items-center">
+                      {listText.tableColumns.startDate} {renderSortIcon("startDate")}
+                    </div>
                   </TableHead>
-                  <TableHead className="cursor-pointer hover:bg-slate-50" onClick={() => toggleSort("endDate")}>
-                    {listText.tableColumns.endDate} {renderSortIcon("endDate")}
+                  <TableHead
+                    className={cn("cursor-pointer group hover:bg-slate-100/60 transition-colors select-none", sortField === "endDate" && "text-slate-900 bg-slate-50")}
+                    onClick={() => toggleSort("endDate")}
+                  >
+                    <div className="flex items-center">
+                      {listText.tableColumns.endDate} {renderSortIcon("endDate")}
+                    </div>
                   </TableHead>
                 </TableRow>
               </TableHeader>

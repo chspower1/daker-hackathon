@@ -5,7 +5,7 @@ export type DataTableProps = React.HTMLAttributes<HTMLTableElement>;
 
 export function DataTable({ className, ...props }: DataTableProps) {
   return (
-    <div className="w-full overflow-auto border border-border-base bg-white shadow-md">
+    <div className="w-full overflow-hidden rounded-xl border border-slate-200/60 bg-white shadow-sm">
       <table
         className={cn("w-full caption-bottom text-sm", className)}
         {...props}
@@ -18,7 +18,14 @@ export const TableHeader = React.forwardRef<
   HTMLTableSectionElement,
   React.HTMLAttributes<HTMLTableSectionElement>
 >(({ className, ...props }, ref) => (
-  <thead ref={ref} className={cn("[&_tr]:border-b border-border-base bg-surface-muted", className)} {...props} />
+  <thead
+    ref={ref}
+    className={cn(
+      "[&_tr]:border-b border-slate-200/60 bg-slate-50/50",
+      className,
+    )}
+    {...props}
+  />
 ));
 TableHeader.displayName = "TableHeader";
 
@@ -41,8 +48,8 @@ export const TableRow = React.forwardRef<
   <tr
     ref={ref}
     className={cn(
-      "border-b border-border-base transition-colors hover:bg-yellow-100 data-[state=selected]:bg-blue-100",
-      className
+      "border-b border-slate-200/60 transition-colors hover:bg-slate-50/80 data-[state=selected]:bg-slate-100",
+      className,
     )}
     {...props}
   />
@@ -56,8 +63,8 @@ export const TableHead = React.forwardRef<
   <th
     ref={ref}
     className={cn(
-      "h-10 px-4 text-left align-middle font-bold text-content-base r text-xs [&:has([role=checkbox])]:pr-0",
-      className
+      "h-12 px-5 text-left align-middle font-semibold text-slate-600 text-xs tracking-wide [&:has([role=checkbox])]:pr-0",
+      className,
     )}
     {...props}
   />
@@ -70,7 +77,10 @@ export const TableCell = React.forwardRef<
 >(({ className, ...props }, ref) => (
   <td
     ref={ref}
-    className={cn("p-4 align-middle font-medium text-sm [&:has([role=checkbox])]:pr-0", className)}
+    className={cn(
+      "p-5 align-middle text-sm text-slate-700 [&:has([role=checkbox])]:pr-0",
+      className,
+    )}
     {...props}
   />
 ));

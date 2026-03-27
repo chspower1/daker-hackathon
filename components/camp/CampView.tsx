@@ -315,8 +315,15 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
   };
 
   const renderSortIcon = (field: SortField) => {
-    if (sortField !== field) return <span className="ml-1 text-slate-300">↕</span>;
-    return <span className="ml-1 text-slate-600">{sortOrder === "asc" ? "↑" : "↓"}</span>;
+    const isActive = sortField === field;
+    return (
+      <span className={cn(
+        "ml-1.5 inline-flex items-center text-[10px] transition-colors",
+        isActive ? "text-blue-600 font-bold" : "text-slate-300 group-hover:text-slate-400"
+      )}>
+        {isActive ? (sortOrder === "asc" ? "▲" : "▼") : "↕"}
+      </span>
+    );
   };
 
   const hasActiveSidebarFilters = statusFilter !== "all" || selectedTagKeys.length > 0 || tagSearchQuery.trim().length > 0 || keywordSearch.trim().length > 0;
@@ -546,12 +553,14 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
             </p>
             <div className="flex bg-slate-100 p-1 rounded-lg">
               <button
+                type="button"
                 onClick={() => setViewMode("card")}
                 className={cn("px-3 py-1.5 text-xs font-medium rounded-md transition-colors", viewMode === "card" ? "bg-white text-slate-900 shadow-sm" : "text-slate-600 hover:text-slate-900")}
               >
                 {listText.viewModeCard}
               </button>
               <button
+                type="button"
                 onClick={() => setViewMode("table")}
                 className={cn("px-3 py-1.5 text-xs font-medium rounded-md transition-colors", viewMode === "table" ? "bg-white text-slate-900 shadow-sm" : "text-slate-600 hover:text-slate-900")}
               >
@@ -589,24 +598,54 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
           ) : viewMode === "table" ? (
             <DataTable>
               <TableHeader>
-                <TableRow>
-                  <TableHead className="cursor-pointer hover:bg-slate-50" onClick={() => toggleSort("teamName")}>
-                    {listText.tableColumns.teamName} {renderSortIcon("teamName")}
+                <TableRow className="hover:bg-transparent">
+                  <TableHead
+                    className={cn("cursor-pointer group hover:bg-slate-100/60 transition-colors select-none", sortField === "teamName" && "text-slate-900 bg-slate-50")}
+                    onClick={() => toggleSort("teamName")}
+                  >
+                    <div className="flex items-center">
+                      {listText.tableColumns.teamName} {renderSortIcon("teamName")}
+                    </div>
                   </TableHead>
-                  <TableHead className="cursor-pointer hover:bg-slate-50" onClick={() => toggleSort("owner")}>
-                    {listText.tableColumns.owner} {renderSortIcon("owner")}
+                  <TableHead
+                    className={cn("cursor-pointer group hover:bg-slate-100/60 transition-colors select-none", sortField === "owner" && "text-slate-900 bg-slate-50")}
+                    onClick={() => toggleSort("owner")}
+                  >
+                    <div className="flex items-center">
+                      {listText.tableColumns.owner} {renderSortIcon("owner")}
+                    </div>
                   </TableHead>
-                  <TableHead className="cursor-pointer hover:bg-slate-50" onClick={() => toggleSort("hackathon")}>
-                    {listText.tableColumns.hackathon} {renderSortIcon("hackathon")}
+                  <TableHead
+                    className={cn("cursor-pointer group hover:bg-slate-100/60 transition-colors select-none", sortField === "hackathon" && "text-slate-900 bg-slate-50")}
+                    onClick={() => toggleSort("hackathon")}
+                  >
+                    <div className="flex items-center">
+                      {listText.tableColumns.hackathon} {renderSortIcon("hackathon")}
+                    </div>
                   </TableHead>
-                  <TableHead className="cursor-pointer hover:bg-slate-50" onClick={() => toggleSort("status")}>
-                    {listText.tableColumns.status} {renderSortIcon("status")}
+                  <TableHead
+                    className={cn("cursor-pointer group hover:bg-slate-100/60 transition-colors select-none", sortField === "status" && "text-slate-900 bg-slate-50")}
+                    onClick={() => toggleSort("status")}
+                  >
+                    <div className="flex items-center">
+                      {listText.tableColumns.status} {renderSortIcon("status")}
+                    </div>
                   </TableHead>
-                  <TableHead className="cursor-pointer hover:bg-slate-50" onClick={() => toggleSort("lookingFor")}>
-                    {listText.tableColumns.lookingFor} {renderSortIcon("lookingFor")}
+                  <TableHead
+                    className={cn("cursor-pointer group hover:bg-slate-100/60 transition-colors select-none", sortField === "lookingFor" && "text-slate-900 bg-slate-50")}
+                    onClick={() => toggleSort("lookingFor")}
+                  >
+                    <div className="flex items-center">
+                      {listText.tableColumns.lookingFor} {renderSortIcon("lookingFor")}
+                    </div>
                   </TableHead>
-                  <TableHead className="cursor-pointer hover:bg-slate-50" onClick={() => toggleSort("createdAt")}>
-                    {listText.tableColumns.createdAt} {renderSortIcon("createdAt")}
+                  <TableHead
+                    className={cn("cursor-pointer group hover:bg-slate-100/60 transition-colors select-none", sortField === "createdAt" && "text-slate-900 bg-slate-50")}
+                    onClick={() => toggleSort("createdAt")}
+                  >
+                    <div className="flex items-center">
+                      {listText.tableColumns.createdAt} {renderSortIcon("createdAt")}
+                    </div>
                   </TableHead>
                 </TableRow>
               </TableHeader>
