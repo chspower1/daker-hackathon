@@ -99,20 +99,20 @@
   --animate-lively-host: lively-host 3.1s ease-in-out infinite;
 
   @keyframes lively-explore {
-    0%, 100% { transform: translateY(0) scale(1) rotate(0deg); }
-    50% { transform: translateY(-4px) scale(1.06) rotate(6deg); }
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.05) rotate(4deg); }
   }
   @keyframes lively-team {
-    0%, 100% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-6px) scale(1.04); }
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.04); }
   }
   @keyframes lively-rank {
-    0%, 100% { transform: translateY(0) scale(1); }
-    50% { transform: translateY(-5px) scale(1.05); }
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.04); }
   }
   @keyframes lively-host {
-    0%, 100% { transform: scale(1) rotate(0deg) translateY(0); }
-    50% { transform: scale(1.06) rotate(-4deg) translateY(-3px); }
+    0%, 100% { transform: scale(1) rotate(0deg); }
+    50% { transform: scale(1.05) rotate(-3deg); }
   }
 
   @keyframes float {

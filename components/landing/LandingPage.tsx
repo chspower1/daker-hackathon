@@ -102,8 +102,8 @@ export function LandingPage() {
             <Card key={feature.id} id={feature.id} className={`scroll-reveal delay-${(idx % 3) * 100} h-full border-slate-100 shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 bg-white/90 backdrop-blur-sm group`}>
               <CardHeader>
                 <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-6 shadow-inner transition-all duration-500 group-hover:bg-blue-600 group-hover:text-white group-hover:scale-110">
-                  {/* Animated float icon wrapper */}
-                  <div className="animate-float">
+                  {/* Icon wrapper */}
+                  <div>
                     {idx === 0 && (
                       <div className="relative w-9 h-9 flex items-center justify-center">
                         <svg viewBox="0 0 24 24" fill="none" className="w-8 h-8 drop-shadow-sm animate-lively-explore" stroke="currentColor">

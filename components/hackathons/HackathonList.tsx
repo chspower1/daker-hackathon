@@ -210,19 +210,6 @@ export function HackathonList() {
 
           
           <div className="mt-6 flex flex-col min-h-0 flex-1 space-y-3">
-            <h3 className="text-sm font-semibold text-slate-900 shrink-0">{listText.filters.searchKeywordLabel}</h3>
-            <div className="shrink-0">
-              <Input
-                placeholder={listText.filters.searchKeywordPlaceholder}
-                value={keywordSearch}
-                onChange={(e) => setKeywordSearch(e.target.value)}
-                aria-label={listText.filters.searchKeywordLabel}
-                className="h-10 rounded-xl text-sm"
-              />
-            </div>
-          </div>
-
-          <div className="mt-6 flex flex-col min-h-0 flex-1 space-y-3">
             <h3 className="text-sm font-semibold text-slate-900 shrink-0">{listText.filters.tagLabel}</h3>
             <div className="shrink-0">
               <Input
@@ -230,7 +217,7 @@ export function HackathonList() {
                 value={tagSearchQuery}
                 onChange={(e) => setTagSearchQuery(e.target.value)}
                 aria-label={listText.filters.searchTagsLabel}
-                className="h-10 rounded-xl text-sm"
+                inputSize="md"
               />
             </div>
             <div className="flex-1 overflow-y-auto pr-2 -mr-2">
@@ -293,25 +280,35 @@ export function HackathonList() {
 
       <main className="flex-1 w-full min-w-0">
         
-        <div className="flex items-center justify-between mb-4">
-          <p className="text-sm font-medium text-slate-500">
+        <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between mb-4">
+          <p className="text-sm font-medium text-slate-500 whitespace-nowrap">
             {listText.resultsFound.replace("{count}", String(filteredHackathons.length))}
           </p>
-          <div className="flex bg-slate-100 p-1 rounded-lg">
-            <button
-              type="button"
-              onClick={() => setViewMode("card")}
-              className={cn("px-3 py-1.5 text-xs font-medium rounded-md transition-colors", viewMode === "card" ? "bg-white text-slate-900 shadow-sm" : "text-slate-600 hover:text-slate-900")}
-            >
-              {listText.viewModeCard}
-            </button>
-            <button
-              type="button"
-              onClick={() => setViewMode("table")}
-              className={cn("px-3 py-1.5 text-xs font-medium rounded-md transition-colors", viewMode === "table" ? "bg-white text-slate-900 shadow-sm" : "text-slate-600 hover:text-slate-900")}
-            >
-              {listText.viewModeTable}
-            </button>
+          <div className="flex items-center gap-3 w-full sm:w-auto">
+            <Input
+              placeholder={listText.filters.searchKeywordPlaceholder}
+              value={keywordSearch}
+              onChange={(e) => setKeywordSearch(e.target.value)}
+              aria-label={listText.filters.searchKeywordLabel}
+              inputSize="md"
+              className="w-full sm:w-64"
+            />
+            <div className="flex bg-slate-100 p-1 rounded-lg shrink-0">
+              <button
+                type="button"
+                onClick={() => setViewMode("card")}
+                className={cn("px-3 py-1.5 text-xs font-medium rounded-md transition-colors", viewMode === "card" ? "bg-white text-slate-900 shadow-sm" : "text-slate-600 hover:text-slate-900")}
+              >
+                {listText.viewModeCard}
+              </button>
+              <button
+                type="button"
+                onClick={() => setViewMode("table")}
+                className={cn("px-3 py-1.5 text-xs font-medium rounded-md transition-colors", viewMode === "table" ? "bg-white text-slate-900 shadow-sm" : "text-slate-600 hover:text-slate-900")}
+              >
+                {listText.viewModeTable}
+              </button>
+            </div>
           </div>
         </div>
 
