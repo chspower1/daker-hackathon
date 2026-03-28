@@ -349,7 +349,7 @@ export const en = {
     featuresTitle: "Everything you need",
     featuresSubtitle:
       "A platform designed for speed, collaboration, and showcasing your best work.",
-    learnMore: "Learn more ->",
+    learnMore: "Learn more",
     rankingsBadge: "Live Rankings",
     rankingsTitle: "Top Teams This Season",
     rankingsDesc: "Who is leading the charge this season? Discover the top teams reshaping the future.",
