@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { Alert } from "@/components/design-system/primitives/Alert";
 import { Badge } from "@/components/design-system/primitives/Badge";
@@ -45,6 +45,14 @@ import type {
 } from "@/types";
 
 const sectionIds = ["overview", "info", "eval", "schedule", "prize", "teams", "submit", "leaderboard"] as const;
+
+// Sticky-header-aware scroll-spy threshold.
+// Sections use `scroll-mt-32` (8rem = 128px) for anchor jumps; we reuse the same offset
+// so the "active" section is the one whose top has crossed just below the sticky header.
+const SCROLL_SPY_HEADER_THRESHOLD_PX = 128;
+const SCROLL_SPY_BOTTOM_GUARD_PX = 4;
+
+type SectionId = (typeof sectionIds)[number];
 
 type Feedback = { message: string; variant: "success" | "danger" } | null;
 
@@ -120,14 +128,16 @@ function getSortedLeaderboardEntries(entries: LeaderboardEntry[]) {
 function SectionBlock({
   children,
   id,
+  sectionRef,
   title,
 }: {
   children: React.ReactNode;
-  id: (typeof sectionIds)[number];
+  id: SectionId;
+  sectionRef?: (node: HTMLElement | null) => void;
   title: string;
 }) {
   return (
-    <section id={id} className="scroll-mt-32 space-y-6">
+    <section id={id} ref={sectionRef} className="scroll-mt-32 space-y-6">
       <div className="flex items-center justify-between gap-4 border-b border-slate-200 pb-4">
         <h2 className="text-xl font-bold tracking-tight text-slate-900">{title}</h2>
       </div>
@@ -147,6 +157,145 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
   const [submissions, setSubmissions] = useState<SubmissionRecord[]>([]);
   const [summary, setSummary] = useState<HackathonSummary | null>(null);
   const [teams, setTeams] = useState<TeamPost[]>([]);
+
+  // Scroll-spy seam (future tasks):
+  // - Active section is computed using a "below sticky header" threshold.
+  // - URL hash updates remain click-only via the existing <a href="#..."> behavior.
+  // - We do NOT update location.hash on scroll (no scroll-driven hash sync).
+  // - Improving initial hash handling on page load is out of scope for this task.
+  const [activeSectionId, setActiveSectionId] = useState<SectionId>(sectionIds[0]);
+
+  const sectionElementsRef = useRef<Record<SectionId, HTMLElement | null> | null>(null);
+  if (sectionElementsRef.current === null) {
+    sectionElementsRef.current = Object.fromEntries(sectionIds.map((id) => [id, null])) as Record<SectionId, HTMLElement | null>;
+  }
+
+  const tocContainerRef = useRef<HTMLElement>(null);
+  const tocItemsRef = useRef<Record<SectionId, HTMLAnchorElement | null> | null>(null);
+  if (tocItemsRef.current === null) {
+    tocItemsRef.current = Object.fromEntries(sectionIds.map((id) => [id, null])) as Record<SectionId, HTMLAnchorElement | null>;
+  }
+
+  const sectionRefCallbacks = useMemo(() => {
+    const callbacks = {} as Record<SectionId, (node: HTMLElement | null) => void>;
+    for (const id of sectionIds) {
+      callbacks[id] = (node) => {
+        if (sectionElementsRef.current === null) {
+          return;
+        }
+        sectionElementsRef.current[id] = node;
+      };
+    }
+    return callbacks;
+  }, []);
+
+  useEffect(() => {
+    if (isLoading || hasError || (summary === null && detail === null)) {
+      return;
+    }
+
+    // Scroll-spy rule (deterministic, exactly one active):
+    // - Let threshold = stickyHeaderBottomY (constant px below viewport top).
+    // - Pick the *last* section whose `getBoundingClientRect().top <= threshold`.
+    // - If none match (top-of-page), fall back to the first section (overview).
+    // - If near bottom of page, force the last section (leaderboard).
+    // This updates `activeSectionId` ONLY (no hash/history mutation).
+
+    let rafId = 0;
+
+    const computeActiveSectionId = () => {
+      const sectionElements = sectionElementsRef.current;
+      if (sectionElements === null) {
+        return;
+      }
+
+      const hasAnySection = sectionIds.some((id) => sectionElements[id] !== null);
+      if (!hasAnySection) {
+        const firstId = sectionIds[0];
+        setActiveSectionId((prev) => (prev === firstId ? prev : firstId));
+        return;
+      }
+
+      const doc = document.documentElement;
+      const isNearBottom = window.innerHeight + window.scrollY >= doc.scrollHeight - SCROLL_SPY_BOTTOM_GUARD_PX;
+      if (isNearBottom) {
+        const lastId = sectionIds[sectionIds.length - 1];
+        setActiveSectionId((prev) => (prev === lastId ? prev : lastId));
+        return;
+      }
+
+      const thresholdPx = SCROLL_SPY_HEADER_THRESHOLD_PX;
+      let nextActive: SectionId | null = null;
+
+      for (const id of sectionIds) {
+        const el = sectionElements[id];
+        if (!el) {
+          continue;
+        }
+        const top = el.getBoundingClientRect().top;
+        if (top <= thresholdPx + 1) {
+          nextActive = id;
+        }
+      }
+
+      const resolvedActive = nextActive ?? sectionIds[0];
+      setActiveSectionId((prev) => (prev === resolvedActive ? prev : resolvedActive));
+    };
+
+    const scheduleCompute = () => {
+      if (rafId !== 0) {
+        return;
+      }
+      rafId = window.requestAnimationFrame(() => {
+        rafId = 0;
+        computeActiveSectionId();
+      });
+    };
+
+    window.addEventListener("scroll", scheduleCompute, { passive: true });
+    window.addEventListener("resize", scheduleCompute);
+    scheduleCompute();
+    window.requestAnimationFrame(scheduleCompute);
+
+    return () => {
+      window.removeEventListener("scroll", scheduleCompute);
+      window.removeEventListener("resize", scheduleCompute);
+      if (rafId !== 0) {
+        window.cancelAnimationFrame(rafId);
+      }
+    };
+  }, [detail, hasError, isLoading, summary]);
+
+  useEffect(() => {
+    const container = tocContainerRef.current;
+    const itemsMap = tocItemsRef.current;
+
+    if (!container || !itemsMap || !activeSectionId) {
+      return;
+    }
+
+    if (window.matchMedia('(min-width: 1024px)').matches) {
+      return;
+    }
+
+    const activeItem = itemsMap[activeSectionId];
+    if (!activeItem) {
+      return;
+    }
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+    const containerRect = container.getBoundingClientRect();
+    const itemRect = activeItem.getBoundingClientRect();
+
+    const absoluteOffsetLeft = container.scrollLeft + (itemRect.left - containerRect.left);
+    const scrollTarget = absoluteOffsetLeft - container.clientWidth / 2 + activeItem.clientWidth / 2;
+
+    container.scrollTo({
+      left: scrollTarget,
+      behavior: prefersReducedMotion ? "auto" : "smooth"
+    });
+  }, [activeSectionId]);
 
   const pageTitle = detail?.title || summary?.title || dict.appPages.hackathonDetailTitle;
   const pageDescription = detail?.sections.overview?.summary || dict.appPages.hackathonDetailDesc;
@@ -368,6 +517,8 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
   const emptyText = dict.hackathonDetail.empty;
   const leaderboardUpdatedAt = leaderboard?.updatedAt ? formatDateTime(leaderboard.updatedAt) : null;
 
+  const tocSections = sectionIds.map((id) => ({ id, label: sectionText[id] || id }));
+
   return (
     <div className="space-y-10 pb-20">
       <PageHeader
@@ -388,23 +539,45 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
 
       <div className="flex flex-col items-start gap-8 lg:flex-row">
         <aside className="sticky top-32 z-20 w-full shrink-0 md:top-24 lg:w-72">
-          <nav className="overflow-x-auto rounded-xl border border-slate-200 bg-white/80 p-1.5 shadow-sm backdrop-blur-md lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto">
+          <nav
+            ref={tocContainerRef}
+            data-active-section-id={activeSectionId}
+            className="overflow-x-auto rounded-xl border border-slate-200 bg-white/80 p-1.5 shadow-sm backdrop-blur-md lg:max-h-[calc(100vh-7rem)] lg:overflow-y-auto"
+          >
             <div className="flex min-w-max gap-1 px-1 lg:min-w-0 lg:flex-col">
-              {sectionIds.map((sectionId) => (
-                <a
-                  key={sectionId}
-                  href={`#${sectionId}`}
-                  className="whitespace-nowrap rounded-lg px-4 py-2 text-sm font-medium text-slate-600 transition-all hover:bg-slate-100 hover:text-slate-900 lg:whitespace-normal"
-                >
-                  {sectionText[sectionId] || sectionId}
-                </a>
-              ))}
+              {tocSections.map((section) => {
+                const isActive = activeSectionId === section.id;
+                return (
+                  <a
+                    key={section.id}
+                    ref={(node) => {
+                      if (tocItemsRef.current) {
+                        tocItemsRef.current[section.id] = node;
+                      }
+                    }}
+                    href={`#${section.id}`}
+                    aria-current={isActive ? "location" : undefined}
+                    onClick={() => {
+                      if (!isActive) {
+                        setActiveSectionId(section.id);
+                      }
+                    }}
+                    className={`whitespace-nowrap rounded-lg px-4 py-2 text-sm transition-all focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-blue-500 focus-visible:ring-offset-1 lg:whitespace-normal ${
+                      isActive
+                        ? "bg-slate-100 font-semibold text-slate-900"
+                        : "font-medium text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                    }`}
+                  >
+                    {section.label}
+                  </a>
+                );
+              })}
             </div>
           </nav>
         </aside>
 
         <div className="min-w-0 flex-1 space-y-10">
-          <SectionBlock id="overview" title={sectionText.overview}>
+          <SectionBlock id="overview" title={sectionText.overview} sectionRef={sectionRefCallbacks.overview}>
             {detail?.sections.overview ? (
               <Card className="rounded-2xl border border-slate-200 shadow-sm">
                 <CardContent className="space-y-5 pt-6">
@@ -434,7 +607,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
             )}
           </SectionBlock>
 
-          <SectionBlock id="info" title={sectionText.info}>
+          <SectionBlock id="info" title={sectionText.info} sectionRef={sectionRefCallbacks.info}>
             {detail?.sections.info ? (
               <Card className="rounded-2xl border border-slate-200 shadow-sm">
                 <CardContent className="space-y-6 pt-6">
@@ -477,7 +650,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
             )}
           </SectionBlock>
 
-          <SectionBlock id="eval" title={sectionText.eval}>
+          <SectionBlock id="eval" title={sectionText.eval} sectionRef={sectionRefCallbacks.eval}>
             {detail?.sections.eval ? (
               <Card className="rounded-2xl border border-slate-200 shadow-sm">
                 <CardContent className="space-y-8 pt-8">
@@ -535,7 +708,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
             )}
           </SectionBlock>
 
-          <SectionBlock id="schedule" title={sectionText.schedule}>
+          <SectionBlock id="schedule" title={sectionText.schedule} sectionRef={sectionRefCallbacks.schedule}>
             {detail?.sections.schedule?.milestones && detail.sections.schedule.milestones.length > 0 ? (
               <Card className="rounded-2xl border border-slate-200 shadow-sm">
                 <CardContent className="space-y-6 pt-6">
@@ -568,7 +741,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
             )}
           </SectionBlock>
 
-          <SectionBlock id="prize" title={sectionText.prize}>
+          <SectionBlock id="prize" title={sectionText.prize} sectionRef={sectionRefCallbacks.prize}>
             {detail?.sections.prize?.items && detail.sections.prize.items.length > 0 ? (
               <div className="grid grid-cols-1 gap-6 md:grid-cols-2 xl:grid-cols-3">
                 {detail.sections.prize.items.map((item, idx) => (
@@ -597,7 +770,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
             )}
           </SectionBlock>
 
-          <SectionBlock id="teams" title={sectionText.teams}>
+          <SectionBlock id="teams" title={sectionText.teams} sectionRef={sectionRefCallbacks.teams}>
             <div className="flex flex-wrap items-center justify-between gap-5 rounded-2xl border border-slate-200 bg-slate-50 p-6 shadow-sm">
               <p className="text-lg font-semibold text-slate-900">
                 {labelText.teamCount.replace("{count}", teams.length.toLocaleString(languageTag))}
@@ -669,7 +842,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
             )}
           </SectionBlock>
 
-          <SectionBlock id="submit" title={sectionText.submit}>
+          <SectionBlock id="submit" title={sectionText.submit} sectionRef={sectionRefCallbacks.submit}>
             {detail?.sections.submit ? (
               profile === null ? (
                 <Card className="rounded-2xl border border-red-100 bg-red-50/50 shadow-sm">
@@ -794,7 +967,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
             )}
           </SectionBlock>
 
-          <SectionBlock id="leaderboard" title={sectionText.leaderboard}>
+          <SectionBlock id="leaderboard" title={sectionText.leaderboard} sectionRef={sectionRefCallbacks.leaderboard}>
             {leaderboardEntries.length > 0 ? (
               <div className="overflow-hidden rounded-2xl border border-slate-200 bg-white shadow-sm">
                 <div className="flex flex-col justify-between gap-4 border-b border-slate-100 bg-slate-50/50 p-6 md:flex-row md:items-center">

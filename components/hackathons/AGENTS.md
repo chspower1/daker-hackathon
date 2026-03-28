@@ -58,5 +58,8 @@ components/hackathons/
 - 수동 확인 항목
   - 목록: 시드 fallback + 필터 상태 + 상태 화면이 모두 동작
   - 상세: Teams/Submit/Leaderboard가 `hackathon.slug` 기준으로 일치
+  - 상세(TOC): 스크롤 시 사이드 목차(TOC)의 현재 섹션 highlight 및 `aria-current="location"` 단일 적용 확인
+  - 상세(TOC-Mobile): 모바일 가로 스크롤 영역에서 active 항목이 중앙 부근으로 자동 위치 보정됨
+  - 상세(URL): 스크롤 시 URL hash가 유지되며, 목차 항목 클릭 시에만 갱신됨
   - 제출: draft/submit 갱신 후 `localStorage.submissions`, `localStorage.leaderboards` 값 일관성
   - 노출: 내부 식별자나 비공개 값이 표시되지 않음
