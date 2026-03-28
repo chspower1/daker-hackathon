@@ -354,86 +354,102 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
   }
 
   return (
-    <div className="flex flex-col lg:flex-row gap-8 items-start w-full">
-      <aside className="w-full lg:w-72 shrink-0 space-y-6 lg:sticky lg:top-24 lg:h-[calc(100vh-7rem)]">
-        <div className="flex flex-col h-full bg-white/50 backdrop-blur-md p-6 rounded-2xl border border-slate-200 shadow-sm">
-          <div className="shrink-0 space-y-6">
-            <div className="space-y-4">
-              <div className="inline-flex w-fit items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700 shadow-sm">
-                <span className="relative flex h-2 w-2 mr-2">
+    <div className="flex flex-col lg:flex-row gap-6 xl:gap-8 items-start w-full">
+      <aside className="w-full lg:w-64 xl:w-72 shrink-0 lg:sticky lg:top-24 lg:h-[calc(100vh-7rem)] flex flex-col">
+        <div className="flex flex-col h-full bg-slate-50/50 backdrop-blur-xl rounded-2xl border border-slate-200/60 shadow-sm overflow-hidden">
+          
+          {/* 1. Header/Context */}
+          <div className="shrink-0 p-5 bg-white border-b border-slate-200/60 relative">
+            {filterHackathonSlug !== undefined && activeHackathon !== undefined ? (
+              <div className="mb-4 p-3 bg-amber-50/80 rounded-xl border border-amber-200/50">
+                <div className="flex items-start justify-between">
+                  <div>
+                    <p className="text-[10px] font-bold text-amber-800 uppercase tracking-wider mb-0.5">{listText.filterTitle}</p>
+                    <p className="text-xs text-amber-900 font-medium line-clamp-1">{activeHackathon.title}</p>
+                  </div>
+                  <Link href="/camp" className="p-1 text-amber-700 hover:text-amber-900 bg-amber-100/50 hover:bg-amber-100 rounded-md transition-colors" title={dict.hackathonList.filters.clear}>
+                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
+                  </Link>
+                </div>
+              </div>
+            ) : (
+              <div className="inline-flex w-fit items-center rounded-md bg-blue-50/50 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-blue-600 mb-3">
+                <span className="relative flex h-1.5 w-1.5 mr-1.5">
                   <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-blue-500"></span>
                 </span>
                 {dict.appNav.camp}
               </div>
-              <div>
-                <h1 className="text-2xl font-bold tracking-tight text-slate-900">{dict.appPages.campTitle}</h1>
-                <p className="text-sm text-slate-600 mt-2 leading-relaxed">{pageDescription}</p>
-              </div>
-            </div>
-
-            <Button
-              ref={triggerRef}
-              variant="primary"
-              className="w-full justify-center shadow-md bg-blue-600 hover:bg-blue-700 font-semibold"
-              onClick={() => {
-                setIsWizardOpen(true);
-                setNotice(null);
-              }}
-            >
-              {dict.campForm.toggleOpen}
-            </Button>
-
-            <div className="h-px bg-slate-200 w-full"></div>
-
-            <div className="space-y-3">
-              <h3 className="text-sm font-semibold text-slate-900">{listText.filters.statusLabel}</h3>
-              <div className="flex flex-col gap-1">
-                {statusOptions.map((option) => {
-                  const isActive = statusFilter === option;
-                  const label = option === "all"
-                    ? listText.filters.allStatuses
-                    : option === "open"
-                      ? listText.statusOpen
-                      : listText.statusClosed;
-
-                  return (
-                    <button
-                      key={option}
-                      type="button"
-                      aria-pressed={isActive}
-                      onClick={() => setStatusFilter(option)}
-                      className={cn(
-                        "flex items-center justify-between text-left px-3 py-2 rounded-lg text-sm transition-colors duration-200 font-medium",
-                        isActive ? "bg-blue-50 text-blue-700" : "text-slate-600 hover:bg-slate-100 hover:text-slate-900",
-                      )}
-                    >
-                      <span>{label}</span>
-                      <span
-                        className={cn(
-                          "text-xs px-2 py-0.5 rounded-full",
-                          isActive ? "bg-blue-100 text-blue-700" : "bg-slate-100 text-slate-500",
-                        )}
-                      >
-                        {statusCounts[option]}
-                      </span>
-                    </button>
-                  );
-                })}
-              </div>
+            )}
+            <h1 className="text-xl font-extrabold tracking-tight text-slate-900">{dict.appPages.campTitle}</h1>
+            <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">{pageDescription}</p>
+            
+            <div className="mt-4">
+              <Button
+                ref={triggerRef}
+                variant="primary"
+                className="w-full justify-center shadow-sm bg-blue-600 hover:bg-blue-700 font-semibold text-sm"
+                onClick={() => {
+                  setIsWizardOpen(true);
+                  setNotice(null);
+                }}
+              >
+                {dict.campForm.toggleOpen}
+              </Button>
             </div>
           </div>
 
-          
-          <div className="mt-6 flex flex-col min-h-0 flex-1 space-y-3">
-            <h3 className="text-sm font-semibold text-slate-900 shrink-0">{listText.filters.tagLabel}</h3>
-            <div className="shrink-0 space-y-3">
+          {/* 2. Primary Controls */}
+          <div className="shrink-0 p-5 border-b border-slate-200/60 bg-slate-50/30">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">{listText.filters.statusLabel}</h3>
+            <div className="flex flex-col gap-1.5">
+              {statusOptions.map((option) => {
+                const isActive = statusFilter === option;
+                const label = option === "all"
+                  ? listText.filters.allStatuses
+                  : option === "open"
+                    ? listText.statusOpen
+                    : listText.statusClosed;
+
+                return (
+                  <button
+                    key={option}
+                    type="button"
+                    aria-pressed={isActive}
+                    onClick={() => setStatusFilter(option)}
+                    className={cn(
+                      "flex items-center justify-between text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 font-medium border",
+                      isActive 
+                        ? "bg-white text-blue-700 border-slate-200/60 shadow-sm" 
+                        : "bg-transparent text-slate-600 border-transparent hover:bg-slate-100/50 hover:text-slate-900",
+                    )}
+                  >
+                    <span>{label}</span>
+                    <span
+                      className={cn(
+                        "text-[10px] font-bold px-2 py-0.5 rounded-full",
+                        isActive ? "bg-blue-50 text-blue-600" : "bg-slate-100 text-slate-500",
+                      )}
+                    >
+                      {statusCounts[option]}
+                    </span>
+                  </button>
+                );
+              })}
+            </div>
+          </div>
+
+          {/* 3. Scrollable Secondary Filters */}
+          <div className="flex-1 min-h-0 flex flex-col p-5 bg-white/30">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 shrink-0">{listText.filters.tagLabel}</h3>
+            <div className="shrink-0 mb-4 space-y-3">
               <Input
                 placeholder={listText.filters.searchTagsPlaceholder}
                 value={tagSearchQuery}
                 onChange={(event) => setTagSearchQuery(event.target.value)}
                 aria-label={listText.filters.searchTagsLabel}
                 inputSize="md"
+                className="bg-white text-sm"
               />
               <button
                 type="button"
@@ -450,14 +466,14 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
               </button>
             </div>
 
-            <div className="flex-1 overflow-y-auto pr-2 -mr-2 space-y-4">
+            <div className="flex-1 overflow-y-auto pr-2 -mr-2 space-y-5 custom-scrollbar">
               {visibleTagGroups.length === 0 ? (
-                <p className="text-sm text-slate-500 py-4 text-center">{listText.filters.noTagsFound}</p>
+                <p className="text-xs text-slate-500 py-4 text-center">{listText.filters.noTagsFound}</p>
               ) : (
                 visibleTagGroups.map((group) => (
-                  <div key={group.id} className="space-y-2">
-                    <p className="text-xs font-semibold uppercase tracking-wider text-slate-500">{group.label}</p>
-                    <div className="flex flex-wrap gap-2 pb-1">
+                  <div key={group.id} className="space-y-2.5">
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{group.label}</p>
+                    <div className="flex flex-wrap gap-1.5 pb-1">
                       {group.tags.map((tag) => {
                         const tagKey = makeCampTagKey(group.id, tag);
                         const isSelected = selectedTagKeys.includes(tagKey);
@@ -475,9 +491,9 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                               ));
                             }}
                             className={cn(
-                              "px-3 py-1.5 rounded-full text-xs transition-colors duration-200 border",
+                              "px-2.5 py-1 rounded-md text-xs transition-all duration-200 border",
                               isSelected
-                                ? "bg-slate-800 text-white border-slate-800 font-semibold"
+                                ? "bg-blue-50 text-blue-700 border-blue-200 font-semibold"
                                 : "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50",
                             )}
                           >
@@ -492,12 +508,13 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
             </div>
           </div>
 
+          {/* 4. Footer actions */}
           {hasActiveSidebarFilters && (
-            <div className="pt-4 mt-4 border-t border-slate-100 shrink-0">
+            <div className="shrink-0 p-4 bg-white border-t border-slate-200/60">
               <Button
                 variant="outline"
                 size="sm"
-                className="w-full justify-center text-slate-600 hover:bg-slate-100 border-slate-200"
+                className="w-full justify-center text-slate-600 hover:bg-slate-100 hover:text-slate-900 border-slate-200 text-xs font-semibold"
                 onClick={() => {
                   setStatusFilter("all");
                   setSelectedTagKeys([]);
@@ -510,19 +527,6 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
             </div>
           )}
         </div>
-
-        {filterHackathonSlug !== undefined && activeHackathon !== undefined && (
-          <div className="bg-amber-50 p-5 rounded-2xl border border-amber-200/60 shadow-sm space-y-2">
-            <p className="text-xs font-semibold text-amber-800 uppercase tracking-wider">{listText.filterTitle}</p>
-            <p className="text-sm text-amber-900">
-              {listText.filterDesc} <strong className="font-semibold text-amber-950">{activeHackathon.title}</strong>
-            </p>
-            <Link href="/camp" className="text-xs font-semibold text-amber-700 hover:text-amber-900 flex items-center gap-1 mt-3">
-              <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-              {dict.hackathonList.filters.clear}
-            </Link>
-          </div>
-        )}
       </aside>
 
       <main className="flex-1 w-full min-w-0">

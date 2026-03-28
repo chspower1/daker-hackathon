@@ -159,27 +159,27 @@ export function HackathonList() {
   if (hackathons.length === 0) return <EmptyState title={dict.appPages.hackathonsEmpty} description={dict.appPages.hackathonsEmptyDesc} />;
 
   return (
-    <div className="flex flex-col lg:flex-row gap-8 items-start">
-      <aside className="w-full lg:w-72 shrink-0 space-y-6 lg:sticky lg:top-24 lg:h-[calc(100vh-7rem)]">
-        <div className="flex flex-col h-full bg-white/50 backdrop-blur-md p-6 rounded-2xl border border-slate-200 shadow-sm">
-          <div className="shrink-0 space-y-6">
-            <div className="space-y-4">
-            <div className="inline-flex w-fit items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-700 shadow-sm">
-              <span className="relative flex h-2 w-2 mr-2">
+    <div className="flex flex-col lg:flex-row gap-6 xl:gap-8 items-start">
+      <aside className="w-full lg:w-64 xl:w-72 shrink-0 lg:sticky lg:top-24 lg:h-[calc(100vh-7rem)] flex flex-col">
+        <div className="flex flex-col h-full bg-slate-50/50 backdrop-blur-xl rounded-2xl border border-slate-200/60 shadow-sm overflow-hidden">
+          
+          {/* 1. Header/Context */}
+          <div className="shrink-0 p-5 bg-white border-b border-slate-200/60">
+            <div className="inline-flex w-fit items-center rounded-md bg-blue-50/50 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-blue-600 mb-3">
+              <span className="relative flex h-1.5 w-1.5 mr-1.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
+                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-blue-500"></span>
               </span>
               {dict.nav.discover}
             </div>
-            <div>
-              <h1 className="text-2xl font-bold tracking-tight text-slate-900">{dict.appPages.hackathonsTitle}</h1>
-              <p className="text-sm text-slate-600 mt-2 leading-relaxed">{dict.appPages.hackathonsDesc}</p>
-            </div>
+            <h1 className="text-xl font-extrabold tracking-tight text-slate-900">{dict.appPages.hackathonsTitle}</h1>
+            <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">{dict.appPages.hackathonsDesc}</p>
           </div>
-          <div className="h-px bg-slate-200 w-full"></div>
-          <div className="space-y-3">
-            <h3 className="text-sm font-semibold text-slate-900">{listText.filters.statusLabel}</h3>
-            <div className="flex flex-col gap-1">
+
+          {/* 2. Primary Controls */}
+          <div className="shrink-0 p-5 border-b border-slate-200/60 bg-slate-50/30">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">{listText.filters.statusLabel}</h3>
+            <div className="flex flex-col gap-1.5">
               {statusOptions.map((option) => {
                 const isActive = statusFilter === option;
                 const label = option === "all" ? listText.filters.allStatuses : listText.status[option];
@@ -190,49 +190,51 @@ export function HackathonList() {
                     aria-pressed={isActive}
                     onClick={() => setStatusFilter(option)}
                     className={cn(
-                      "flex items-center justify-between text-left px-3 py-2 rounded-lg text-sm transition-colors duration-200 font-medium",
-                      isActive ? "bg-blue-50 text-blue-700" : "text-slate-600 hover:bg-slate-100 hover:text-slate-900"
+                      "flex items-center justify-between text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 font-medium border",
+                      isActive 
+                        ? "bg-white text-blue-700 border-slate-200/60 shadow-sm" 
+                        : "bg-transparent text-slate-600 border-transparent hover:bg-slate-100/50 hover:text-slate-900"
                     )}
                   >
                     <span>{label}</span>
                     <span className={cn(
-                      "text-xs px-2 py-0.5 rounded-full",
-                      isActive ? "bg-blue-100 text-blue-700" : "bg-slate-100 text-slate-500 group-hover:bg-slate-200"
+                      "text-[10px] font-bold px-2 py-0.5 rounded-full",
+                      isActive ? "bg-blue-50 text-blue-600" : "bg-slate-100 text-slate-500"
                     )}>
                       {statusCounts[option]}
                     </span>
                   </button>
                 );
               })}
-              </div>
             </div>
           </div>
 
-          
-          <div className="mt-6 flex flex-col min-h-0 flex-1 space-y-3">
-            <h3 className="text-sm font-semibold text-slate-900 shrink-0">{listText.filters.tagLabel}</h3>
-            <div className="shrink-0">
+          {/* 3. Scrollable Secondary Filters */}
+          <div className="flex-1 min-h-0 flex flex-col p-5 bg-white/30">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 shrink-0">{listText.filters.tagLabel}</h3>
+            <div className="shrink-0 mb-4 space-y-3">
               <Input
                 placeholder={listText.filters.searchTagsPlaceholder}
                 value={tagSearchQuery}
                 onChange={(e) => setTagSearchQuery(e.target.value)}
                 aria-label={listText.filters.searchTagsLabel}
                 inputSize="md"
+                className="bg-white text-sm"
               />
+              <button
+                type="button"
+                aria-pressed={tagFilter.length === 0}
+                onClick={() => setTagFilter([])}
+                className={cn(
+                  "w-fit px-3 py-1.5 rounded-full text-xs transition-colors duration-200 border",
+                  tagFilter.length === 0 ? "bg-slate-800 text-white border-slate-800 font-semibold" : "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+                )}
+              >
+                {listText.filters.allTags}
+              </button>
             </div>
-            <div className="flex-1 overflow-y-auto pr-2 -mr-2">
-              <div className="flex flex-wrap gap-2 pb-2">
-                <button
-                  type="button"
-                  aria-pressed={tagFilter.length === 0}
-                  onClick={() => setTagFilter([])}
-                  className={cn(
-                    "px-3 py-1.5 rounded-full text-xs transition-colors duration-200 border",
-                    tagFilter.length === 0 ? "bg-slate-800 text-white border-slate-800 font-semibold" : "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
-                  )}
-                >
-                  {listText.filters.allTags}
-                </button>
+            <div className="flex-1 overflow-y-auto pr-2 -mr-2 custom-scrollbar">
+              <div className="flex flex-wrap gap-1.5 pb-2">
                 {visibleTags.map((tag) => {
                   const isSelected = tagFilter.includes(tag);
                   return (
@@ -246,8 +248,8 @@ export function HackathonList() {
                         );
                       }}
                       className={cn(
-                        "px-3 py-1.5 rounded-full text-xs transition-colors duration-200 border",
-                        isSelected ? "bg-slate-800 text-white border-slate-800 font-semibold" : "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+                        "px-2.5 py-1 rounded-md text-xs transition-all duration-200 border",
+                        isSelected ? "bg-blue-50 text-blue-700 border-blue-200 font-semibold" : "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
                       )}
                     >
                       {tag}
@@ -255,7 +257,7 @@ export function HackathonList() {
                   );
                 })}
                 {visibleTags.length === 0 && (
-                  <p className="w-full text-sm text-slate-500 py-4 text-center">
+                  <p className="w-full text-xs text-slate-500 py-4 text-center">
                     {listText.filters.noTagsFound}
                   </p>
                 )}
@@ -263,12 +265,13 @@ export function HackathonList() {
             </div>
           </div>
 
+          {/* 4. Footer actions */}
           {(statusFilter !== "all" || tagFilter.length > 0 || tagSearchQuery || keywordSearch) && (
-            <div className="pt-4 mt-4 border-t border-slate-100 shrink-0">
+            <div className="shrink-0 p-4 bg-white border-t border-slate-200/60">
               <Button
                 variant="outline"
                 size="sm"
-                className="w-full justify-center text-slate-600 hover:bg-slate-100 border-slate-200"
+                className="w-full justify-center text-slate-600 hover:bg-slate-100 hover:text-slate-900 border-slate-200 text-xs font-semibold"
                 onClick={() => { setStatusFilter("all"); setTagFilter([]); setTagSearchQuery(""); setKeywordSearch(""); }}
               >
                 {listText.filters.clear}
