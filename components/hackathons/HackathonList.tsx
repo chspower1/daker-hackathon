@@ -151,7 +151,7 @@ export function HackathonList() {
     return (
       <span className={cn(
         "ml-1.5 inline-flex items-center text-[10px] transition-colors",
-        isActive ? "text-blue-600 font-bold" : "text-slate-300 group-hover:text-slate-400"
+        isActive ? "text-blue-600 font-bold" : "text-content-subtle group-hover:text-content-muted"
       )}>
         {isActive ? (sortOrder === "asc" ? "▲" : "▼") : "↕"}
       </span>
@@ -170,10 +170,10 @@ export function HackathonList() {
   return (
     <div className="flex flex-col lg:flex-row gap-6 xl:gap-8 items-start">
       <aside className="w-full lg:w-64 xl:w-72 shrink-0 lg:sticky lg:top-24 lg:h-[calc(100vh-7rem)] flex flex-col">
-        <div className="flex flex-col h-full bg-slate-50/50 backdrop-blur-xl rounded-2xl border border-slate-200/60 shadow-sm overflow-hidden">
+        <div className="flex flex-col h-full bg-surface-muted/50 backdrop-blur-xl rounded-2xl border border-border-base/60 shadow-sm overflow-hidden">
           
           {/* 1. Header/Context */}
-          <div className="shrink-0 p-5 bg-white border-b border-slate-200/60">
+          <div className="shrink-0 p-5 bg-surface-base border-b border-border-base/60">
             <div className="inline-flex w-fit items-center rounded-md bg-blue-50/50 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-blue-600 mb-3">
               <span className="relative flex h-1.5 w-1.5 mr-1.5">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
@@ -181,13 +181,13 @@ export function HackathonList() {
               </span>
               {dict.nav.discover}
             </div>
-            <h1 className="text-xl font-extrabold tracking-tight text-slate-900">{dict.appPages.hackathonsTitle}</h1>
-            <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">{dict.appPages.hackathonsDesc}</p>
+            <h1 className="text-xl font-extrabold tracking-tight text-content-base">{dict.appPages.hackathonsTitle}</h1>
+            <p className="text-xs text-content-subtle mt-1.5 leading-relaxed">{dict.appPages.hackathonsDesc}</p>
           </div>
 
           {/* 2. Primary Controls */}
-          <div className="shrink-0 p-5 border-b border-slate-200/60 bg-slate-50/30">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">{listText.filters.statusLabel}</h3>
+          <div className="shrink-0 p-5 border-b border-border-base/60 bg-surface-muted/30">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-content-subtle mb-3">{listText.filters.statusLabel}</h3>
             <div className="flex flex-col gap-1.5">
               {statusOptions.map((option) => {
                 const isActive = statusFilter === option;
@@ -201,14 +201,14 @@ export function HackathonList() {
                     className={cn(
                       "flex items-center justify-between text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 font-medium border",
                       isActive 
-                        ? "bg-white text-blue-700 border-slate-200/60 shadow-sm" 
-                        : "bg-transparent text-slate-600 border-transparent hover:bg-slate-100/50 hover:text-slate-900"
+                        ? "bg-surface-base text-blue-700 border-border-base/60 shadow-sm" 
+                        : "bg-transparent text-content-muted border-transparent hover:bg-surface-subtle/50 hover:text-content-base"
                     )}
                   >
                     <span>{label}</span>
                     <span className={cn(
                       "text-[10px] font-bold px-2 py-0.5 rounded-full",
-                      isActive ? "bg-blue-50 text-blue-600" : "bg-slate-100 text-slate-500"
+                      isActive ? "bg-blue-50 text-blue-600" : "bg-surface-subtle text-content-subtle"
                     )}>
                       {statusCounts[option]}
                     </span>
@@ -219,8 +219,8 @@ export function HackathonList() {
           </div>
 
           {/* 3. Scrollable Secondary Filters */}
-          <div className="flex-1 min-h-0 flex flex-col p-5 bg-white/30">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 shrink-0">{listText.filters.tagLabel}</h3>
+          <div className="flex-1 min-h-0 flex flex-col p-5 bg-surface-base/30">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-content-subtle mb-3 shrink-0">{listText.filters.tagLabel}</h3>
             <div className="shrink-0 mb-4 space-y-3">
               <Input
                 placeholder={listText.filters.searchTagsPlaceholder}
@@ -228,7 +228,7 @@ export function HackathonList() {
                 onChange={(e) => setTagSearchQuery(e.target.value)}
                 aria-label={listText.filters.searchTagsLabel}
                 inputSize="md"
-                className="bg-white text-sm"
+                className="bg-surface-base text-sm"
               />
               <div className="flex flex-wrap gap-2">
                 <button
@@ -237,7 +237,7 @@ export function HackathonList() {
                   onClick={() => setTagFilter([])}
                   className={cn(
                     "w-fit px-3 py-1.5 rounded-full text-xs transition-colors duration-200 border",
-                    tagFilter.length === 0 ? "bg-slate-800 text-white border-slate-800 font-semibold" : "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+                    tagFilter.length === 0 ? "bg-content-base text-surface-base border-content-base font-semibold" : "bg-surface-base text-content-muted border-border-base hover:border-border-strong hover:bg-surface-muted"
                   )}
                 >
                   {listText.filters.allTags}
@@ -246,7 +246,7 @@ export function HackathonList() {
                   variant="outline"
                   size="sm"
                   disabled={!hasActiveSidebarFilters}
-                  className="w-fit justify-center text-slate-600 hover:bg-slate-100 hover:text-slate-900 border-slate-200 text-xs font-semibold disabled:cursor-default disabled:opacity-40"
+                  className="w-fit justify-center text-content-muted hover:bg-surface-subtle hover:text-content-base border-border-base text-xs font-semibold disabled:cursor-default disabled:opacity-40"
                   onClick={() => { setStatusFilter("all"); setTagFilter([]); setTagSearchQuery(""); setKeywordSearch(""); }}
                 >
                   {listText.filters.clear}
@@ -269,7 +269,7 @@ export function HackathonList() {
                       }}
                       className={cn(
                         "px-2.5 py-1 rounded-md text-xs transition-all duration-200 border",
-                        isSelected ? "bg-blue-50 text-blue-700 border-blue-200 font-semibold" : "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+                        isSelected ? "bg-blue-50 text-blue-700 border-blue-200 font-semibold" : "bg-surface-base text-content-muted border-border-base hover:border-border-strong hover:bg-surface-muted"
                       )}
                     >
                       {tag}
@@ -277,7 +277,7 @@ export function HackathonList() {
                   );
                 })}
                 {visibleTags.length === 0 && (
-                  <p className="w-full text-xs text-slate-500 py-4 text-center">
+                  <p className="w-full text-xs text-content-subtle py-4 text-center">
                     {listText.filters.noTagsFound}
                   </p>
                 )}
@@ -291,7 +291,7 @@ export function HackathonList() {
       <main className="flex-1 w-full min-w-0">
         
         <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between mb-4">
-          <p className="text-sm font-medium text-slate-500 whitespace-nowrap">
+          <p className="text-sm font-medium text-content-subtle whitespace-nowrap">
             {listText.resultsFound.replace("{count}", String(filteredHackathons.length))}
           </p>
           <div className="flex items-center gap-3 w-full sm:w-auto">
@@ -303,18 +303,18 @@ export function HackathonList() {
               inputSize="md"
               className="w-full sm:w-64"
             />
-            <div className="flex bg-slate-100 p-1 rounded-lg shrink-0">
+            <div className="flex bg-surface-subtle p-1 rounded-lg shrink-0">
               <button
                 type="button"
                 onClick={() => setViewMode("card")}
-                className={cn("px-3 py-1.5 text-xs font-medium rounded-md transition-colors", viewMode === "card" ? "bg-white text-slate-900 shadow-sm" : "text-slate-600 hover:text-slate-900")}
+                className={cn("px-3 py-1.5 text-xs font-medium rounded-md transition-colors", viewMode === "card" ? "bg-surface-base text-content-base shadow-sm" : "text-content-muted hover:text-content-base")}
               >
                 {listText.viewModeCard}
               </button>
               <button
                 type="button"
                 onClick={() => setViewMode("table")}
-                className={cn("px-3 py-1.5 text-xs font-medium rounded-md transition-colors", viewMode === "table" ? "bg-white text-slate-900 shadow-sm" : "text-slate-600 hover:text-slate-900")}
+                className={cn("px-3 py-1.5 text-xs font-medium rounded-md transition-colors", viewMode === "table" ? "bg-surface-base text-content-base shadow-sm" : "text-content-muted hover:text-content-base")}
               >
                 {listText.viewModeTable}
               </button>
@@ -335,7 +335,7 @@ export function HackathonList() {
                     </div>
                   </TableHead>
                   <TableHead
-                    className={cn("cursor-pointer group hover:bg-slate-100/60 transition-colors select-none", sortField === "title" && "text-slate-900 bg-slate-50")}
+                    className={cn("cursor-pointer group hover:bg-surface-subtle/60 transition-colors select-none", sortField === "title" && "text-content-base bg-surface-muted")}
                     onClick={() => toggleSort("title")}
                   >
                     <div className="flex items-center">
@@ -343,7 +343,7 @@ export function HackathonList() {
                     </div>
                   </TableHead>
                   <TableHead
-                    className={cn("cursor-pointer group hover:bg-slate-100/60 transition-colors select-none", sortField === "status" && "text-slate-900 bg-slate-50")}
+                    className={cn("cursor-pointer group hover:bg-surface-subtle/60 transition-colors select-none", sortField === "status" && "text-content-base bg-surface-muted")}
                     onClick={() => toggleSort("status")}
                   >
                     <div className="flex items-center">
@@ -351,7 +351,7 @@ export function HackathonList() {
                     </div>
                   </TableHead>
                   <TableHead
-                    className={cn("cursor-pointer group hover:bg-slate-100/60 transition-colors select-none", sortField === "startDate" && "text-slate-900 bg-slate-50")}
+                    className={cn("cursor-pointer group hover:bg-surface-subtle/60 transition-colors select-none", sortField === "startDate" && "text-content-base bg-surface-muted")}
                     onClick={() => toggleSort("startDate")}
                   >
                     <div className="flex items-center">
@@ -359,7 +359,7 @@ export function HackathonList() {
                     </div>
                   </TableHead>
                   <TableHead
-                    className={cn("cursor-pointer group hover:bg-slate-100/60 transition-colors select-none", sortField === "endDate" && "text-slate-900 bg-slate-50")}
+                    className={cn("cursor-pointer group hover:bg-surface-subtle/60 transition-colors select-none", sortField === "endDate" && "text-content-base bg-surface-muted")}
                     onClick={() => toggleSort("endDate")}
                   >
                     <div className="flex items-center">
@@ -373,10 +373,10 @@ export function HackathonList() {
                   <TableRow key={hackathon.slug}>
                     <TableCell>
                       {hackathon.thumbnailUrl ? (
-                        <div className="w-12 h-12 rounded-md overflow-hidden bg-slate-50 border border-slate-100 relative shrink-0">
+                        <div className="w-12 h-12 rounded-md overflow-hidden bg-surface-muted border border-border-muted relative shrink-0">
                           {imageErrors[hackathon.slug] ? (
-                            <div className="h-full w-full bg-slate-100/50 flex items-center justify-center">
-                              <div className="w-6 h-6 rounded-full bg-slate-200/50 flex items-center justify-center">
+                            <div className="h-full w-full bg-surface-subtle/50 flex items-center justify-center">
+                              <div className="w-6 h-6 rounded-full bg-surface-subtle flex items-center justify-center">
                                 <div className="w-3 h-3 rounded-full bg-blue-100/50" />
                               </div>
                             </div>
@@ -393,9 +393,9 @@ export function HackathonList() {
                           )}
                         </div>
                       ) : (
-                        <div className="w-12 h-12 rounded-md overflow-hidden bg-slate-50 border border-slate-100 relative shrink-0">
-                           <div className="h-full w-full bg-slate-100/50 flex items-center justify-center">
-                              <div className="w-6 h-6 rounded-full bg-slate-200/50 flex items-center justify-center">
+                        <div className="w-12 h-12 rounded-md overflow-hidden bg-surface-muted border border-border-muted relative shrink-0">
+                           <div className="h-full w-full bg-surface-subtle/50 flex items-center justify-center">
+                              <div className="w-6 h-6 rounded-full bg-surface-subtle flex items-center justify-center">
                                 <div className="w-3 h-3 rounded-full bg-blue-100/50" />
                               </div>
                             </div>
@@ -428,12 +428,12 @@ export function HackathonList() {
 
               return (
                 <Link key={hackathon.slug} href={hackathon.links.detail} className="group block h-full">
-                  <Card className="h-full flex flex-col group border border-slate-200/60 shadow-sm hover:shadow-lg hover:shadow-blue-900/5 transition-all duration-300 hover:-translate-y-1 rounded-2xl bg-white overflow-hidden">
+                  <Card className="h-full flex flex-col group border border-border-base/60 shadow-sm hover:shadow-lg hover:shadow-blue-900/5 transition-all duration-300 hover:-translate-y-1 rounded-2xl bg-surface-base overflow-hidden">
                     {hackathon.thumbnailUrl && (
-                      <div className="aspect-[16/9] overflow-hidden bg-slate-50 border-b border-slate-100 relative">
+                      <div className="aspect-[16/9] overflow-hidden bg-surface-muted border-b border-border-muted relative">
                         {imageErrors[hackathon.slug] ? (
-                          <div className="h-full w-full bg-slate-100/50 flex items-center justify-center">
-                            <div className="w-16 h-16 rounded-full bg-slate-200/50 flex items-center justify-center">
+                          <div className="h-full w-full bg-surface-subtle/50 flex items-center justify-center">
+                            <div className="w-16 h-16 rounded-full bg-surface-subtle flex items-center justify-center">
                               <div className="w-8 h-8 rounded-full bg-blue-100/50" />
                             </div>
                           </div>
@@ -449,23 +449,23 @@ export function HackathonList() {
                            />
                          )}
                         <div className="absolute top-3 left-3 flex gap-2">
-                          <Badge variant={getStatusBadgeVariant(hackathon.status)} className="shadow-sm backdrop-blur-md bg-white/90">
+                          <Badge variant={getStatusBadgeVariant(hackathon.status)} className="shadow-sm backdrop-blur-md bg-surface-base/90">
                             {listText.status[hackathon.status]}
                           </Badge>
                         </div>
                       </div>
                     )}
-                    <CardHeader className="space-y-2 bg-slate-50/50 border-b border-slate-100 pb-4 px-5 pt-5 transition-colors duration-300">
+                    <CardHeader className="space-y-2 bg-surface-muted/50 border-b border-border-muted pb-4 px-5 pt-5 transition-colors duration-300">
                       <CardTitle className="group-hover:text-blue-600 transition-colors duration-300 text-lg leading-tight line-clamp-2">
                         {hackathon.title}
                       </CardTitle>
                     </CardHeader>
                     <CardContent className="flex flex-col flex-grow space-y-4 p-5 pt-4">
-                      <div className="mt-auto space-y-1.5 text-xs text-slate-600">
+                      <div className="mt-auto space-y-1.5 text-xs text-content-muted">
                         {startDate && endDate && (
                           <div className="flex justify-between items-center">
                             <span>{listText.labels.period}</span>
-                            <span className="font-medium text-slate-900">{startDate} - {endDate}</span>
+                            <span className="font-medium text-content-base">{startDate} - {endDate}</span>
                           </div>
                         )}
                         {deadlineDate && (
@@ -475,14 +475,14 @@ export function HackathonList() {
                           </div>
                         )}
                       </div>
-                      <div className="flex flex-wrap gap-1.5 pt-2 border-t border-slate-100">
+                      <div className="flex flex-wrap gap-1.5 pt-2 border-t border-border-muted">
                         {hackathon.tags.slice(0, 3).map((tag) => (
-                          <span key={tag} className="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-100 text-slate-600 transition-colors group-hover:bg-blue-50 group-hover:text-blue-600">
+                          <span key={tag} className="px-2 py-0.5 rounded text-[10px] font-semibold bg-surface-subtle text-content-muted transition-colors group-hover:bg-blue-50 group-hover:text-blue-600">
                             {tag}
                           </span>
                         ))}
                         {hackathon.tags.length > 3 && (
-                           <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-slate-50 text-slate-500">
+                           <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-surface-muted text-content-subtle">
                             +{hackathon.tags.length - 3}
                           </span>
                         )}

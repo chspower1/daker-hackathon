@@ -7,7 +7,7 @@ export default async function CampPage(props: {
   const hackathonSlug = typeof resolvedParams?.hackathon === "string" ? resolvedParams.hackathon : undefined;
 
   return (
-    <div className="min-h-screen bg-slate-50/50 pb-16 pt-8">
+    <div className="min-h-screen bg-surface-muted/50 pb-16 pt-8">
       <div className="max-w-[90rem] mx-auto px-4 md:px-6 lg:px-8 relative z-10">
         <CampView initialHackathonSlug={hackathonSlug} />
       </div>

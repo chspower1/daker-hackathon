@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import { cn } from "@/lib/cn";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { LanguageSwitcher } from "@/components/landing/LanguageSwitcher";
+import { ThemeSwitcher } from "@/components/layout/ThemeSwitcher";
 
 interface TopHeaderProps {
   variant?: "landing" | "app";
@@ -37,7 +38,7 @@ export function TopHeader({ variant = "app", rightSlot }: TopHeaderProps) {
       "w-full z-50 transition-all duration-500 ease-in-out flex flex-col",
       variant === "landing" ? "fixed top-0" : "sticky top-0",
       isScrolled 
-        ? "bg-white/80 backdrop-blur-xl border-b border-slate-200/50 shadow-sm py-1.5" 
+        ? "bg-surface-base/80 backdrop-blur-xl border-b border-border-base/50 shadow-sm py-1.5" 
         : "bg-transparent border-b-0 py-3"
     )}>
       <div className="max-w-[90rem] w-full mx-auto px-6 flex items-center justify-between">
@@ -61,13 +62,13 @@ export function TopHeader({ variant = "app", rightSlot }: TopHeaderProps) {
               </svg>
             </div>
             <div className="flex flex-col ml-1">
-              <span className="hidden sm:block text-lg leading-none text-slate-900 font-extrabold tracking-tighter">{dict.brand.hack}</span>
+              <span className="hidden sm:block text-lg leading-none text-content-base font-extrabold tracking-tighter">{dict.brand.hack}</span>
               <span className="hidden sm:block text-[0.6rem] leading-none text-blue-600 font-bold tracking-[0.2em] uppercase mt-0.5">{dict.brand.platform}</span>
             </div>
           </Link>
           
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center gap-6 text-sm font-semibold text-slate-600">
+          <nav className="hidden md:flex items-center gap-6 text-sm font-semibold text-content-muted">
             {navItems.map((item) => {
               const isActive = variant === "app" && pathname.startsWith(item.href);
               return (
@@ -75,7 +76,7 @@ export function TopHeader({ variant = "app", rightSlot }: TopHeaderProps) {
                   key={item.href}
                   href={item.href}
                   className={cn(
-                    "relative py-2 transition-colors whitespace-nowrap group hover:text-slate-900",
+                    "relative py-2 transition-colors whitespace-nowrap group hover:text-content-base",
                     isActive ? "text-blue-600" : ""
                   )}
                 >
@@ -92,13 +93,14 @@ export function TopHeader({ variant = "app", rightSlot }: TopHeaderProps) {
 
         {/* Right Action Section */}
         <div className="flex items-center gap-4 shrink-0">
+          <ThemeSwitcher />
           <div className="hidden sm:block">
             <LanguageSwitcher />
           </div>
           {rightSlot}
           
           {/* Mobile Menu Button (Optional, can be wired up later) */}
-          <button type="button" className="md:hidden flex flex-col justify-center items-center w-10 h-10 space-y-1.5 rounded-full bg-slate-50 text-slate-600 hover:bg-slate-100 transition-colors">
+          <button type="button" className="md:hidden flex flex-col justify-center items-center w-10 h-10 space-y-1.5 rounded-full bg-surface-muted text-content-muted hover:bg-surface-subtle transition-colors">
             <span className="w-5 h-0.5 bg-current rounded-full"></span>
             <span className="w-5 h-0.5 bg-current rounded-full"></span>
           </button>
@@ -108,9 +110,9 @@ export function TopHeader({ variant = "app", rightSlot }: TopHeaderProps) {
       {/* Mobile Navigation Bar (Scrollable horizontally) */}
       <div className={cn(
         "md:hidden w-full transition-all duration-300",
-        isScrolled ? "hidden" : "block mt-3 border-t border-slate-100"
+        isScrolled ? "hidden" : "block mt-3 border-t border-border-muted"
       )}>
-        <nav className="flex overflow-x-auto px-6 h-12 items-center gap-6 text-sm font-semibold text-slate-500 no-scrollbar">
+        <nav className="flex overflow-x-auto px-6 h-12 items-center gap-6 text-sm font-semibold text-content-subtle no-scrollbar">
           {navItems.map((item) => {
             const isActive = variant === "app" && pathname.startsWith(item.href);
             return (
@@ -118,7 +120,7 @@ export function TopHeader({ variant = "app", rightSlot }: TopHeaderProps) {
                 key={item.href}
                 href={item.href}
                 className={cn(
-                  "relative py-3 transition-colors whitespace-nowrap shrink-0 hover:text-slate-900",
+                  "relative py-3 transition-colors whitespace-nowrap shrink-0 hover:text-content-base",
                   isActive ? "text-blue-600" : ""
                 )}
               >

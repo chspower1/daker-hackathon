@@ -2,7 +2,7 @@
 
 브라우저 영속 데이터는 `lib/storage/` 가 단일 경계로 소유합니다. UI와 라우트는 `window.localStorage`를 직접 다루지 않고 엔티티 helper를 통해 읽고 씁니다.
 
-단, locale 선택을 위한 `app-locale` 미러 key는 제품 데이터 계약에 포함하지 않으며 `lib/i18n/persistence.ts` 에서만 관리합니다.
+단, locale 선택을 위한 `app-locale` 미러 key와 테마 선택을 위한 `app-theme` 키는 제품 데이터 계약에 포함하지 않으며 각각 `lib/i18n/persistence.ts`, `lib/theme/persistence.ts` 에서만 관리합니다.
 
 ## 공통 원칙
 

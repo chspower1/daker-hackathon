@@ -25,12 +25,12 @@ export function ActionGate({
   }
 
   return (
-    <Card className="max-w-xl mx-auto my-12 border border-slate-200/60 bg-white/80 backdrop-blur-xl shadow-xl shadow-slate-200/30 rounded-3xl overflow-hidden transition-all duration-500 ring-1 ring-white/50">
-      <CardHeader className="bg-slate-50/50 border-b border-slate-100/50 pb-6 px-8 pt-8">
-        <CardTitle className="text-2xl font-bold tracking-tight text-slate-900">{title}</CardTitle>
+    <Card className="max-w-xl mx-auto my-12 border border-border-base/60 bg-surface-base/80 backdrop-blur-xl shadow-xl shadow-slate-200/30 rounded-3xl overflow-hidden transition-all duration-500 ring-1 ring-white/50">
+      <CardHeader className="bg-surface-muted/50 border-b border-border-muted/50 pb-6 px-8 pt-8">
+        <CardTitle className="text-2xl font-bold tracking-tight text-content-base">{title}</CardTitle>
       </CardHeader>
       <CardContent className="space-y-6 p-8 bg-transparent">
-        <p className="text-base text-slate-500 leading-relaxed">{description}</p>
+        <p className="text-base text-content-subtle leading-relaxed">{description}</p>
         {actionLabel ? (
           <Button variant="primary" onClick={onAction} disabled={!onAction} className="w-full h-12 text-base font-semibold rounded-full bg-blue-600 text-white shadow-lg shadow-blue-600/20 hover:bg-blue-700 hover:-translate-y-0.5 hover:shadow-xl transition-all">
             {actionLabel}

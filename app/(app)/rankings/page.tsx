@@ -101,10 +101,10 @@ export default function RankingsPage() {
           </span>
           {dict.misc.rankingsBadge}
         </div>
-        <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-slate-900 leading-tight mb-2">
+        <h1 className="text-3xl md:text-4xl font-bold tracking-tight text-content-base leading-tight mb-2">
           {dict.appPages.rankingsTitle}
         </h1>
-        <p className="text-base md:text-lg text-slate-600 max-w-2xl">
+        <p className="text-base md:text-lg text-content-muted max-w-2xl">
           {dict.appPages.rankingsDesc}
         </p>
       </div>
@@ -124,11 +124,11 @@ export default function RankingsPage() {
             description={dict.appPages.rankingsEmptyDesc}
           />
         ) : (
-          <div className="rounded-xl border border-slate-200 bg-white shadow-sm overflow-hidden">
+          <div className="rounded-xl border border-border-base bg-surface-base shadow-sm overflow-hidden">
             <div className="overflow-x-auto">
               <table className="w-full text-left border-collapse">
                 <thead>
-                  <tr className="border-b border-slate-100 bg-slate-50 text-slate-600 font-semibold text-xs uppercase tracking-wider">
+                  <tr className="border-b border-border-muted bg-surface-muted text-content-muted font-semibold text-xs uppercase tracking-wider">
                     <th className="py-3 px-4 font-medium w-20">{dict.misc.tableRank}</th>
                     <th className="py-3 px-4 font-medium">{dict.misc.tableNickname}</th>
                     <th className="py-3 px-4 font-medium text-right">{dict.misc.tablePoints}</th>
@@ -136,14 +136,14 @@ export default function RankingsPage() {
                 </thead>
                 <tbody>
                   {rankings.map((entry, idx) => (
-                    <tr key={`${entry.rank}-${entry.nickname}`} className={`group transition-colors duration-200 hover:bg-slate-50 ${idx !== rankings.length - 1 ? 'border-b border-slate-100' : ''} ${idx < 3 ? 'bg-blue-50/30' : ''}`}>
+                    <tr key={`${entry.rank}-${entry.nickname}`} className={`group transition-colors duration-200 hover:bg-surface-muted ${idx !== rankings.length - 1 ? 'border-b border-border-muted' : ''} ${idx < 3 ? 'bg-blue-50/30' : ''}`}>
                       <td className="py-3 px-4 text-base">
-                        {idx === 0 ? <span className="inline-flex items-center gap-1.5"><span aria-hidden="true" className="animate-pulse">🏆</span><span className="text-sm text-slate-500 font-semibold tabular-nums">#1</span></span> : idx === 1 ? <span className="inline-flex items-center gap-1.5"><span aria-hidden="true">🥈</span><span className="text-sm text-slate-500 font-semibold tabular-nums">#2</span></span> : idx === 2 ? <span className="inline-flex items-center gap-1.5"><span aria-hidden="true">🥉</span><span className="text-sm text-slate-500 font-semibold tabular-nums">#3</span></span> : <span className="text-slate-500 font-semibold tabular-nums">#{entry.rank}</span>}
+                        {idx === 0 ? <span className="inline-flex items-center gap-1.5"><span aria-hidden="true" className="animate-pulse">🏆</span><span className="text-sm text-content-subtle font-semibold tabular-nums">#1</span></span> : idx === 1 ? <span className="inline-flex items-center gap-1.5"><span aria-hidden="true">🥈</span><span className="text-sm text-content-subtle font-semibold tabular-nums">#2</span></span> : idx === 2 ? <span className="inline-flex items-center gap-1.5"><span aria-hidden="true">🥉</span><span className="text-sm text-content-subtle font-semibold tabular-nums">#3</span></span> : <span className="text-content-subtle font-semibold tabular-nums">#{entry.rank}</span>}
                         </td>
-                      <td className="py-3 px-4 text-slate-900 font-semibold text-base group-hover:text-blue-600 transition-colors">
+                      <td className="py-3 px-4 text-content-base font-semibold text-base group-hover:text-blue-600 transition-colors">
                         {entry.nickname}
                       </td>
-                      <td className="py-3 px-4 font-mono text-slate-700 font-medium text-right text-base tabular-nums">
+                      <td className="py-3 px-4 font-mono text-content-muted font-medium text-right text-base tabular-nums">
                         {entry.points.toLocaleString(languageTag)}
                       </td>
                     </tr>

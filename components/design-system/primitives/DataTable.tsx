@@ -5,7 +5,7 @@ export type DataTableProps = React.HTMLAttributes<HTMLTableElement>;
 
 export function DataTable({ className, ...props }: DataTableProps) {
   return (
-    <div className="w-full overflow-hidden rounded-xl border border-slate-200/60 bg-white shadow-sm">
+    <div className="w-full overflow-hidden rounded-xl border border-border-base/60 bg-surface-base shadow-sm">
       <table
         className={cn("w-full caption-bottom text-sm", className)}
         {...props}
@@ -21,7 +21,7 @@ export const TableHeader = React.forwardRef<
   <thead
     ref={ref}
     className={cn(
-      "[&_tr]:border-b border-slate-200/60 bg-slate-50/50",
+      "[&_tr]:border-b border-border-base/60 bg-surface-muted/50",
       className,
     )}
     {...props}
@@ -48,7 +48,7 @@ export const TableRow = React.forwardRef<
   <tr
     ref={ref}
     className={cn(
-      "border-b border-slate-200/60 transition-colors hover:bg-slate-50/80 data-[state=selected]:bg-slate-100",
+      "border-b border-border-base/60 transition-colors hover:bg-surface-muted/80 data-[state=selected]:bg-surface-subtle",
       className,
     )}
     {...props}
@@ -63,7 +63,7 @@ export const TableHead = React.forwardRef<
   <th
     ref={ref}
     className={cn(
-      "h-12 px-5 text-left align-middle font-semibold text-slate-600 text-xs tracking-wide [&:has([role=checkbox])]:pr-0",
+      "h-12 px-5 text-left align-middle font-semibold text-content-muted text-xs tracking-wide [&:has([role=checkbox])]:pr-0",
       className,
     )}
     {...props}
@@ -78,7 +78,7 @@ export const TableCell = React.forwardRef<
   <td
     ref={ref}
     className={cn(
-      "p-5 align-middle text-sm text-slate-700 [&:has([role=checkbox])]:pr-0",
+      "p-5 align-middle text-sm text-content-muted [&:has([role=checkbox])]:pr-0",
       className,
     )}
     {...props}

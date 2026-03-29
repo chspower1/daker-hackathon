@@ -13,12 +13,13 @@
 | 시드 데이터 | `lib/data/` | 요구사항 JSON을 읽어 화면에서 쓰기 좋은 형태로 정규화 |
 | 브라우저 저장소 | `lib/storage/` | `localStorage` 키 정의, 안전한 읽기/쓰기, 복구, bootstrap |
 | 다국어 | `lib/i18n/` | locale 결정, 사전 로딩, provider 연결, 클라이언트 메타데이터 동기화 |
+| 테마 | `lib/theme/` | 다크모드 선호도 복구, 초기 적용, 클라이언트 토글 상태 관리 |
 | 로컬 프로필/ID | `lib/profile/`, `lib/ids/` | 로컬 프로필 생성과 저장, 로컬 엔티티 ID 생성 |
 | 공용 타입 | `types/` | 해커톤, 팀, 제출, 리더보드, 랭킹 타입 정의 |
 
 ## 페이지가 동작하는 흐름
 
-1. `app/layout.tsx` 가 쿠키를 읽어 초기 locale 을 결정하고 사전을 준비한다.
+1. `app/layout.tsx` 가 쿠키를 읽어 초기 locale 을 결정하고 사전을 준비하며, 인라인 스크립트로 저장된 테마 또는 시스템 선호 테마를 먼저 적용한다.
 2. 앱 내부 페이지는 `app/(app)/layout.tsx` 를 통해 `SharedAppShell` 을 공유한다.
 3. `SharedAppShell` 마운트 시 `bootstrapStorage()` 가 실행되어 기본 읽기 데이터를 `localStorage` 기준으로 보정한다.
 4. 각 화면은 `lib/storage/entities/*` 또는 `lib/data/*` 를 통해 데이터를 읽고, 엔티티 helper의 recovery 규칙에 따라 시드 데이터 또는 기본값을 사용한다.
@@ -47,6 +48,7 @@
 
 - 지원 언어는 한국어(`ko`)와 영어(`en`)다.
 - 초기 locale 은 쿠키 기준으로 결정하고 `localStorage` 의 `app-locale` 값은 `lib/i18n/persistence.ts` 가 관리하는 클라이언트 미러로만 사용한다.
+- 초기 테마는 `localStorage.app-theme` 값이 있으면 이를 우선 사용하고, 없으면 시스템 `prefers-color-scheme` 를 기준으로 결정한다.
 - 사용자 노출 문구는 `lib/i18n/locales/ko.ts` 와 `lib/i18n/locales/en.ts` 에서만 관리한다.
 - 해커톤 상세와 캠프처럼 클라이언트 데이터에 따라 설명이 바뀌는 화면은 `useDocumentMetadata()` 로 제목과 설명을 다시 동기화한다.
 

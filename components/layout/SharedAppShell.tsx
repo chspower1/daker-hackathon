@@ -10,8 +10,8 @@ export function SharedAppShell({ children }: { children: React.ReactNode }) {
   }, []);
 
   return (
-    <div className="min-h-screen bg-white text-slate-900 flex flex-col font-sans selection:bg-blue-600 selection:text-white overflow-x-clip relative">
-      <div className="fixed inset-0 z-0 pointer-events-none bg-grid-slate-100 [mask-image:linear-gradient(to_bottom,white_20%,transparent_80%)]"></div>
+    <div className="min-h-screen bg-surface-base text-content-base flex flex-col font-sans selection:bg-blue-600 selection:text-white overflow-x-clip relative">
+      <div className="fixed inset-0 z-0 pointer-events-none bg-grid-pattern [mask-image:linear-gradient(to_bottom,white_20%,transparent_80%)]"></div>
       <div className="fixed top-[-10%] -left-[10%] w-[40%] h-[40%] bg-blue-200/30 rounded-full mix-blend-multiply filter blur-3xl opacity-50 pointer-events-none"></div>
       <div className="fixed top-[-10%] -right-[10%] w-[40%] h-[40%] bg-indigo-200/30 rounded-full mix-blend-multiply filter blur-3xl opacity-50 pointer-events-none"></div>
       

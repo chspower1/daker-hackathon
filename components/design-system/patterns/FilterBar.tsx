@@ -49,7 +49,7 @@ export function FilterBar({
           placeholder={searchPlaceholder}
           aria-label={searchLabel}
           onChange={(e) => onSearchChange?.(e.target.value)}
-          className="bg-white border-none rounded-2xl text-content-base font-bold placeholder:text-content-subtle"
+          className="bg-surface-base border-none rounded-2xl text-content-base font-bold placeholder:text-content-subtle"
         />
       </div>
       {filters.length > 0 && (
@@ -57,7 +57,7 @@ export function FilterBar({
           {filters.map((filter) => (
             <Select 
               key={filter.id} 
-              className="w-auto min-w-[120px] bg-white border-none rounded-2xl text-content-base font-bold"
+              className="w-auto min-w-[120px] bg-surface-base border-none rounded-2xl text-content-base font-bold"
               aria-label={filter.label}
               onChange={(e) => onFilterChange?.(filter.id, e.target.value)}
             >

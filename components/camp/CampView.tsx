@@ -319,7 +319,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
     return (
       <span className={cn(
         "ml-1.5 inline-flex items-center text-[10px] transition-colors",
-        isActive ? "text-blue-600 font-bold" : "text-slate-300 group-hover:text-slate-400"
+        isActive ? "text-blue-600 font-bold" : "text-content-subtle group-hover:text-content-muted"
       )}>
         {isActive ? (sortOrder === "asc" ? "▲" : "▼") : "↕"}
       </span>
@@ -356,10 +356,10 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
   return (
     <div className="flex flex-col lg:flex-row gap-6 xl:gap-8 items-start w-full">
       <aside className="w-full lg:w-64 xl:w-72 shrink-0 lg:sticky lg:top-24 lg:h-[calc(100vh-7rem)] flex flex-col">
-        <div className="flex flex-col h-full bg-slate-50/50 backdrop-blur-xl rounded-2xl border border-slate-200/60 shadow-sm overflow-hidden">
+        <div className="flex flex-col h-full bg-surface-muted/50 backdrop-blur-xl rounded-2xl border border-border-base/60 shadow-sm overflow-hidden">
           
           {/* 1. Header/Context */}
-          <div className="shrink-0 p-5 bg-white border-b border-slate-200/60 relative">
+          <div className="shrink-0 p-5 bg-surface-base border-b border-border-base/60 relative">
             {filterHackathonSlug !== undefined && activeHackathon !== undefined ? (
               <div className="mb-4 p-3 bg-amber-50/80 rounded-xl border border-amber-200/50">
                 <div className="flex items-start justify-between">
@@ -381,8 +381,8 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                 {dict.appNav.camp}
               </div>
             )}
-            <h1 className="text-xl font-extrabold tracking-tight text-slate-900">{dict.appPages.campTitle}</h1>
-            <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">{pageDescription}</p>
+            <h1 className="text-xl font-extrabold tracking-tight text-content-base">{dict.appPages.campTitle}</h1>
+            <p className="text-xs text-content-subtle mt-1.5 leading-relaxed">{pageDescription}</p>
             
             <div className="mt-4">
               <Button
@@ -400,8 +400,8 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
           </div>
 
           {/* 2. Primary Controls */}
-          <div className="shrink-0 p-5 border-b border-slate-200/60 bg-slate-50/30">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3">{listText.filters.statusLabel}</h3>
+          <div className="shrink-0 p-5 border-b border-border-base/60 bg-surface-muted/30">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-content-subtle mb-3">{listText.filters.statusLabel}</h3>
             <div className="flex flex-col gap-1.5">
               {statusOptions.map((option) => {
                 const isActive = statusFilter === option;
@@ -420,15 +420,15 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                     className={cn(
                       "flex items-center justify-between text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 font-medium border",
                       isActive 
-                        ? "bg-white text-blue-700 border-slate-200/60 shadow-sm" 
-                        : "bg-transparent text-slate-600 border-transparent hover:bg-slate-100/50 hover:text-slate-900",
+                        ? "bg-surface-base text-blue-700 border-border-base/60 shadow-sm" 
+                        : "bg-transparent text-content-muted border-transparent hover:bg-surface-subtle/50 hover:text-content-base",
                     )}
                   >
                     <span>{label}</span>
                     <span
                       className={cn(
                         "text-[10px] font-bold px-2 py-0.5 rounded-full",
-                        isActive ? "bg-blue-50 text-blue-600" : "bg-slate-100 text-slate-500",
+                        isActive ? "bg-blue-50 text-blue-600" : "bg-surface-subtle text-content-subtle",
                       )}
                     >
                       {statusCounts[option]}
@@ -440,8 +440,8 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
           </div>
 
           {/* 3. Scrollable Secondary Filters */}
-          <div className="flex-1 min-h-0 flex flex-col p-5 bg-white/30">
-            <h3 className="text-xs font-bold uppercase tracking-wider text-slate-500 mb-3 shrink-0">{listText.filters.tagLabel}</h3>
+          <div className="flex-1 min-h-0 flex flex-col p-5 bg-surface-base/30">
+            <h3 className="text-xs font-bold uppercase tracking-wider text-content-subtle mb-3 shrink-0">{listText.filters.tagLabel}</h3>
             <div className="shrink-0 mb-4 space-y-3">
               <Input
                 placeholder={listText.filters.searchTagsPlaceholder}
@@ -449,7 +449,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                 onChange={(event) => setTagSearchQuery(event.target.value)}
                 aria-label={listText.filters.searchTagsLabel}
                 inputSize="md"
-                className="bg-white text-sm"
+                className="bg-surface-base text-sm"
               />
               <div className="flex flex-wrap gap-2">
                 <button
@@ -458,9 +458,9 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                   onClick={() => setSelectedTagKeys([])}
                   className={cn(
                     "w-fit px-3 py-1.5 rounded-full text-xs transition-colors duration-200 border",
-                    selectedTagKeys.length === 0
-                      ? "bg-slate-800 text-white border-slate-800 font-semibold"
-                      : "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50",
+                      selectedTagKeys.length === 0
+                        ? "bg-content-base text-surface-base border-content-base font-semibold"
+                      : "bg-surface-base text-content-muted border-border-base hover:border-border-strong hover:bg-surface-muted",
                   )}
                 >
                   {listText.filters.allTags}
@@ -469,7 +469,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                   variant="outline"
                   size="sm"
                   disabled={!hasActiveSidebarFilters}
-                  className="w-fit justify-center text-slate-600 hover:bg-slate-100 hover:text-slate-900 border-slate-200 text-xs font-semibold disabled:cursor-default disabled:opacity-40"
+                  className="w-fit justify-center text-content-muted hover:bg-surface-subtle hover:text-content-base border-border-base text-xs font-semibold disabled:cursor-default disabled:opacity-40"
                   onClick={() => {
                     setStatusFilter("all");
                     setSelectedTagKeys([]);
@@ -484,11 +484,11 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
 
             <div className="flex-1 overflow-y-auto pr-2 -mr-2 pb-2 space-y-5 custom-scrollbar">
               {visibleTagGroups.length === 0 ? (
-                <p className="text-xs text-slate-500 py-4 text-center">{listText.filters.noTagsFound}</p>
+                <p className="text-xs text-content-subtle py-4 text-center">{listText.filters.noTagsFound}</p>
               ) : (
                 visibleTagGroups.map((group) => (
                   <div key={group.id} className="space-y-2.5">
-                    <p className="text-[10px] font-bold uppercase tracking-wider text-slate-400">{group.label}</p>
+                    <p className="text-[10px] font-bold uppercase tracking-wider text-content-subtle">{group.label}</p>
                     <div className="flex flex-wrap gap-1.5 pb-1">
                       {group.tags.map((tag) => {
                         const tagKey = makeCampTagKey(group.id, tag);
@@ -510,7 +510,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                               "px-2.5 py-1 rounded-md text-xs transition-all duration-200 border",
                               isSelected
                                 ? "bg-blue-50 text-blue-700 border-blue-200 font-semibold"
-                                : "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50",
+                                : "bg-surface-base text-content-muted border-border-base hover:border-border-strong hover:bg-surface-muted",
                             )}
                           >
                             {tag}
@@ -530,14 +530,14 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
       <main className="flex-1 w-full min-w-0">
         <div className="space-y-6">
           {notice !== null && (
-            <Alert variant={notice.variant} title={notice.title} className="!border !border-slate-200/60 !shadow-sm !rounded-xl !bg-white/80 backdrop-blur-sm ring-1 ring-white/50 !p-4 !text-slate-700 !text-sm !font-normal">
+            <Alert variant={notice.variant} title={notice.title} className="!border !border-border-base/60 !shadow-sm !rounded-xl !bg-surface-base/80 backdrop-blur-sm ring-1 ring-white/50 !p-4 !text-content-muted !text-sm !font-normal">
               {notice.description}
             </Alert>
           )}
 
           
           <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between mb-4">
-            <p className="text-sm font-medium text-slate-500 whitespace-nowrap">
+            <p className="text-sm font-medium text-content-subtle whitespace-nowrap">
               {listText.resultsFound.replace("{count}", String(filteredTeams.length))}
             </p>
             <div className="flex items-center gap-3 w-full sm:w-auto">
@@ -549,18 +549,18 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                 inputSize="md"
                 className="w-full sm:w-64"
               />
-              <div className="flex bg-slate-100 p-1 rounded-lg shrink-0">
+              <div className="flex bg-surface-subtle p-1 rounded-lg shrink-0">
                 <button
                   type="button"
                   onClick={() => setViewMode("card")}
-                  className={cn("px-3 py-1.5 text-xs font-medium rounded-md transition-colors", viewMode === "card" ? "bg-white text-slate-900 shadow-sm" : "text-slate-600 hover:text-slate-900")}
+                  className={cn("px-3 py-1.5 text-xs font-medium rounded-md transition-colors", viewMode === "card" ? "bg-surface-base text-content-base shadow-sm" : "text-content-muted hover:text-content-base")}
                 >
                   {listText.viewModeCard}
                 </button>
                 <button
                   type="button"
                   onClick={() => setViewMode("table")}
-                  className={cn("px-3 py-1.5 text-xs font-medium rounded-md transition-colors", viewMode === "table" ? "bg-white text-slate-900 shadow-sm" : "text-slate-600 hover:text-slate-900")}
+                  className={cn("px-3 py-1.5 text-xs font-medium rounded-md transition-colors", viewMode === "table" ? "bg-surface-base text-content-base shadow-sm" : "text-content-muted hover:text-content-base")}
                 >
                   {listText.viewModeTable}
                 </button>
@@ -599,7 +599,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
               <TableHeader>
                 <TableRow className="hover:bg-transparent">
                   <TableHead
-                    className={cn("cursor-pointer group hover:bg-slate-100/60 transition-colors select-none", sortField === "teamName" && "text-slate-900 bg-slate-50")}
+                    className={cn("cursor-pointer group hover:bg-surface-subtle/60 transition-colors select-none", sortField === "teamName" && "text-content-base bg-surface-muted")}
                     onClick={() => toggleSort("teamName")}
                   >
                     <div className="flex items-center">
@@ -607,7 +607,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                     </div>
                   </TableHead>
                   <TableHead
-                    className={cn("cursor-pointer group hover:bg-slate-100/60 transition-colors select-none", sortField === "owner" && "text-slate-900 bg-slate-50")}
+                    className={cn("cursor-pointer group hover:bg-surface-subtle/60 transition-colors select-none", sortField === "owner" && "text-content-base bg-surface-muted")}
                     onClick={() => toggleSort("owner")}
                   >
                     <div className="flex items-center">
@@ -615,7 +615,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                     </div>
                   </TableHead>
                   <TableHead
-                    className={cn("cursor-pointer group hover:bg-slate-100/60 transition-colors select-none", sortField === "hackathon" && "text-slate-900 bg-slate-50")}
+                    className={cn("cursor-pointer group hover:bg-surface-subtle/60 transition-colors select-none", sortField === "hackathon" && "text-content-base bg-surface-muted")}
                     onClick={() => toggleSort("hackathon")}
                   >
                     <div className="flex items-center">
@@ -623,7 +623,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                     </div>
                   </TableHead>
                   <TableHead
-                    className={cn("cursor-pointer group hover:bg-slate-100/60 transition-colors select-none", sortField === "status" && "text-slate-900 bg-slate-50")}
+                    className={cn("cursor-pointer group hover:bg-surface-subtle/60 transition-colors select-none", sortField === "status" && "text-content-base bg-surface-muted")}
                     onClick={() => toggleSort("status")}
                   >
                     <div className="flex items-center">
@@ -631,7 +631,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                     </div>
                   </TableHead>
                   <TableHead
-                    className={cn("cursor-pointer group hover:bg-slate-100/60 transition-colors select-none", sortField === "lookingFor" && "text-slate-900 bg-slate-50")}
+                    className={cn("cursor-pointer group hover:bg-surface-subtle/60 transition-colors select-none", sortField === "lookingFor" && "text-content-base bg-surface-muted")}
                     onClick={() => toggleSort("lookingFor")}
                   >
                     <div className="flex items-center">
@@ -639,7 +639,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                     </div>
                   </TableHead>
                   <TableHead
-                    className={cn("cursor-pointer group hover:bg-slate-100/60 transition-colors select-none", sortField === "createdAt" && "text-slate-900 bg-slate-50")}
+                    className={cn("cursor-pointer group hover:bg-surface-subtle/60 transition-colors select-none", sortField === "createdAt" && "text-content-base bg-surface-muted")}
                     onClick={() => toggleSort("createdAt")}
                   >
                     <div className="flex items-center">
@@ -655,20 +655,20 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                     : "-";
                   return (
                     <TableRow key={team.teamCode}>
-                      <TableCell className="font-semibold text-slate-900">{team.name}</TableCell>
+                      <TableCell className="font-semibold text-content-base">{team.name}</TableCell>
                       <TableCell>{team.ownerNicknameSnapshot ?? "-"}</TableCell>
                       <TableCell>{hackathonTitle}</TableCell>
                       <TableCell>
-                        <span className={cn("px-2 py-1 rounded-full text-xs font-semibold", team.isOpen ? "bg-blue-50 text-blue-700" : "bg-slate-50 text-slate-500")}>
+                        <span className={cn("px-2 py-1 rounded-full text-xs font-semibold", team.isOpen ? "bg-blue-50 text-blue-700" : "bg-surface-muted text-content-subtle")}>
                           {team.isOpen ? listText.statusOpen : listText.statusClosed}
                         </span>
                       </TableCell>
                       <TableCell>
                         <div className="flex flex-wrap gap-1">
                           {team.lookingFor.slice(0, 2).map((role) => (
-                            <span key={role} className="bg-slate-100 text-slate-700 px-1.5 py-0.5 text-[10px] rounded">{role}</span>
+                            <span key={role} className="bg-surface-subtle text-content-muted px-1.5 py-0.5 text-[10px] rounded">{role}</span>
                           ))}
-                          {team.lookingFor.length > 2 && <span className="bg-slate-50 text-slate-500 px-1.5 py-0.5 text-[10px] rounded">+{team.lookingFor.length - 2}</span>}
+                          {team.lookingFor.length > 2 && <span className="bg-surface-muted text-content-subtle px-1.5 py-0.5 text-[10px] rounded">+{team.lookingFor.length - 2}</span>}
                         </div>
                       </TableCell>
                       <TableCell>{dateFormatter.format(new Date(team.createdAt))}</TableCell>
@@ -686,16 +686,16 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                   : undefined;
 
                 return (
-                  <Card key={team.teamCode} className="h-full flex flex-col group border border-slate-200/60 shadow-sm hover:shadow-lg hover:shadow-blue-900/5 transition-all duration-300 hover:-translate-y-1 rounded-2xl bg-white overflow-hidden">
-                    <CardHeader className="space-y-3 bg-slate-50/50 border-b border-slate-100 pb-4 px-5 pt-5 transition-colors duration-300">
+                  <Card key={team.teamCode} className="h-full flex flex-col group border border-border-base/60 shadow-sm hover:shadow-lg hover:shadow-blue-900/5 transition-all duration-300 hover:-translate-y-1 rounded-2xl bg-surface-base overflow-hidden">
+                    <CardHeader className="space-y-3 bg-surface-muted/50 border-b border-border-muted pb-4 px-5 pt-5 transition-colors duration-300">
                       <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
-                        <CardTitle className="text-lg font-bold tracking-tight text-slate-900 group-hover:text-blue-600 transition-colors line-clamp-2">{team.name}</CardTitle>
+                        <CardTitle className="text-lg font-bold tracking-tight text-content-base group-hover:text-blue-600 transition-colors line-clamp-2">{team.name}</CardTitle>
                         <span
                           className={cn(
                             "rounded-full px-2.5 py-0.5 text-xs font-bold tracking-wide border whitespace-nowrap",
                             team.isOpen
                               ? "bg-blue-50 text-blue-700 border-blue-200"
-                              : "bg-slate-50 text-slate-500 border-slate-200",
+                              : "bg-surface-muted text-content-subtle border-border-base",
                           )}
                         >
                           {team.isOpen ? listText.statusOpen : listText.statusClosed}
@@ -703,34 +703,34 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                       </div>
                       {team.ownerNicknameSnapshot !== undefined && (
                         <div className="flex items-center gap-2">
-                          <div className="h-6 w-6 rounded-full bg-slate-200 border border-slate-300 flex items-center justify-center">
-                            <span className="text-xs font-bold text-slate-600">{team.ownerNicknameSnapshot.charAt(0).toUpperCase()}</span>
+                          <div className="h-6 w-6 rounded-full bg-surface-subtle border border-border-strong flex items-center justify-center">
+                            <span className="text-xs font-bold text-content-muted">{team.ownerNicknameSnapshot.charAt(0).toUpperCase()}</span>
                           </div>
-                          <p className="text-sm font-medium text-slate-600">
-                            <span className="text-slate-900 font-semibold">{team.ownerNicknameSnapshot}</span>
+                          <p className="text-sm font-medium text-content-muted">
+                            <span className="text-content-base font-semibold">{team.ownerNicknameSnapshot}</span>
                           </p>
                         </div>
                       )}
                     </CardHeader>
                     <CardContent className="space-y-4 p-5 flex-1 flex flex-col">
-                      <p className="text-sm leading-relaxed text-slate-700 flex-1">{team.intro}</p>
+                      <p className="text-sm leading-relaxed text-content-muted flex-1">{team.intro}</p>
 
-                      <div className="mt-4 flex flex-col justify-end space-y-3 border-t border-slate-100 pt-4 text-sm">
+                      <div className="mt-4 flex flex-col justify-end space-y-3 border-t border-border-muted pt-4 text-sm">
                         {team.hackathonSlug !== undefined && (
                           <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
-                            <span className="font-semibold text-slate-500">{listText.hackathonLabel}</span>
-                            <span className="text-left sm:text-right font-semibold text-slate-900 max-w-full sm:max-w-[150px] line-clamp-2">{hackathonTitle}</span>
+                            <span className="font-semibold text-content-subtle">{listText.hackathonLabel}</span>
+                            <span className="text-left sm:text-right font-semibold text-content-base max-w-full sm:max-w-[150px] line-clamp-2">{hackathonTitle}</span>
                           </div>
                         )}
 
                         {team.lookingFor.length > 0 && (
-                          <div className="space-y-2 pt-1 border-t border-slate-50">
-                            <span className="font-semibold text-slate-500 block">{listText.lookingForLabel}</span>
+                          <div className="space-y-2 pt-1 border-t border-border-muted">
+                            <span className="font-semibold text-content-subtle block">{listText.lookingForLabel}</span>
                             <div className="flex flex-wrap gap-1.5">
                               {team.lookingFor.map((role) => (
                                 <span
                                   key={`${team.teamCode}-looking-for-${role}`}
-                                  className="bg-slate-100 text-slate-700 px-2 py-0.5 text-[11px] font-semibold rounded"
+                                  className="bg-surface-subtle text-content-muted px-2 py-0.5 text-[11px] font-semibold rounded"
                                 >
                                   {role}
                                 </span>
@@ -740,8 +740,8 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                         )}
 
                         {(team.teamStyle ?? []).length > 0 && (
-                          <div className="space-y-2 pt-1 border-t border-slate-50">
-                            <span className="font-semibold text-slate-500 block">{listText.teamStyleLabel}</span>
+                          <div className="space-y-2 pt-1 border-t border-border-muted">
+                            <span className="font-semibold text-content-subtle block">{listText.teamStyleLabel}</span>
                             <div className="flex flex-wrap gap-1.5">
                               {(team.teamStyle ?? []).map((tag) => (
                                 <span
@@ -755,9 +755,9 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                           </div>
                         )}
 
-                        <div className="flex items-center justify-between gap-4 pt-2 border-t border-slate-100">
-                          <span className="font-semibold text-slate-500">{listText.createdAtLabel}</span>
-                          <span className="text-right font-medium text-slate-500 text-xs">
+                        <div className="flex items-center justify-between gap-4 pt-2 border-t border-border-muted">
+                          <span className="font-semibold text-content-subtle">{listText.createdAtLabel}</span>
+                          <span className="text-right font-medium text-content-subtle text-xs">
                             {dateFormatter.format(new Date(team.createdAt))}
                           </span>
                         </div>

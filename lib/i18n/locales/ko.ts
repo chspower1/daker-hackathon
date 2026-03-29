@@ -353,6 +353,11 @@ export const ko: Dictionary = {
     featuresSubtitle:
       "속도, 협업, 그리고 최고의 작업물을 선보이기 위해 설계된 플랫폼입니다.",
     learnMore: "더 알아보기",
+    toggleTheme: "테마 변경",
+    switchToDarkMode: "다크 모드로 전환",
+    switchToLightMode: "라이트 모드로 전환",
+    lightModeEnabled: "라이트 모드 사용 중",
+    darkModeEnabled: "다크 모드 사용 중",
     rankingsBadge: "실시간 랭킹",
     rankingsTitle: "이번 시즌 최고의 팀",
     rankingsDesc: "이번 시즌의 선두 주자는 누구일까요? 미래를 만들어가는 최고의 팀들을 만나보세요.",

@@ -26,7 +26,7 @@ export function SectionNav({ items, onSelect, className, ...props }: SectionNavP
               "cursor-pointer px-6 py-3 text-lg font-bold st transition-all border border-border-base whitespace-nowrap",
               item.active
                 ? "bg-primary-base text-white shadow-md translate-x-[-2px] translate-y-[-2px]"
-                : "bg-white text-content-base hover:bg-yellow-300 shadow-md"
+                : "bg-surface-base text-content-base hover:bg-yellow-300 shadow-md"
             )}
             aria-current={item.active ? "location" : undefined}
           >
@@ -41,7 +41,7 @@ export function SectionNav({ items, onSelect, className, ...props }: SectionNavP
               "cursor-pointer px-6 py-3 text-lg font-bold st transition-all border border-border-base whitespace-nowrap",
               item.active
                 ? "bg-primary-base text-white shadow-md translate-x-[-2px] translate-y-[-2px]"
-                : "bg-white text-content-base hover:bg-yellow-300 shadow-md"
+                : "bg-surface-base text-content-base hover:bg-yellow-300 shadow-md"
             )}
             aria-pressed={item.active || undefined}
           >

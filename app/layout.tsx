@@ -1,9 +1,11 @@
 import type { Metadata } from "next";
 import { cookies } from "next/headers";
+import Script from "next/script";
 import { Geist, Geist_Mono } from "next/font/google";
 import { defaultLocale, isLocale, localeCookieName, type Locale } from "@/lib/i18n/config";
 import { getDictionary } from "@/lib/i18n/dictionaries";
 import { Providers } from "@/lib/i18n/Providers";
+import { themeStorageKey } from "@/lib/theme/config";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -41,7 +43,26 @@ export default async function RootLayout({
   const locale = await getRequestLocale();
 
   return (
-    <html lang={locale}>
+    <html lang={locale} suppressHydrationWarning>
+      <head>
+        <Script id="theme-init" strategy="beforeInteractive">
+          {`(function() {
+            try {
+              var storedTheme = window.localStorage.getItem('${themeStorageKey}');
+              var theme = storedTheme === 'dark' || storedTheme === 'light'
+                ? storedTheme
+                : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
+              document.documentElement.dataset.theme = theme;
+              document.documentElement.style.colorScheme = theme;
+              document.documentElement.classList.toggle('dark', theme === 'dark');
+            } catch {
+              document.documentElement.dataset.theme = 'light';
+              document.documentElement.style.colorScheme = 'light';
+              document.documentElement.classList.remove('dark');
+            }
+          })();`}
+        </Script>
+      </head>
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
