@@ -360,7 +360,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
           
           {/* 1. Header/Context */}
           <div className="shrink-0 p-5 bg-surface-base border-b border-border-base/60 relative">
-            {filterHackathonSlug !== undefined && activeHackathon !== undefined ? (
+            {filterHackathonSlug !== undefined && activeHackathon !== undefined && (
               <div className="mb-4 p-3 bg-amber-50/80 rounded-xl border border-amber-200/50">
                 <div className="flex items-start justify-between">
                   <div>
@@ -371,14 +371,6 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                   </Link>
                 </div>
-              </div>
-            ) : (
-              <div className="inline-flex w-fit items-center rounded-md bg-blue-50/50 px-2 py-1 text-[10px] font-bold uppercase tracking-wider text-blue-600 mb-3">
-                <span className="relative flex h-1.5 w-1.5 mr-1.5">
-                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
-                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-blue-500"></span>
-                </span>
-                {dict.appNav.camp}
               </div>
             )}
             <h1 className="text-xl font-extrabold tracking-tight text-content-base">{dict.appPages.campTitle}</h1>
