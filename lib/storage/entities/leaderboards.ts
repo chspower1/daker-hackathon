@@ -1,5 +1,5 @@
 import { listSeedLeaderboards } from "@/lib/data";
-import { readWithRecovery, writeValue } from "@/lib/storage/client";
+import { readWithRecovery, type StorageReadResult, writeValue } from "@/lib/storage/client";
 import { storageKeys } from "@/lib/storage/keys";
 import {
   isArrayOf,
@@ -10,9 +10,19 @@ import {
   isRecord,
   isString,
 } from "@/lib/storage/validation";
-import type { Leaderboard, LeaderboardEntry } from "@/types";
+import type { Leaderboard, LeaderboardEntry, LeaderboardStatus } from "@/types";
 
-function isLeaderboardEntry(value: unknown): value is LeaderboardEntry {
+type PersistedLeaderboardStatus = LeaderboardStatus | "미제출";
+
+interface PersistedLeaderboardEntry extends Omit<LeaderboardEntry, "status"> {
+  status?: PersistedLeaderboardStatus;
+}
+
+interface PersistedLeaderboard extends Omit<Leaderboard, "entries"> {
+  entries: PersistedLeaderboardEntry[];
+}
+
+function isLeaderboardEntry(value: unknown): value is PersistedLeaderboardEntry {
   if (!isRecord(value)) {
     return false;
   }
@@ -31,11 +41,11 @@ function isLeaderboardEntry(value: unknown): value is LeaderboardEntry {
       && isOptionalString(artifacts.pdfUrl)
       && isOptionalString(artifacts.planTitle)
     ))
-    && (status === undefined || status === "submitted" || status === "미제출")
+    && (status === undefined || status === "submitted" || status === "unsubmitted" || status === "미제출")
   );
 }
 
-function isLeaderboard(value: unknown): value is Leaderboard {
+function isLeaderboard(value: unknown): value is PersistedLeaderboard {
   if (!isRecord(value)) {
     return false;
   }
@@ -49,11 +59,38 @@ function isLeaderboard(value: unknown): value is Leaderboard {
 
 const leaderboardsCodec = {
   getSeed: listSeedLeaderboards,
-  isValid: (value: unknown): value is Leaderboard[] => isArrayOf(value, isLeaderboard),
+  isValid: (value: unknown): value is PersistedLeaderboard[] => isArrayOf(value, isLeaderboard),
 };
 
-export function readLeaderboards() {
-  return readWithRecovery(storageKeys.leaderboards, leaderboardsCodec);
+function normalizeLeaderboardStatus(status: PersistedLeaderboardStatus | undefined): LeaderboardStatus | undefined {
+  if (status === "미제출") {
+    return "unsubmitted";
+  }
+
+  return status;
+}
+
+function normalizeLeaderboardEntry(entry: PersistedLeaderboardEntry): LeaderboardEntry {
+  return {
+    ...entry,
+    status: normalizeLeaderboardStatus(entry.status),
+  };
+}
+
+function normalizeLeaderboard(leaderboard: PersistedLeaderboard): Leaderboard {
+  return {
+    ...leaderboard,
+    entries: leaderboard.entries.map(normalizeLeaderboardEntry),
+  };
+}
+
+export function readLeaderboards(): StorageReadResult<Leaderboard[]> {
+  const result = readWithRecovery(storageKeys.leaderboards, leaderboardsCodec);
+
+  return {
+    ...result,
+    value: result.value.map(normalizeLeaderboard),
+  };
 }
 
 export function writeLeaderboards(leaderboards: Leaderboard[]) {

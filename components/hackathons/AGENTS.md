@@ -12,22 +12,23 @@ components/hackathons/
 
 | Task | Location | Notes |
 |------|----------|-------|
-| 해커톤 목록 렌더링 | `HackathonList.tsx` | `readHackathons`, `listSeedHackathons`, `localStorage` 빈 상태 처리 |
+| 해커톤 목록 렌더링 | `HackathonList.tsx` | `readHackathons`, storage unavailable 오류 상태, 썸네일/필터 처리 |
 | 상세/제출/리더보드 | `HackathonDetailContent.tsx` | 목록/상세 조합, 팀/제출/리더보드 쓰기 흐름 |
 | 스토리지 규칙 | `lib/storage/entities/*` | read/write 래퍼를 통해 접근 |
 | 시드 데이터 | `lib/data/*` | 공개 시드 보강 및 정규화 기준 |
 | 프로필/폼 게이트 | `lib/profile/localProfile.ts` | 생성/검증/저장 동작 |
 | 메타데이터 동기화 | `lib/i18n/useDocumentMetadata.ts` | 상세 페이지 제목/요약 동기화 |
 | 기능 계약 | `docs/page-structure.md`, `docs/core-features.md` | 해커톤 목록/상세 화면 계약 확인 |
+| 수동 QA | `docs/verification.md` | 목록/상세/제출 검증 순서 |
 
 ## LOCAL CONVENTIONS
 
 - storage/entity helpers를 항상 통해서만 읽고 쓴다.
   - 읽기: `readHackathons`, `readTeams`, `readSubmissions`, `readLeaderboards`
   - 쓰기: `writeSubmissions`, `writeLeaderboards` 같은 엔티티 함수만 사용
-- seed fallback 규칙
+- seed/recovery 규칙
   - 상세 화면은 `findSeedHackathonSummary`, `findSeedHackathonDetail`, `findSeedLeaderboard`, `listSeedTeamPostsByHackathon`로 공개 시드를 보강한다.
-  - 목록 화면은 `readHackathons().value`가 비면 `listSeedHackathons()`로 보강한다.
+  - 목록 화면은 `readHackathons()`의 recovery 결과를 그대로 사용하고, 저장소를 사용할 수 없으면 `ErrorState`를 노출한다.
 - profile/submission consistency
   - 제출 저장은 `profileNicknameSnapshot`을 함께 저장한다.
   - 제출 수정은 활성 제출의 `id`를 유지하고, 없을 때만 새 로컬 제출 ID를 만든다.
@@ -43,7 +44,7 @@ components/hackathons/
   - 프리미티브와 패턴만 사용한다 (`components/design-system/*`).
   - 공통 페이지 상태(로딩/빈 상태/에러)는 패턴 컴포넌트로 통일한다.
 - error handling
-  - 초기 로드는 try/catch와 상태 분기로 감싸고, 화면에는 `ErrorState` 같은 복구 가능한 UI만 노출한다.
+  - 초기 로드는 엔티티 read 결과의 `available`/값 분기로 처리하고, 화면에는 `ErrorState` 같은 복구 가능한 UI만 노출한다.
 
 ## LOCAL ANTI-PATTERNS
 
@@ -55,6 +56,7 @@ components/hackathons/
 ## LOCAL VERIFY NOTES
 
 - `pnpm build`와 `pnpm lint`는 이 폴더 수정 후 실행한다.
+- 수동 QA의 기본 흐름은 `docs/verification.md`를 기준으로 유지한다.
 - 수동 확인 항목
   - 목록: 시드 fallback + 필터 상태 + 상태 화면이 모두 동작
   - 상세: Teams/Submit/Leaderboard가 `hackathon.slug` 기준으로 일치

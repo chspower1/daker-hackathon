@@ -1,3 +1,5 @@
+export type LeaderboardStatus = "submitted" | "unsubmitted";
+
 export interface LeaderboardArtifacts {
   webUrl?: string;
   pdfUrl?: string;
@@ -11,7 +13,7 @@ export interface LeaderboardEntry {
   submittedAt?: string;
   scoreBreakdown?: Record<string, number>;
   artifacts?: LeaderboardArtifacts;
-  status?: "submitted" | "미제출";
+  status?: LeaderboardStatus;
 }
 
 export interface Leaderboard {

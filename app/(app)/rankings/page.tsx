@@ -7,6 +7,7 @@ import { LoadingState } from "@/components/design-system/patterns/LoadingState";
 import { toLanguageTag } from "@/lib/i18n/config";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { useDocumentMetadata } from "@/lib/i18n/useDocumentMetadata";
+import { storageChangeEventName, type StorageChangeDetail } from "@/lib/storage/events";
 import { readRankings } from "@/lib/storage/entities/rankings";
 import type { UserRankingEntry } from "@/types";
 import { storageKeys } from "@/lib/storage/keys";
@@ -47,20 +48,44 @@ export default function RankingsPage() {
   }, []);
 
   useEffect(() => {
-    const timeout = window.setTimeout(loadData, 0);
-    const interval = setInterval(loadData, 1000);
+    const frame = window.requestAnimationFrame(() => {
+      loadData();
+    });
 
     const onStorage = (e: StorageEvent) => {
       if (e.key === storageKeys.rankings) {
         loadData();
       }
     };
+
+    const onLocalStorageChange = (event: Event) => {
+      const customEvent = event as CustomEvent<StorageChangeDetail>;
+      if (customEvent.detail.key === storageKeys.rankings) {
+        loadData();
+      }
+    };
+
+    const onFocus = () => {
+      loadData();
+    };
+
+    const onVisibilityChange = () => {
+      if (document.visibilityState === "visible") {
+        loadData();
+      }
+    };
+
     window.addEventListener("storage", onStorage);
+    window.addEventListener(storageChangeEventName, onLocalStorageChange as EventListener);
+    window.addEventListener("focus", onFocus);
+    document.addEventListener("visibilitychange", onVisibilityChange);
 
     return () => {
-      clearTimeout(timeout);
-      clearInterval(interval);
+      window.cancelAnimationFrame(frame);
       window.removeEventListener("storage", onStorage);
+      window.removeEventListener(storageChangeEventName, onLocalStorageChange as EventListener);
+      window.removeEventListener("focus", onFocus);
+      document.removeEventListener("visibilitychange", onVisibilityChange);
     };
   }, [loadData]);
 

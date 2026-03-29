@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
+import Image from "next/image";
 import Link from "next/link";
 import { Badge } from "@/components/design-system/primitives/Badge";
 import { Button } from "@/components/design-system/primitives/Button";
@@ -13,7 +14,6 @@ import { LoadingState } from "@/components/design-system/patterns/LoadingState";
 import { toLanguageTag } from "@/lib/i18n/config";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { useDocumentMetadata } from "@/lib/i18n/useDocumentMetadata";
-import { listSeedHackathons } from "@/lib/data/hackathons";
 import { readHackathons } from "@/lib/storage/entities/hackathons";
 import { cn } from "@/lib/cn";
 import type { HackathonStatus, HackathonSummary } from "@/types";
@@ -50,15 +50,23 @@ export function HackathonList() {
   const [keywordSearch, setKeywordSearch] = useState("");
 
   useEffect(() => {
-    try {
+    const frame = window.requestAnimationFrame(() => {
       const result = readHackathons();
-      setHackathons(result.value.length > 0 ? result.value : listSeedHackathons());
+
+      if (!result.available) {
+        setHasError(true);
+        setIsLoading(false);
+        return;
+      }
+
+      setHackathons(result.value);
       setHasError(false);
-    } catch {
-      setHasError(true);
-    } finally {
       setIsLoading(false);
-    }
+    });
+
+    return () => {
+      window.cancelAnimationFrame(frame);
+    };
   }, []);
 
   const languageTag = toLanguageTag(locale);
@@ -374,11 +382,14 @@ export function HackathonList() {
                               </div>
                             </div>
                           ) : (
-                            <img
+                            <Image
                               alt={hackathon.title}
                               className="h-full w-full object-cover"
+                              fill
+                              sizes="48px"
                               src={hackathon.thumbnailUrl}
                               onError={() => setImageErrors((prev) => ({ ...prev, [hackathon.slug]: true }))}
+                              unoptimized
                             />
                           )}
                         </div>
@@ -428,13 +439,16 @@ export function HackathonList() {
                             </div>
                           </div>
                         ) : (
-                          <img
-                            alt={hackathon.title}
-                            className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
-                            src={hackathon.thumbnailUrl}
-                            onError={() => setImageErrors((prev) => ({ ...prev, [hackathon.slug]: true }))}
-                          />
-                        )}
+                           <Image
+                             alt={hackathon.title}
+                             className="h-full w-full object-cover transition-transform duration-700 group-hover:scale-105"
+                             fill
+                             sizes="(min-width: 1280px) 24rem, (min-width: 768px) 50vw, 100vw"
+                             src={hackathon.thumbnailUrl}
+                             onError={() => setImageErrors((prev) => ({ ...prev, [hackathon.slug]: true }))}
+                             unoptimized
+                           />
+                         )}
                         <div className="absolute top-3 left-3 flex gap-2">
                           <Badge variant={getStatusBadgeVariant(hackathon.status)} className="shadow-sm backdrop-blur-md bg-white/90">
                             {listText.status[hackathon.status]}
@@ -459,14 +473,6 @@ export function HackathonList() {
                           <div className="flex justify-between items-center text-red-600">
                             <span>{listText.labels.deadline}</span>
                             <span className="font-semibold">{deadlineDate}</span>
-                          </div>
-                        )}
-                        {"participantsCount" in hackathon && (
-                          <div className="flex justify-between items-center mt-2 pt-2 border-t border-slate-100">
-                            <span>{listText.labels.participants}</span>
-                            <span className="font-medium text-slate-900">
-                              {(hackathon as HackathonSummary & { participantsCount?: number }).participantsCount?.toLocaleString(languageTag)}
-                            </span>
                           </div>
                         )}
                       </div>

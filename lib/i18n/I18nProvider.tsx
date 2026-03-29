@@ -1,9 +1,10 @@
 "use client";
 
 import { createContext, useCallback, useContext, useEffect, useMemo, useState } from "react";
-import { defaultLocale, localeCookieName, localeStorageKey, type Locale } from "./config";
+import { defaultLocale, type Locale } from "./config";
 import { getDictionary } from "./dictionaries";
 import type { Dictionary } from "./locales/en";
+import { persistLocale } from "./persistence";
 
 interface I18nContextType {
   locale: Locale;
@@ -12,16 +13,6 @@ interface I18nContextType {
 }
 
 const I18nContext = createContext<I18nContextType | null>(null);
-
-function persistLocale(locale: Locale) {
-  try {
-    window.localStorage.setItem(localeStorageKey, locale);
-  } catch {
-  }
-
-  document.cookie = `${localeCookieName}=${locale}; path=/; max-age=31536000; SameSite=Lax`;
-  document.documentElement.lang = locale;
-}
 
 export function I18nProvider({
   children,

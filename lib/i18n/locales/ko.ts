@@ -332,6 +332,7 @@ export const ko: Dictionary = {
       closed: "마감",
       draft: "임시 저장",
       submitted: "제출 완료",
+      unsubmitted: "미제출",
     },
     empty: {
       sectionTitle: "공개된 정보가 없습니다",

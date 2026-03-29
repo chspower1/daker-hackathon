@@ -15,6 +15,7 @@ It owns key definitions, safe JSON handling, runtime validation, recovery, boots
 | validation helpers | `validation.ts` | runtime guards |
 | bootstrap | `bootstrap.ts` | seeds read-only app data on shell mount |
 | entity codecs | `entities/*.ts` | `getSeed` + `isValid` + read/write pairing |
+| storage docs | `docs/storage-contracts.md` | key별 shape, seed, recovery 규칙 |
 
 ## CONVENTIONS
 
@@ -22,11 +23,11 @@ It owns key definitions, safe JSON handling, runtime validation, recovery, boots
 - Read through `readWithRecovery()` and write through `writeValue()` or entity wrappers. Keep browser-availability and parse-failure handling centralized.
 - Each entity module should keep seed generation, runtime validation, and read/write behavior together.
 - Respect special cases such as `persistSeedOnMissing: false` where the entity intentionally avoids auto-persisting a seed.
-- If storage shape changes, update `docs/system-structure.md` and `docs/core-features.md` in the same change.
+- If storage shape changes, update `docs/system-structure.md`, `docs/storage-contracts.md`, and `docs/core-features.md` in the same change.
 
 ## ANTI-PATTERNS
 
-- Do not call `window.localStorage` directly from app routes or components when an entity helper exists.
+- Do not call `window.localStorage` directly from app routes or components when an entity helper exists. The only supported exception in this repo is the locale mirror handled by `lib/i18n/persistence.ts`.
 - Do not skip runtime validation after parsing persisted data.
 - Do not add a new persisted key without updating docs and bootstrap expectations.
 - Do not move recovery rules into UI code.
@@ -34,5 +35,5 @@ It owns key definitions, safe JSON handling, runtime validation, recovery, boots
 ## VERIFY
 
 - Run `pnpm build` and `pnpm lint` after storage changes.
-- Manually verify the affected key behavior against `docs/core-features.md` and `docs/user-flows.md`.
+- Manually verify the affected key behavior against `docs/core-features.md`, `docs/user-flows.md`, and `docs/verification.md`.
 - For bootstrap-related changes, check `components/layout/SharedAppShell.tsx` call sites and app startup behavior.

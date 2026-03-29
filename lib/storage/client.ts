@@ -1,4 +1,5 @@
 import type { StorageKey } from "./keys";
+import { dispatchStorageChange } from "./events";
 import { safeJsonParse, safeJsonStringify } from "./json";
 
 export interface StorageCodec<T> {
@@ -40,6 +41,7 @@ export function writeValue<T>(key: StorageKey, value: T) {
 
   try {
     storage.setItem(key, serialized.value);
+    dispatchStorageChange(key);
     return true;
   } catch {
     return false;

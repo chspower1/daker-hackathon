@@ -14,8 +14,10 @@ docs/
 ├── service-overview.md    # 서비스 목적, 범위, 제외 범위
 ├── page-structure.md      # 라우트와 화면 구성
 ├── system-structure.md    # 레이어, 데이터, i18n, 저장 구조
+├── storage-contracts.md   # localStorage key별 shape와 복구 규칙
 ├── core-features.md       # 화면/기능별 동작 명세
 ├── user-flows.md          # 주요 사용자 흐름
+├── verification.md        # 수동 QA와 기본 검증 절차
 ├── improvement-plan.md    # 후속 개선 계획
 └── requirements/          # 해커톤 요구사항 원본, 수정 금지
 ```
@@ -27,8 +29,10 @@ docs/
 | service scope | `service-overview.md` | 제품 정의, 핵심 범위, 제외 범위 |
 | routes and pages | `page-structure.md` | 실제 라우트와 화면 책임 |
 | runtime architecture | `system-structure.md` | app, components, lib, storage, i18n 구조 |
+| storage contracts | `storage-contracts.md` | key별 JSON shape, seed, recovery 규칙 |
 | feature behavior | `core-features.md` | 기능별 규칙과 상태 처리 |
 | user journeys | `user-flows.md` | 핵심 탐색/작성/제출 흐름 |
+| verification scenarios | `verification.md` | lint/build 및 수동 QA 기준 |
 | future work | `improvement-plan.md` | 차기 개선 방향 |
 | source assets | `requirements/예시자료/`, `requirements/*.png` | 원본 입력 자료, 수정 금지 |
 
@@ -37,8 +41,9 @@ docs/
 - 문서는 한국어 중심으로 작성하되 코드 식별자, 라우트, 타입, 저장 키는 실제 값 그대로 유지한다.
 - 범위가 바뀌면 `service-overview.md`를 먼저 갱신한다.
 - 라우트나 페이지 책임이 바뀌면 `page-structure.md`와 `core-features.md`를 함께 갱신한다.
-- `localStorage`, 시드 데이터, i18n, 메타데이터, 공개/비공개 노출 규칙이 바뀌면 `system-structure.md`와 `core-features.md`를 함께 갱신한다.
+- `localStorage`, 시드 데이터, i18n, 메타데이터, 공개/비공개 노출 규칙이 바뀌면 `system-structure.md`, `storage-contracts.md`, `core-features.md`를 함께 갱신한다.
 - 흐름이나 제품 방향이 바뀌면 `user-flows.md`와 `improvement-plan.md`를 같이 점검한다.
+- 수동 QA 흐름이나 검증 기준이 바뀌면 `verification.md`를 같이 갱신한다.
 - `docs/requirements/` 는 원본 요구사항 보관용이므로 이 폴더 내부 파일은 수정하지 않는다.
 
 ## ANTI-PATTERNS

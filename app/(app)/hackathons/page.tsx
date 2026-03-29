@@ -1,5 +1,3 @@
-"use client";
-
 import { HackathonList } from "@/components/hackathons/HackathonList";
 
 export default function HackathonsPage() {

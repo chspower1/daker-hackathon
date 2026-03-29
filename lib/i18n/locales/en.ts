@@ -330,6 +330,7 @@ export const en = {
       closed: "Closed",
       draft: "Draft",
       submitted: "Submitted",
+      unsubmitted: "Unsubmitted",
     },
     empty: {
       sectionTitle: "No details available",

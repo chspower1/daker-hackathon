@@ -61,7 +61,7 @@ Gotcha: user-facing route paths stay `/hackathons`, `/camp`, `/rankings`, but re
 
 - Do not expose internal notes, internal identifiers, email, phone, real-name, or auth data in UI or persisted public shapes.
 - Do not add out-of-scope auth, backend DB, real-time chat, or other features excluded by `docs/service-overview.md`.
-- Do not change public interfaces, route contracts, or `localStorage` keys in only one place. Update the matching docs in `docs/page-structure.md`, `docs/system-structure.md`, and `docs/core-features.md`.
+- Do not change public interfaces, route contracts, or `localStorage` keys in only one place. Update the matching docs in `docs/page-structure.md`, `docs/system-structure.md`, `docs/storage-contracts.md`, and `docs/core-features.md`.
 - Do not auto-sync `localProfile` changes into rankings display. Rankings read from `localStorage.rankings` only.
 - Do not scatter translated copy into `content.ts`-style files or use provider-wide metadata mutation for every page.
 - Do not reintroduce the removed `docs/common`, `docs/features`, or `docs/workstreams` split.

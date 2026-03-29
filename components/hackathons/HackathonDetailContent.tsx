@@ -466,7 +466,10 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
       const otherLeaderboards = previousLeaderboards.filter((item) => item.hackathonSlug !== slug);
 
       if (!writeLeaderboards([...otherLeaderboards, nextLeaderboard])) {
-        writeSubmissions(previousSubmissions);
+        const rollbackSucceeded = writeSubmissions(previousSubmissions);
+        const effectiveSubmissions = rollbackSucceeded ? previousSubmissions : readSubmissions().value;
+
+        setSubmissions(effectiveSubmissions.filter((item) => item.hackathonSlug === slug));
         setFeedback({
           message: dict.hackathonDetail.messages.submitFailed,
           variant: "danger",
@@ -902,8 +905,10 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                       key={`${activeSubmission?.id}-${activeSubmission?.updatedAt}`}
                       onSubmit={(event) => {
                         event.preventDefault();
+                        const submitter = event.nativeEvent.submitter;
+                        const actionValue = submitter instanceof HTMLButtonElement ? submitter.value : undefined;
                         const formData = new FormData(event.currentTarget);
-                        const action = formData.get("action") === "draft" ? "draft" : "submit";
+                        const action = actionValue === "draft" ? "draft" : "submit";
                         handleSubmission(action, formData);
                       }}
                       className="space-y-6 rounded-2xl border border-slate-200 bg-white p-6 shadow-sm"
@@ -1000,7 +1005,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                               <div className="text-base font-semibold text-slate-900">{entry.teamName}</div>
                               {entry.status ? (
                                 <Badge variant={entry.status === "submitted" ? "success" : "default"} className="px-2 py-0 text-[10px] font-medium">
-                                  {entry.status === "submitted" ? statusText.submitted || entry.status : entry.status}
+                                  {statusText[entry.status] || entry.status}
                                 </Badge>
                               ) : null}
                             </div>
