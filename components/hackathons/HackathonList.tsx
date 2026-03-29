@@ -159,6 +159,7 @@ export function HackathonList() {
   };
 
   const listText = dict.hackathonList;
+  const hasActiveSidebarFilters = statusFilter !== "all" || tagFilter.length > 0 || tagSearchQuery.trim().length > 0 || keywordSearch.trim().length > 0;
 
   const formatDate = (value?: string) => value ? dateFormatter.format(new Date(value)) : null;
 
@@ -229,19 +230,30 @@ export function HackathonList() {
                 inputSize="md"
                 className="bg-white text-sm"
               />
-              <button
-                type="button"
-                aria-pressed={tagFilter.length === 0}
-                onClick={() => setTagFilter([])}
-                className={cn(
-                  "w-fit px-3 py-1.5 rounded-full text-xs transition-colors duration-200 border",
-                  tagFilter.length === 0 ? "bg-slate-800 text-white border-slate-800 font-semibold" : "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
-                )}
-              >
-                {listText.filters.allTags}
-              </button>
+              <div className="flex flex-wrap gap-2">
+                <button
+                  type="button"
+                  aria-pressed={tagFilter.length === 0}
+                  onClick={() => setTagFilter([])}
+                  className={cn(
+                    "w-fit px-3 py-1.5 rounded-full text-xs transition-colors duration-200 border",
+                    tagFilter.length === 0 ? "bg-slate-800 text-white border-slate-800 font-semibold" : "bg-white text-slate-600 border-slate-200 hover:border-slate-300 hover:bg-slate-50"
+                  )}
+                >
+                  {listText.filters.allTags}
+                </button>
+                <Button
+                  variant="outline"
+                  size="sm"
+                  disabled={!hasActiveSidebarFilters}
+                  className="w-fit justify-center text-slate-600 hover:bg-slate-100 hover:text-slate-900 border-slate-200 text-xs font-semibold disabled:cursor-default disabled:opacity-40"
+                  onClick={() => { setStatusFilter("all"); setTagFilter([]); setTagSearchQuery(""); setKeywordSearch(""); }}
+                >
+                  {listText.filters.clear}
+                </Button>
+              </div>
             </div>
-            <div className="flex-1 overflow-y-auto pr-2 -mr-2 custom-scrollbar">
+            <div className="flex-1 overflow-y-auto pr-2 -mr-2 pb-2 custom-scrollbar">
               <div className="flex flex-wrap gap-1.5 pb-2">
                 {visibleTags.map((tag) => {
                   const isSelected = tagFilter.includes(tag);
@@ -273,19 +285,6 @@ export function HackathonList() {
             </div>
           </div>
 
-          {/* 4. Footer actions */}
-          {(statusFilter !== "all" || tagFilter.length > 0 || tagSearchQuery || keywordSearch) && (
-            <div className="shrink-0 p-4 bg-white border-t border-slate-200/60">
-              <Button
-                variant="outline"
-                size="sm"
-                className="w-full justify-center text-slate-600 hover:bg-slate-100 hover:text-slate-900 border-slate-200 text-xs font-semibold"
-                onClick={() => { setStatusFilter("all"); setTagFilter([]); setTagSearchQuery(""); setKeywordSearch(""); }}
-              >
-                {listText.filters.clear}
-              </Button>
-            </div>
-          )}
         </div>
       </aside>
 
