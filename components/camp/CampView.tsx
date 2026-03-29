@@ -686,15 +686,15 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                   : undefined;
 
                 return (
-                  <Card key={team.teamCode} className="h-full flex flex-col group border border-border-base/60 shadow-sm hover:shadow-lg hover:shadow-blue-900/5 transition-all duration-300 hover:-translate-y-1 rounded-2xl bg-surface-base overflow-hidden">
+                  <Card key={team.teamCode} className="h-full flex flex-col group border border-border-base/60 shadow-sm hover:shadow-lg hover:shadow-primary-base/5 transition-all duration-300 hover:-translate-y-1 rounded-2xl bg-surface-base overflow-hidden">
                     <CardHeader className="space-y-3 bg-surface-muted/50 border-b border-border-muted pb-4 px-5 pt-5 transition-colors duration-300">
                       <div className="flex flex-col gap-2 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
-                        <CardTitle className="text-lg font-bold tracking-tight text-content-base group-hover:text-blue-600 transition-colors line-clamp-2">{team.name}</CardTitle>
+                        <CardTitle className="text-lg font-bold tracking-tight text-content-base group-hover:text-primary-base transition-colors line-clamp-2">{team.name}</CardTitle>
                         <span
                           className={cn(
                             "rounded-full px-2.5 py-0.5 text-xs font-bold tracking-wide border whitespace-nowrap",
                             team.isOpen
-                              ? "bg-blue-50 text-blue-700 border-blue-200"
+                              ? "bg-primary-subtle text-primary-base border-primary-base/20"
                               : "bg-surface-muted text-content-subtle border-border-base",
                           )}
                         >
@@ -746,7 +746,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                               {(team.teamStyle ?? []).map((tag) => (
                                 <span
                                   key={`${team.teamCode}-team-style-${tag}`}
-                                  className="bg-blue-50 text-blue-700 px-2 py-0.5 text-[11px] font-semibold rounded"
+                                  className="bg-primary-subtle text-primary-base px-2 py-0.5 text-[11px] font-semibold rounded"
                                 >
                                   {tag}
                                 </span>
@@ -768,7 +768,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                               href={team.contact.url}
                               target="_blank"
                               rel="noreferrer"
-                              className="w-full font-semibold text-blue-600 hover:text-blue-700 transition-colors flex items-center justify-center gap-1.5 bg-blue-50 hover:bg-blue-100 px-3 py-2 rounded-lg"
+                              className="w-full font-semibold text-primary-base hover:text-primary-hover transition-colors flex items-center justify-center gap-1.5 bg-primary-subtle hover:bg-primary-base/20 px-3 py-2 rounded-lg"
                             >
                               {listText.contactLink}
                               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">

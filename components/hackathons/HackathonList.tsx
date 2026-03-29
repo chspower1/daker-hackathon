@@ -377,7 +377,7 @@ export function HackathonList() {
                           {imageErrors[hackathon.slug] ? (
                             <div className="h-full w-full bg-surface-subtle/50 flex items-center justify-center">
                               <div className="w-6 h-6 rounded-full bg-surface-subtle flex items-center justify-center">
-                                <div className="w-3 h-3 rounded-full bg-blue-100/50" />
+                                <div className="w-3 h-3 rounded-full bg-primary-subtle/60" />
                               </div>
                             </div>
                           ) : (
@@ -396,7 +396,7 @@ export function HackathonList() {
                         <div className="w-12 h-12 rounded-md overflow-hidden bg-surface-muted border border-border-muted relative shrink-0">
                            <div className="h-full w-full bg-surface-subtle/50 flex items-center justify-center">
                               <div className="w-6 h-6 rounded-full bg-surface-subtle flex items-center justify-center">
-                                <div className="w-3 h-3 rounded-full bg-blue-100/50" />
+                                <div className="w-3 h-3 rounded-full bg-primary-subtle/60" />
                               </div>
                             </div>
                         </div>
@@ -428,13 +428,13 @@ export function HackathonList() {
 
               return (
                 <Link key={hackathon.slug} href={hackathon.links.detail} className="group block h-full">
-                  <Card className="h-full flex flex-col group border border-border-base/60 shadow-sm hover:shadow-lg hover:shadow-blue-900/5 transition-all duration-300 hover:-translate-y-1 rounded-2xl bg-surface-base overflow-hidden">
+                  <Card className="h-full flex flex-col group border border-border-base/60 shadow-sm hover:shadow-lg hover:shadow-primary-base/5 transition-all duration-300 hover:-translate-y-1 rounded-2xl bg-surface-base overflow-hidden">
                     {hackathon.thumbnailUrl && (
                       <div className="aspect-[16/9] overflow-hidden bg-surface-muted border-b border-border-muted relative">
                         {imageErrors[hackathon.slug] ? (
                           <div className="h-full w-full bg-surface-subtle/50 flex items-center justify-center">
                             <div className="w-16 h-16 rounded-full bg-surface-subtle flex items-center justify-center">
-                              <div className="w-8 h-8 rounded-full bg-blue-100/50" />
+                              <div className="w-8 h-8 rounded-full bg-primary-subtle/60" />
                             </div>
                           </div>
                         ) : (
@@ -449,42 +449,47 @@ export function HackathonList() {
                            />
                          )}
                         <div className="absolute top-3 left-3 flex gap-2">
-                          <Badge variant={getStatusBadgeVariant(hackathon.status)} className="shadow-sm backdrop-blur-md bg-surface-base/90">
+                          <span className={cn("rounded-full px-2.5 py-0.5 text-xs font-bold tracking-wide border whitespace-nowrap shadow-sm backdrop-blur-md", hackathon.status === "ongoing" ? "bg-primary-subtle/90 text-primary-base border-primary-base/20" : hackathon.status === "upcoming" ? "bg-surface-subtle/90 text-content-base border-border-strong" : "bg-surface-base/90 text-content-subtle border-border-base")}>
                             {listText.status[hackathon.status]}
-                          </Badge>
+                          </span>
                         </div>
                       </div>
                     )}
-                    <CardHeader className="space-y-2 bg-surface-muted/50 border-b border-border-muted pb-4 px-5 pt-5 transition-colors duration-300">
-                      <CardTitle className="group-hover:text-blue-600 transition-colors duration-300 text-lg leading-tight line-clamp-2">
+                    <CardHeader className="space-y-3 bg-surface-muted/50 border-b border-border-muted pb-4 px-5 pt-5 transition-colors duration-300">
+                      <CardTitle className="text-lg font-bold tracking-tight text-content-base group-hover:text-primary-base transition-colors line-clamp-2">
                         {hackathon.title}
                       </CardTitle>
                     </CardHeader>
-                    <CardContent className="flex flex-col flex-grow space-y-4 p-5 pt-4">
-                      <div className="mt-auto space-y-1.5 text-xs text-content-muted">
+                    <CardContent className="space-y-4 p-5 flex-1 flex flex-col">
+                      <div className="mt-4 flex flex-col justify-end space-y-3 border-t border-border-muted pt-4 text-sm">
                         {startDate && endDate && (
-                          <div className="flex justify-between items-center">
-                            <span>{listText.labels.period}</span>
-                            <span className="font-medium text-content-base">{startDate} - {endDate}</span>
+                          <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-4">
+                            <span className="font-semibold text-content-subtle">{listText.labels.period}</span>
+                            <span className="text-left sm:text-right font-semibold text-content-base max-w-full sm:max-w-[150px] line-clamp-2">{startDate} - {endDate}</span>
                           </div>
                         )}
                         {deadlineDate && (
-                          <div className="flex justify-between items-center text-red-600">
-                            <span>{listText.labels.deadline}</span>
-                            <span className="font-semibold">{deadlineDate}</span>
+                          <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-4 text-red-600">
+                            <span className="font-semibold">{listText.labels.deadline}</span>
+                            <span className="text-left sm:text-right font-bold">{deadlineDate}</span>
                           </div>
                         )}
-                      </div>
-                      <div className="flex flex-wrap gap-1.5 pt-2 border-t border-border-muted">
-                        {hackathon.tags.slice(0, 3).map((tag) => (
-                          <span key={tag} className="px-2 py-0.5 rounded text-[10px] font-semibold bg-surface-subtle text-content-muted transition-colors group-hover:bg-blue-50 group-hover:text-blue-600">
-                            {tag}
-                          </span>
-                        ))}
-                        {hackathon.tags.length > 3 && (
-                           <span className="px-2 py-0.5 rounded text-[10px] font-semibold bg-surface-muted text-content-subtle">
-                            +{hackathon.tags.length - 3}
-                          </span>
+                        
+                        {hackathon.tags.length > 0 && (
+                          <div className="space-y-2 pt-1 border-t border-border-muted">
+                            <div className="flex flex-wrap gap-1.5">
+                              {hackathon.tags.slice(0, 3).map((tag) => (
+                                <span key={tag} className="bg-primary-subtle text-primary-base px-2 py-0.5 text-[11px] font-semibold rounded">
+                                  {tag}
+                                </span>
+                              ))}
+                              {hackathon.tags.length > 3 && (
+                                 <span className="bg-surface-muted text-content-subtle px-2 py-0.5 text-[11px] font-semibold rounded">
+                                  +{hackathon.tags.length - 3}
+                                </span>
+                              )}
+                            </div>
+                          </div>
                         )}
                       </div>
                     </CardContent>
