@@ -874,11 +874,15 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
           <SectionBlock id="submit" title={sectionText.submit} sectionRef={sectionRefCallbacks.submit}>
             {detail?.sections.submit ? (
               profile === null ? (
-                <Card className="rounded-2xl border border-red-100 bg-red-50/50 shadow-sm">
-                  <CardContent className="space-y-5 pt-6">
-                    <Alert variant="danger" title={labelText.profileRequired}>
-                      {labelText.createProfileDesc}
-                    </Alert>
+                <Card className="rounded-2xl border border-border-base shadow-sm">
+                  <CardContent className="space-y-8 pt-8">
+                    <div className="flex items-center gap-4 rounded-2xl border border-blue-100 bg-blue-50/50 p-5 shadow-sm dark:border-blue-900/50 dark:bg-blue-900/20">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-xl text-blue-600 dark:bg-blue-900/50 dark:text-blue-400">👋</div>
+                      <div>
+                        <p className="text-lg font-bold text-content-base">{labelText.profileRequired}</p>
+                        <p className="mt-1 text-sm text-content-subtle">{labelText.createProfileDesc}</p>
+                      </div>
+                    </div>
                     <form
                       onSubmit={(event) => {
                         event.preventDefault();
