@@ -14,6 +14,8 @@ import { toLanguageTag } from "@/lib/i18n/config";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { useDocumentMetadata } from "@/lib/i18n/useDocumentMetadata";
 import { getLocalProfile } from "@/lib/profile/localProfile";
+import { storageChangeEventName, type StorageChangeDetail } from "@/lib/storage/events";
+import { storageKeys } from "@/lib/storage/keys";
 import { readHackathons } from "@/lib/storage/entities/hackathons";
 import { readTeams, writeTeams } from "@/lib/storage/entities/teams";
 import { CampWizardModal } from "./CampWizardModal";
@@ -118,15 +120,44 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
   }, [isWizardOpen]);
 
   useEffect(() => {
-    const teamResult = readTeams();
-    const hackathonResult = readHackathons();
+    const load = () => {
+      const teamResult = readTeams();
+      const hackathonResult = readHackathons();
 
-    startTransition(() => {
-      setTeams(teamResult.value);
-      setHackathons(hackathonResult.value);
-      setProfile(getLocalProfile());
-      setIsReady(true);
-    });
+      startTransition(() => {
+        setTeams(teamResult.value);
+        setHackathons(hackathonResult.value);
+        setProfile(getLocalProfile());
+        setIsReady(true);
+      });
+    };
+    
+    load();
+
+    const handleStorageChange = (e: Event) => {
+      const customEvent = e as CustomEvent<StorageChangeDetail>;
+      if (customEvent.detail.key === storageKeys.localProfile) {
+        setProfile(getLocalProfile());
+      } else if (customEvent.detail.key === storageKeys.teams) {
+        setTeams(readTeams().value);
+      }
+    };
+
+    const handleNativeStorage = (e: StorageEvent) => {
+      if (e.key === storageKeys.localProfile) {
+        setProfile(getLocalProfile());
+      } else if (e.key === storageKeys.teams) {
+        setTeams(readTeams().value);
+      }
+    };
+
+    window.addEventListener(storageChangeEventName, handleStorageChange as EventListener);
+    window.addEventListener('storage', handleNativeStorage);
+
+    return () => {
+      window.removeEventListener(storageChangeEventName, handleStorageChange as EventListener);
+      window.removeEventListener('storage', handleNativeStorage);
+    };
   }, []);
 
   const activeHackathon = useMemo(

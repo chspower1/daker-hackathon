@@ -4,7 +4,7 @@
 
 - 랜딩 페이지는 `app/page.tsx` 에서 시작한다.
 - 앱 내부 페이지는 `app/(app)/layout.tsx` 와 `components/layout/SharedAppShell.tsx` 를 공유한다.
-- 공통 셸은 상단 내비게이션, 언어 전환, `bootstrapStorage()` 실행을 담당한다.
+- 공통 셸은 상단 내비게이션, 언어 전환, `bootstrapStorage()` 실행, 헤더 모의 로그인/로그아웃 UI를 담당한다.
 
 ## 페이지 연결 관계
 

@@ -21,9 +21,10 @@
 
 1. `app/layout.tsx` 가 쿠키를 읽어 초기 locale 을 결정하고 사전을 준비하며, 인라인 스크립트로 저장된 테마 또는 시스템 선호 테마를 먼저 적용한다.
 2. 앱 내부 페이지는 `app/(app)/layout.tsx` 를 통해 `SharedAppShell` 을 공유한다.
-3. `SharedAppShell` 마운트 시 `bootstrapStorage()` 가 실행되어 기본 읽기 데이터를 `localStorage` 기준으로 보정한다.
+3. `SharedAppShell` 마운트 시 `bootstrapStorage()` 가 실행되어 기본 읽기 데이터를 `localStorage` 기준으로 보정하고, 헤더 우측에서 `localProfile` 기반 모의 로그인/로그아웃 UI를 제공한다.
 4. 각 화면은 `lib/storage/entities/*` 또는 `lib/data/*` 를 통해 데이터를 읽고, 엔티티 helper의 recovery 규칙에 따라 시드 데이터 또는 기본값을 사용한다.
-5. 사용자가 팀 모집글 작성이나 제출 저장을 하면 화면 컴포넌트가 직접 `window.localStorage` 를 건드리지 않고 storage 엔티티 함수로 상태를 갱신한다.
+5. 사용자가 헤더에서 프로필 ID로 모의 로그인하거나, 팀 모집글 작성/제출 과정에서 프로필을 만들면 `localProfile` 이 저장되고 현재 열린 프로필 의존 화면도 storage change 이벤트를 통해 즉시 상태를 다시 읽는다.
+6. 사용자가 팀 모집글 작성이나 제출 저장을 하면 화면 컴포넌트가 직접 `window.localStorage` 를 건드리지 않고 storage 엔티티 함수로 상태를 갱신한다.
 
 ## 데이터 원본과 저장 구조
 
@@ -31,6 +32,7 @@
 - 브라우저 영속 키는 `localProfile`, `hackathons`, `teams`, `submissions`, `leaderboards`, `rankings` 를 사용한다.
 - 저장 값이 없거나 JSON 파싱에 실패하면 가능한 경우 시드 데이터로 복구한다.
 - `hackathons`, `teams`, `submissions`, `leaderboards`, `rankings` 는 앱 진입 시 bootstrap 대상으로 관리한다.
+- `localProfile` 은 헤더의 모의 로그인 또는 화면 내 프로필 생성 흐름을 통해 저장되며 별도 auth key를 만들지 않는다.
 - `teams` 엔티티는 모집 상태(`isOpen`), 모집 분야(`lookingFor`), 팀 성향(`teamStyle`) 같은 캠프 필터용 공개 필드를 함께 보관한다.
 - 키별 JSON shape, seed, 복구 규칙의 상세 계약은 `docs/storage-contracts.md` 에서 관리한다.
 
@@ -56,6 +58,7 @@
 
 - 해커톤 목록, 해커톤 상세, 랭킹처럼 데이터 의존도가 높은 화면은 로딩, 빈 상태, 오류 상태를 구분해 보여준다.
 - 캠프 화면은 로딩과 빈 상태를 기본으로 처리하고, 쓰기 실패는 알림 메시지로 안내한다.
+- 헤더에서 `localProfile` 이 바뀌면 현재 열려 있는 프로필 의존 화면도 새로고침 없이 로그인/로그아웃 상태를 반영한다.
 - 오류는 사용자가 현재 상황을 이해할 수 있는 메시지로 노출한다.
 - 민감 정보, 내부 식별자, 운영 데이터는 UI에 표시하지 않는다.
 - 라우트와 컴포넌트는 제품 데이터에 대해 `window.localStorage` 를 직접 사용하지 않고 `lib/storage` 경계를 통해 접근한다. locale 미러 예외는 `lib/i18n/persistence.ts` 에 한정한다.

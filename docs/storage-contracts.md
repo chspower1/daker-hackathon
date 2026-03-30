@@ -10,13 +10,14 @@
 - 읽기는 `readWithRecovery()` 기반 엔티티 helper를 사용합니다.
 - 저장값이 없거나 JSON 파싱/런타임 검증에 실패하면 엔티티별 seed 또는 기본값으로 복구합니다.
 - `localProfile`만 `persistSeedOnMissing: false`를 사용하며, 값이 없을 때 `null`을 반환하지만 자동 저장하지 않습니다.
+- 헤더 모의 로그아웃과 화면 내 프로필 해제는 `localProfile`에 `null`을 저장하는 방식으로 처리합니다.
 - `bootstrapStorage()`는 앱 진입 시 `hackathons`, `teams`, `submissions`, `leaderboards`, `rankings`를 확인하고 복구된 key 목록을 반환합니다.
 
 ## 키별 계약
 
 | key | 타입 | seed/기본값 | 비고 |
 |---|---|---|---|
-| `localProfile` | `LocalProfile \| null` | `null` | 프로필이 없으면 `null`, 자동 seed 저장 없음 |
+| `localProfile` | `LocalProfile \| null` | `null` | 프로필이 없으면 `null`, 자동 seed 저장 없음, 헤더 모의 로그인과 화면 내 프로필 생성이 동일 key를 사용 |
 | `hackathons` | `HackathonSummary[]` | `listSeedHackathons()` | 공개 목록 seed를 기준으로 복구 |
 | `teams` | `TeamPost[]` | `listSeedTeamPosts()` | 공개 모집글 seed + 사용자 작성 글 저장 |
 | `submissions` | `SubmissionRecord[]` | `[]` | draft / submitted 저장 |

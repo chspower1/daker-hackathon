@@ -345,6 +345,11 @@ export const en = {
       submitFailed: "Unable to finalize the submission.",
     },
   },
+  auth: {
+    login: "Login",
+    logout: "Logout",
+    enterProfileId: "Enter Profile ID (nickname for this browser):",
+  },
   misc: {
     welcome: "Welcome to the arena",
     featuresTitle: "Everything you need",

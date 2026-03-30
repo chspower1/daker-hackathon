@@ -32,3 +32,20 @@ export function renameLocalProfile(profile: LocalProfile, nickname: string, date
     updatedAt: date.toISOString(),
   };
 }
+
+export function loginAs(profileId: string, date = new Date()): LocalProfile {
+  const timestamp = date.toISOString();
+  const profile: LocalProfile = {
+    id: profileId,
+    nickname: profileId,
+    createdAt: timestamp,
+    updatedAt: timestamp,
+  };
+  saveLocalProfile(profile);
+  return profile;
+}
+
+export function logout(): void {
+  saveLocalProfile(null);
+}
+

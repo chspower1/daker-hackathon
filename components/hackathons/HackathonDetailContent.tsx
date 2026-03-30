@@ -27,6 +27,8 @@ import { toLanguageTag } from "@/lib/i18n/config";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { useDocumentMetadata } from "@/lib/i18n/useDocumentMetadata";
 import { createLocalProfile, getLocalProfile, saveLocalProfile } from "@/lib/profile/localProfile";
+import { storageChangeEventName, type StorageChangeDetail } from "@/lib/storage/events";
+import { storageKeys } from "@/lib/storage/keys";
 import { findSeedHackathonDetail, findSeedHackathonSummary } from "@/lib/data/hackathons";
 import { listSeedTeamPostsByHackathon } from "@/lib/data/teams";
 import { findSeedLeaderboard } from "@/lib/data/leaderboards";
@@ -326,6 +328,30 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
       setIsLoading(false);
     }
   }, [slug]);
+
+  
+  useEffect(() => {
+    const handleStorageChange = (e: Event) => {
+      const customEvent = e as CustomEvent<StorageChangeDetail>;
+      if (customEvent.detail.key === storageKeys.localProfile) {
+        setProfile(getLocalProfile());
+      }
+    };
+
+    const handleNativeStorage = (e: StorageEvent) => {
+      if (e.key === storageKeys.localProfile) {
+        setProfile(getLocalProfile());
+      }
+    };
+
+    window.addEventListener(storageChangeEventName, handleStorageChange as EventListener);
+    window.addEventListener('storage', handleNativeStorage);
+
+    return () => {
+      window.removeEventListener(storageChangeEventName, handleStorageChange as EventListener);
+      window.removeEventListener('storage', handleNativeStorage);
+    };
+  }, []);
 
   const languageTag = toLanguageTag(locale);
 

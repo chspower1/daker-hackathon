@@ -347,6 +347,11 @@ export const ko: Dictionary = {
       submitFailed: "최종 제출을 완료할 수 없습니다.",
     },
   },
+  auth: {
+    login: "로그인",
+    logout: "로그아웃",
+    enterProfileId: "프로필 ID를 입력하세요 (이 브라우저에서 사용할 닉네임):",
+  },
   misc: {
     welcome: "새로운 무대에 오신 것을 환영합니다",
     featuresTitle: "필요한 모든 것",
