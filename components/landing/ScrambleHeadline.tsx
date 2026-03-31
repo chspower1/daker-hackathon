@@ -97,7 +97,7 @@ export function ScrambleHeadline({ phrases }: { phrases: string[] }) {
 
   return (
     <>
-      <span aria-hidden="true" className="inline-block whitespace-nowrap">{displayText}</span>
+      <span aria-hidden="true" className="inline-block">{displayText}</span>
       <span className="sr-only">{fallbackPhrase}</span>
     </>
   );

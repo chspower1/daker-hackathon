@@ -72,7 +72,7 @@ export function LandingPage() {
             {dict.misc.welcome}
           </div>
           
-          <div className="w-full flex justify-center scroll-reveal delay-100"><h1 className="text-[2rem] sm:text-4xl md:text-6xl lg:text-[6.5rem] font-bold tracking-tight leading-none text-content-base whitespace-nowrap drop-shadow-sm">
+          <div className="w-full flex justify-center scroll-reveal delay-100 min-h-[9rem] sm:min-h-[9rem] md:min-h-[12rem] lg:min-h-[14rem] items-center"><h1 className="text-[2rem] sm:text-4xl md:text-6xl lg:text-[6.5rem] font-bold tracking-tight leading-tight md:leading-none text-content-base break-keep drop-shadow-sm max-w-full px-4">
             <ScrambleHeadline key={locale} phrases={dict.hero.headlines} />
           </h1></div>
           <p className="text-xl md:text-2xl text-content-subtle font-medium max-w-2xl leading-relaxed scroll-reveal delay-200">
