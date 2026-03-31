@@ -47,18 +47,26 @@ export default async function RootLayout({
       <head>
         <Script id="theme-init" strategy="beforeInteractive">
           {`(function() {
+            var systemTheme = 'light';
+
+            try {
+              systemTheme = window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+            } catch {}
+
+            function applyTheme(theme) {
+              document.documentElement.dataset.theme = theme;
+              document.documentElement.style.colorScheme = theme;
+              document.documentElement.classList.toggle('dark', theme === 'dark');
+            }
+
             try {
               var storedTheme = window.localStorage.getItem('${themeStorageKey}');
               var theme = storedTheme === 'dark' || storedTheme === 'light'
                 ? storedTheme
-                : (window.matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light');
-              document.documentElement.dataset.theme = theme;
-              document.documentElement.style.colorScheme = theme;
-              document.documentElement.classList.toggle('dark', theme === 'dark');
+                : systemTheme;
+              applyTheme(theme);
             } catch {
-              document.documentElement.dataset.theme = 'light';
-              document.documentElement.style.colorScheme = 'light';
-              document.documentElement.classList.remove('dark');
+              applyTheme(systemTheme);
             }
           })();`}
         </Script>

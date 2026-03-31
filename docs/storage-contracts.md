@@ -19,7 +19,7 @@
 |---|---|---|---|
 | `localProfile` | `LocalProfile \| null` | `null` | 프로필이 없으면 `null`, 자동 seed 저장 없음, 헤더 모의 로그인과 화면 내 프로필 생성이 동일 key를 사용 |
 | `hackathons` | `HackathonSummary[]` | `listSeedHackathons()` | 공개 목록 seed를 기준으로 복구 |
-| `teams` | `TeamPost[]` | `listSeedTeamPosts()` | 공개 모집글 seed + 사용자 작성 글 저장 |
+| `teams` | `TeamPost[]` | `listSeedTeamPosts()` | 공개 모집글 seed + 사용자 작성 글 저장. `contact.url` 은 값이 있을 경우 유효한 `http`/`https` 외부 링크만 실제 공개 링크로 취급 |
 | `submissions` | `SubmissionRecord[]` | `[]` | draft / submitted 저장 |
 | `leaderboards` | `Leaderboard[]` | `listSeedLeaderboards()` | 해커톤별 공개 리더보드 |
 | `rankings` | `UserRankingEntry[]` | `listSeedRankings()` | 글로벌 랭킹 표 데이터 |
@@ -78,6 +78,8 @@
   createdAt: string;
 }
 ```
+
+- `contact.url` 은 비어 있을 수 있으며, 값이 있을 경우 공개 가능한 `http` 또는 `https` 링크만 실제 연락 링크로 사용한다.
 
 ### `SubmissionRecord`
 

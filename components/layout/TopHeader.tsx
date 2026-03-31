@@ -97,13 +97,10 @@ export function TopHeader({ variant = "app", rightSlot }: TopHeaderProps) {
           <div className="hidden sm:block">
             <LanguageSwitcher />
           </div>
+          <div className="sm:hidden">
+            <LanguageSwitcher />
+          </div>
           {rightSlot}
-          
-          {/* Mobile Menu Button (Optional, can be wired up later) */}
-          <button type="button" className="md:hidden flex flex-col justify-center items-center w-10 h-10 space-y-1.5 rounded-full bg-surface-muted text-content-muted hover:bg-surface-subtle transition-colors">
-            <span className="w-5 h-0.5 bg-current rounded-full"></span>
-            <span className="w-5 h-0.5 bg-current rounded-full"></span>
-          </button>
         </div>
       </div>
       

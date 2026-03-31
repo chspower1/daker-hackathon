@@ -10,6 +10,7 @@ import { Modal } from "@/components/design-system/patterns/Modal";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { createLocalTeamCode } from "@/lib/ids/local";
 import { createLocalProfile, saveLocalProfile } from "@/lib/profile/localProfile";
+import { getSafeExternalHref } from "@/lib/runtimeGuards";
 import type { HackathonSummary, TeamPost } from "@/types";
 
 interface CampWizardModalProps {
@@ -148,6 +149,7 @@ export function CampWizardModal({
     if (nextName.length === 0 || nextIntro.length === 0) return;
 
     const createdAt = new Date().toISOString();
+    const safeContactUrl = getSafeExternalHref(contactUrl) ?? "";
     const nextTeam: TeamPost = {
       teamCode: createLocalTeamCode(),
       hackathonSlug: nextHackathonSlug,
@@ -160,7 +162,7 @@ export function CampWizardModal({
       intro: nextIntro,
       contact: {
         type: "link",
-        url: contactUrl.trim(),
+        url: safeContactUrl,
       },
       createdAt,
     };

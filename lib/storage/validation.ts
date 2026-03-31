@@ -45,3 +45,11 @@ export function isOptionalRecordOfStrings(value: unknown): value is Record<strin
 export function isOptionalRecordOfNumbers(value: unknown): value is Record<string, number> | undefined {
   return value === undefined || (isRecord(value) && Object.values(value).every((item) => isNumber(item)));
 }
+
+export function isDateString(value: unknown): value is string {
+  return isString(value) && Number.isFinite(Date.parse(value));
+}
+
+export function isOptionalDateString(value: unknown): value is string | undefined {
+  return value === undefined || isDateString(value);
+}

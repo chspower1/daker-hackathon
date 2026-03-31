@@ -14,6 +14,7 @@ import { LoadingState } from "@/components/design-system/patterns/LoadingState";
 import { toLanguageTag } from "@/lib/i18n/config";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { useDocumentMetadata } from "@/lib/i18n/useDocumentMetadata";
+import { getSafeTimestamp, parseSafeDate } from "@/lib/runtimeGuards";
 import { readHackathons } from "@/lib/storage/entities/hackathons";
 import { cn } from "@/lib/cn";
 import type { HackathonStatus, HackathonSummary } from "@/types";
@@ -121,12 +122,12 @@ export function HackathonList() {
         } else if (sortField === "status") {
           cmp = a.status.localeCompare(b.status, languageTag);
         } else if (sortField === "startDate") {
-          const dateA = a.period.startAt ? new Date(a.period.startAt).getTime() : 0;
-          const dateB = b.period.startAt ? new Date(b.period.startAt).getTime() : 0;
+          const dateA = getSafeTimestamp(a.period.startAt);
+          const dateB = getSafeTimestamp(b.period.startAt);
           cmp = dateA - dateB;
         } else if (sortField === "endDate") {
-          const dateA = a.period.endAt ? new Date(a.period.endAt).getTime() : 0;
-          const dateB = b.period.endAt ? new Date(b.period.endAt).getTime() : 0;
+          const dateA = getSafeTimestamp(a.period.endAt);
+          const dateB = getSafeTimestamp(b.period.endAt);
           cmp = dateA - dateB;
         }
         return sortOrder === "asc" ? cmp : -cmp;
@@ -161,7 +162,10 @@ export function HackathonList() {
   const listText = dict.hackathonList;
   const hasActiveSidebarFilters = statusFilter !== "all" || tagFilter.length > 0 || tagSearchQuery.trim().length > 0 || keywordSearch.trim().length > 0;
 
-  const formatDate = (value?: string) => value ? dateFormatter.format(new Date(value)) : null;
+  const formatDate = (value?: string) => {
+    const parsedDate = parseSafeDate(value);
+    return parsedDate ? dateFormatter.format(parsedDate) : null;
+  };
 
   if (isLoading) return <LoadingState label={dict.appPages.loadingLabel} />;
   if (hasError) return <ErrorState title={listText.errorTitle} message={listText.errorDescription} />;

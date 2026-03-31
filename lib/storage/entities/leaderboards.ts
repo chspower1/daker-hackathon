@@ -3,8 +3,10 @@ import { readWithRecovery, type StorageReadResult, writeValue } from "@/lib/stor
 import { storageKeys } from "@/lib/storage/keys";
 import {
   isArrayOf,
+  isDateString,
   isNumber,
   isOptionalNumber,
+  isOptionalDateString,
   isOptionalRecordOfNumbers,
   isOptionalString,
   isRecord,
@@ -33,7 +35,7 @@ function isLeaderboardEntry(value: unknown): value is PersistedLeaderboardEntry 
     (rank === undefined || isNumber(rank))
     && isString(teamName)
     && isOptionalNumber(score)
-    && isOptionalString(submittedAt)
+    && isOptionalDateString(submittedAt)
     && isOptionalRecordOfNumbers(scoreBreakdown)
     && (artifacts === undefined || (
       isRecord(artifacts)
@@ -52,7 +54,7 @@ function isLeaderboard(value: unknown): value is PersistedLeaderboard {
 
   return (
     isString(value.hackathonSlug)
-    && isString(value.updatedAt)
+    && isDateString(value.updatedAt)
     && isArrayOf(value.entries, isLeaderboardEntry)
   );
 }

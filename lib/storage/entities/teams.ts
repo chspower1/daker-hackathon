@@ -4,6 +4,7 @@ import { storageKeys } from "@/lib/storage/keys";
 import {
   isArrayOf,
   isBoolean,
+  isDateString,
   isOptionalNumber,
   isOptionalString,
   isOptionalStringArray,
@@ -47,7 +48,7 @@ function isTeamPost(value: unknown): value is TeamPost {
     && isRecord(contact)
     && contact.type === "link"
     && isString(contact.url)
-    && isString(createdAt)
+    && isDateString(createdAt)
   );
 }
 

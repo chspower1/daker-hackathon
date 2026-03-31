@@ -3,6 +3,7 @@ import { readWithRecovery, writeValue } from "@/lib/storage/client";
 import { storageKeys } from "@/lib/storage/keys";
 import {
   isArrayOf,
+  isOptionalDateString,
   isOptionalString,
   isRecord,
   isString,
@@ -25,9 +26,9 @@ function isHackathonSummary(value: unknown): value is HackathonSummary {
     && isOptionalString(thumbnailUrl)
     && isRecord(period)
     && isString(period.timezone)
-    && isOptionalString(period.submissionDeadlineAt)
-    && isOptionalString(period.endAt)
-    && isOptionalString(period.startAt)
+    && isOptionalDateString(period.submissionDeadlineAt)
+    && isOptionalDateString(period.endAt)
+    && isOptionalDateString(period.startAt)
     && isRecord(links)
     && isString(links.detail)
     && isOptionalString(links.rules)

@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef, useState } from "react";
+import { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import Link from "next/link";
 import { Alert } from "@/components/design-system/primitives/Alert";
 import { Badge } from "@/components/design-system/primitives/Badge";
@@ -27,6 +27,7 @@ import { toLanguageTag } from "@/lib/i18n/config";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { useDocumentMetadata } from "@/lib/i18n/useDocumentMetadata";
 import { createLocalProfile, getLocalProfile, saveLocalProfile } from "@/lib/profile/localProfile";
+import { getSafeExternalHref, getSafeTimestamp, parseSafeDate } from "@/lib/runtimeGuards";
 import { storageChangeEventName, type StorageChangeDetail } from "@/lib/storage/events";
 import { storageKeys } from "@/lib/storage/keys";
 import { findSeedHackathonDetail, findSeedHackathonSummary } from "@/lib/data/hackathons";
@@ -77,12 +78,12 @@ function getSubmissionFields(detail: HackathonDetail | null) {
 function getDerivedLeaderboardArtifacts(artifacts: Record<string, string>): LeaderboardEntry["artifacts"] {
   const result: LeaderboardEntry["artifacts"] = {};
 
-  const webUrl = artifacts.webUrl || artifacts.githubUrl || artifacts.repoUrl;
+  const webUrl = getSafeExternalHref(artifacts.webUrl || artifacts.githubUrl || artifacts.repoUrl);
   if (webUrl) {
     result.webUrl = webUrl;
   }
 
-  const pdfUrl = artifacts.pdfUrl || artifacts.deckUrl;
+  const pdfUrl = getSafeExternalHref(artifacts.pdfUrl || artifacts.deckUrl);
   if (pdfUrl) {
     result.pdfUrl = pdfUrl;
   }
@@ -120,8 +121,8 @@ function getSortedLeaderboardEntries(entries: LeaderboardEntry[]) {
       return right.score - left.score;
     }
 
-    const leftTime = left.submittedAt ? new Date(left.submittedAt).getTime() : 0;
-    const rightTime = right.submittedAt ? new Date(right.submittedAt).getTime() : 0;
+    const leftTime = getSafeTimestamp(left.submittedAt);
+    const rightTime = getSafeTimestamp(right.submittedAt);
 
     return rightTime - leftTime;
   });
@@ -307,7 +308,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
     description: pageDescription,
   });
 
-  useEffect(() => {
+  const loadDetailState = useCallback(() => {
     try {
       const hackathonResult = readHackathons();
       const nextTeams = readTeams().value.filter((team) => team.hackathonSlug === slug);
@@ -316,7 +317,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
       setDetail(findSeedHackathonDetail(slug) || null);
       setTeams(
         [...(nextTeams.length > 0 ? nextTeams : listSeedTeamPostsByHackathon(slug))]
-          .sort((left, right) => new Date(right.createdAt).getTime() - new Date(left.createdAt).getTime())
+          .sort((left, right) => getSafeTimestamp(right.createdAt) - getSafeTimestamp(left.createdAt))
       );
       setLeaderboard(readLeaderboards().value.find((item) => item.hackathonSlug === slug) || findSeedLeaderboard(slug) || null);
       setSubmissions(readSubmissions().value.filter((item) => item.hackathonSlug === slug));
@@ -329,18 +330,32 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
     }
   }, [slug]);
 
+  useEffect(() => {
+    loadDetailState();
+  }, [loadDetailState]);
+
   
   useEffect(() => {
     const handleStorageChange = (e: Event) => {
       const customEvent = e as CustomEvent<StorageChangeDetail>;
-      if (customEvent.detail.key === storageKeys.localProfile) {
-        setProfile(getLocalProfile());
+      if (
+        customEvent.detail.key === storageKeys.localProfile
+        || customEvent.detail.key === storageKeys.teams
+        || customEvent.detail.key === storageKeys.submissions
+        || customEvent.detail.key === storageKeys.leaderboards
+      ) {
+        loadDetailState();
       }
     };
 
     const handleNativeStorage = (e: StorageEvent) => {
-      if (e.key === storageKeys.localProfile) {
-        setProfile(getLocalProfile());
+      if (
+        e.key === storageKeys.localProfile
+        || e.key === storageKeys.teams
+        || e.key === storageKeys.submissions
+        || e.key === storageKeys.leaderboards
+      ) {
+        loadDetailState();
       }
     };
 
@@ -351,7 +366,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
       window.removeEventListener(storageChangeEventName, handleStorageChange as EventListener);
       window.removeEventListener('storage', handleNativeStorage);
     };
-  }, []);
+  }, [loadDetailState]);
 
   const languageTag = toLanguageTag(locale);
 
@@ -369,7 +384,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
 
     return [...submissions]
       .filter((item) => item.profileId === profile.id)
-      .sort((left, right) => new Date(right.updatedAt).getTime() - new Date(left.updatedAt).getTime())[0] || null;
+      .sort((left, right) => getSafeTimestamp(right.updatedAt) - getSafeTimestamp(left.updatedAt))[0] || null;
   }, [profile, submissions]);
 
   const leaderboardEntries = useMemo(
@@ -378,11 +393,13 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
   );
 
   const formatDateTime = (value?: string) => {
-    if (value === undefined) {
+    const parsedDate = parseSafeDate(value);
+
+    if (parsedDate === null) {
       return dict.hackathonDetail.labels.noValue;
     }
 
-    return dateFormatter.format(new Date(value));
+    return dateFormatter.format(parsedDate);
   };
 
   const formatNumber = (value?: number) => {
@@ -651,9 +668,9 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                     </ul>
                   ) : null}
                   <div className="flex flex-wrap gap-4">
-                    {detail.sections.info.links?.rules ? (
+                    {getSafeExternalHref(detail.sections.info.links?.rules) ? (
                       <a
-                        href={detail.sections.info.links.rules}
+                        href={getSafeExternalHref(detail.sections.info.links?.rules) ?? undefined}
                         target="_blank"
                         rel="noreferrer"
                         className="inline-flex items-center justify-center rounded-xl border border-border-base bg-surface-base px-6 py-2.5 text-sm font-semibold text-content-muted shadow-sm transition-all hover:-translate-y-0.5 hover:border-border-strong hover:shadow-md"
@@ -661,9 +678,9 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                         {labelText.rules} →
                       </a>
                     ) : null}
-                    {detail.sections.info.links?.faq ? (
+                    {getSafeExternalHref(detail.sections.info.links?.faq) ? (
                       <a
-                        href={detail.sections.info.links.faq}
+                        href={getSafeExternalHref(detail.sections.info.links?.faq) ?? undefined}
                         target="_blank"
                         rel="noreferrer"
                         className="inline-flex items-center justify-center rounded-xl border border-border-base bg-surface-base px-6 py-2.5 text-sm font-semibold text-content-muted shadow-sm transition-all hover:-translate-y-0.5 hover:border-border-strong hover:shadow-md"
@@ -748,7 +765,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                   ) : null}
                   <div className="relative space-y-6 before:absolute before:inset-0 before:ml-5 before:h-full before:w-px before:-translate-x-px before:bg-border-strong md:before:mx-auto md:before:translate-x-0">
                     {[...detail.sections.schedule.milestones]
-                      .sort((left, right) => new Date(left.at).getTime() - new Date(right.at).getTime())
+                      .sort((left, right) => getSafeTimestamp(left.at) - getSafeTimestamp(right.at))
                       .map((milestone) => (
                         <div key={`${milestone.name}-${milestone.at}`} className="group relative flex items-center justify-between md:justify-normal md:odd:flex-row-reverse">
                           <div className="z-10 flex h-10 w-10 shrink-0 items-center justify-center rounded-full border border-border-base bg-surface-base shadow-sm transition-transform group-hover:scale-110 md:order-1 md:group-odd:-translate-x-1/2 md:group-even:translate-x-1/2">
@@ -854,14 +871,16 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                         </div>
                       </div>
 
-                      <a
-                        href={team.contact.url}
-                        target="_blank"
-                        rel="noreferrer"
-                        className="mt-3 inline-flex w-full justify-center rounded-xl border border-border-base bg-surface-base py-2.5 text-sm font-semibold text-content-muted shadow-sm transition-all hover:bg-surface-muted hover:text-content-base"
-                      >
-                        {labelText.contact} →
-                      </a>
+                      {getSafeExternalHref(team.contact.url) ? (
+                        <a
+                          href={getSafeExternalHref(team.contact.url) ?? undefined}
+                          target="_blank"
+                          rel="noreferrer"
+                          className="mt-3 inline-flex w-full justify-center rounded-xl border border-border-base bg-surface-base py-2.5 text-sm font-semibold text-content-muted shadow-sm transition-all hover:bg-surface-muted hover:text-content-base"
+                        >
+                          {labelText.contact} →
+                        </a>
+                      ) : null}
                     </CardContent>
                   </Card>
                 ))}
@@ -1057,10 +1076,16 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                           </TableCell>
                           <TableCell className="text-sm font-medium text-content-muted">{formatDateTime(entry.submittedAt)}</TableCell>
                           <TableCell className="pr-6">
+                            {(() => {
+                              const safeWebUrl = getSafeExternalHref(entry.artifacts?.webUrl);
+                              const safePdfUrl = getSafeExternalHref(entry.artifacts?.pdfUrl);
+                              const hasArtifactValue = safeWebUrl !== null || safePdfUrl !== null || entry.artifacts?.planTitle;
+
+                              return (
                             <div className="flex flex-wrap gap-2 text-xs font-semibold uppercase tracking-wider">
-                              {entry.artifacts?.webUrl ? (
+                              {safeWebUrl ? (
                                 <a
-                                  href={entry.artifacts.webUrl}
+                                  href={safeWebUrl}
                                   target="_blank"
                                   rel="noreferrer"
                                   className="block rounded-md border border-border-base bg-surface-base px-2.5 py-1 text-content-muted shadow-sm transition-colors hover:border-blue-200 hover:bg-surface-muted hover:text-blue-600 dark:hover:text-blue-400"
@@ -1068,9 +1093,9 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                                   {labelText.web}
                                 </a>
                               ) : null}
-                              {entry.artifacts?.pdfUrl ? (
+                              {safePdfUrl ? (
                                 <a
-                                  href={entry.artifacts.pdfUrl}
+                                  href={safePdfUrl}
                                   target="_blank"
                                   rel="noreferrer"
                                   className="block rounded-md border border-border-base bg-surface-base px-2.5 py-1 text-content-muted shadow-sm transition-colors hover:border-blue-200 hover:bg-surface-muted hover:text-blue-600 dark:hover:text-blue-400"
@@ -1083,10 +1108,12 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                                   {entry.artifacts.planTitle}
                                 </div>
                               ) : null}
-                              {entry.artifacts === undefined ? (
+                              {!hasArtifactValue ? (
                                 <span className="normal-case font-medium text-content-subtle">{labelText.noValue}</span>
                               ) : null}
                             </div>
+                              );
+                            })()}
                           </TableCell>
                         </TableRow>
                       ))}

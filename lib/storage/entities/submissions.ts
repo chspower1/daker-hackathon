@@ -2,6 +2,8 @@ import { readWithRecovery, writeValue } from "@/lib/storage/client";
 import { storageKeys } from "@/lib/storage/keys";
 import {
   isArrayOf,
+  isDateString,
+  isOptionalDateString,
   isOptionalString,
   isRecord,
   isString,
@@ -37,8 +39,8 @@ function isSubmissionRecord(value: unknown): value is SubmissionRecord {
     && isOptionalString(notes)
     && isOptionalRecordOfStrings(artifacts)
     && artifacts !== undefined
-    && isOptionalString(submittedAt)
-    && isString(updatedAt)
+    && isOptionalDateString(submittedAt)
+    && isDateString(updatedAt)
   );
 }
 

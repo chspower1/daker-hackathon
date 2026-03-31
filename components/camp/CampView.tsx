@@ -14,6 +14,7 @@ import { toLanguageTag } from "@/lib/i18n/config";
 import { useI18n } from "@/lib/i18n/I18nProvider";
 import { useDocumentMetadata } from "@/lib/i18n/useDocumentMetadata";
 import { getLocalProfile } from "@/lib/profile/localProfile";
+import { getSafeExternalHref, getSafeTimestamp, parseSafeDate } from "@/lib/runtimeGuards";
 import { storageChangeEventName, type StorageChangeDetail } from "@/lib/storage/events";
 import { storageKeys } from "@/lib/storage/keys";
 import { readHackathons } from "@/lib/storage/entities/hackathons";
@@ -192,8 +193,13 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
     [languageTag],
   );
 
+  const formatCreatedAt = (value: string) => {
+    const parsedDate = parseSafeDate(value);
+    return parsedDate ? dateFormatter.format(parsedDate) : "-";
+  };
+
   const baseTeams = useMemo(() => {
-    const sortedTeams = [...teams].sort((left, right) => Date.parse(right.createdAt) - Date.parse(left.createdAt));
+    const sortedTeams = [...teams].sort((left, right) => getSafeTimestamp(right.createdAt) - getSafeTimestamp(left.createdAt));
 
     if (filterHackathonSlug === undefined) {
       return sortedTeams;
@@ -338,7 +344,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
           const lB = b.lookingFor.join(", ");
           cmp = lA.localeCompare(lB, languageTag);
         } else if (sortField === "createdAt") {
-          cmp = new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime();
+          cmp = getSafeTimestamp(a.createdAt) - getSafeTimestamp(b.createdAt);
         }
         return sortOrder === "asc" ? cmp : -cmp;
       });
@@ -688,7 +694,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                           {team.lookingFor.length > 2 && <span className="bg-surface-muted text-content-subtle px-1.5 py-0.5 text-[10px] rounded">+{team.lookingFor.length - 2}</span>}
                         </div>
                       </TableCell>
-                      <TableCell>{dateFormatter.format(new Date(team.createdAt))}</TableCell>
+                      <TableCell>{formatCreatedAt(team.createdAt)}</TableCell>
                     </TableRow>
                   );
                 })}
@@ -775,14 +781,14 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                         <div className="flex items-center justify-between gap-4 pt-2 border-t border-border-muted">
                           <span className="font-semibold text-content-subtle">{listText.createdAtLabel}</span>
                           <span className="text-right font-medium text-content-subtle text-xs">
-                            {dateFormatter.format(new Date(team.createdAt))}
+                            {formatCreatedAt(team.createdAt)}
                           </span>
                         </div>
 
-                        {team.contact.url.length > 0 && (
+                        {getSafeExternalHref(team.contact.url) && (
                           <div className="pt-2">
                             <a
-                              href={team.contact.url}
+                              href={getSafeExternalHref(team.contact.url) ?? undefined}
                               target="_blank"
                               rel="noreferrer"
                               className="w-full font-semibold text-primary-base hover:text-primary-hover transition-colors flex items-center justify-center gap-1.5 bg-primary-subtle hover:bg-primary-base/20 px-3 py-2 rounded-lg dark:text-blue-300 dark:bg-blue-900/30 dark:hover:bg-blue-900/50 dark:hover:text-blue-200"
