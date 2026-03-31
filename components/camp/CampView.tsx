@@ -350,7 +350,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
     return (
       <span className={cn(
         "ml-1.5 inline-flex items-center text-[10px] transition-colors",
-        isActive ? "text-blue-600 font-bold" : "text-content-subtle group-hover:text-content-muted"
+        isActive ? "text-blue-600 dark:text-blue-400 font-bold" : "text-content-subtle group-hover:text-content-muted"
       )}>
         {isActive ? (sortOrder === "asc" ? "▲" : "▼") : "↕"}
       </span>
@@ -392,13 +392,13 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
           {/* 1. Header/Context */}
           <div className="shrink-0 p-5 bg-surface-base border-b border-border-base/60 relative">
             {filterHackathonSlug !== undefined && activeHackathon !== undefined && (
-              <div className="mb-4 p-3 bg-amber-50/80 rounded-xl border border-amber-200/50">
+              <div className="mb-4 p-3 bg-amber-50/80 dark:bg-amber-900/20 rounded-xl border border-amber-200/50 dark:border-amber-800/50">
                 <div className="flex items-start justify-between">
                   <div>
-                    <p className="text-[10px] font-bold text-amber-800 uppercase tracking-wider mb-0.5">{listText.filterTitle}</p>
-                    <p className="text-xs text-amber-900 font-medium line-clamp-1">{activeHackathon.title}</p>
+                    <p className="text-[10px] font-bold text-amber-800 dark:text-amber-200 uppercase tracking-wider mb-0.5">{listText.filterTitle}</p>
+                    <p className="text-xs text-amber-900 dark:text-amber-100 font-medium line-clamp-1">{activeHackathon.title}</p>
                   </div>
-                  <Link href="/camp" className="p-1 text-amber-700 hover:text-amber-900 bg-amber-100/50 hover:bg-amber-100 rounded-md transition-colors" title={dict.hackathonList.filters.clear}>
+                  <Link href="/camp" className="p-1 text-amber-700 hover:text-amber-900 dark:text-amber-100 bg-amber-100/50 hover:bg-amber-100 rounded-md transition-colors" title={dict.hackathonList.filters.clear}>
                     <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
                   </Link>
                 </div>
@@ -443,7 +443,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                     className={cn(
                       "flex items-center justify-between text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 font-medium border",
                       isActive 
-                        ? "bg-surface-base text-blue-700 border-border-base/60 shadow-sm" 
+                        ? "bg-surface-base text-blue-700 dark:text-blue-300 border-border-base/60 shadow-sm" 
                         : "bg-transparent text-content-muted border-transparent hover:bg-surface-subtle/50 hover:text-content-base",
                     )}
                   >
@@ -451,7 +451,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                     <span
                       className={cn(
                         "text-[10px] font-bold px-2 py-0.5 rounded-full",
-                        isActive ? "bg-blue-50 text-blue-600" : "bg-surface-subtle text-content-subtle",
+                        isActive ? "bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-300" : "bg-surface-subtle text-content-subtle",
                       )}
                     >
                       {statusCounts[option]}
@@ -532,7 +532,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                             className={cn(
                               "px-2.5 py-1 rounded-md text-xs transition-all duration-200 border",
                               isSelected
-                                ? "bg-blue-50 text-blue-700 border-blue-200 font-semibold"
+                                ? "bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-800 font-semibold"
                                 : "bg-surface-base text-content-muted border-border-base hover:border-border-strong hover:bg-surface-muted",
                             )}
                           >
@@ -553,7 +553,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
       <main className="flex-1 w-full min-w-0">
         <div className="space-y-6">
           {notice !== null && (
-            <Alert variant={notice.variant} title={notice.title} className="!border !border-border-base/60 !shadow-sm !rounded-xl !bg-surface-base/80 backdrop-blur-sm ring-1 ring-white/50 !p-4 !text-content-muted !text-sm !font-normal">
+            <Alert variant={notice.variant} title={notice.title} className="!border !border-border-base/60 !shadow-sm !rounded-xl !bg-surface-base/80 backdrop-blur-sm ring-1 ring-white/50 dark:ring-white/10 !p-4 !text-content-muted !text-sm !font-normal">
               {notice.description}
             </Alert>
           )}
@@ -682,7 +682,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                       <TableCell>{team.ownerNicknameSnapshot ?? "-"}</TableCell>
                       <TableCell>{hackathonTitle}</TableCell>
                       <TableCell>
-                        <span className={cn("px-2 py-1 rounded-full text-xs font-semibold", team.isOpen ? "bg-blue-50 text-blue-700" : "bg-surface-muted text-content-subtle")}>
+                        <span className={cn("px-2 py-1 rounded-full text-xs font-semibold", team.isOpen ? "bg-blue-50 text-blue-700 dark:bg-blue-900/30 dark:text-blue-300" : "bg-surface-muted text-content-subtle")}>
                           {team.isOpen ? listText.statusOpen : listText.statusClosed}
                         </span>
                       </TableCell>
@@ -717,7 +717,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                           className={cn(
                             "rounded-full px-2.5 py-0.5 text-xs font-bold tracking-wide border whitespace-nowrap",
                             team.isOpen
-                              ? "bg-primary-subtle text-primary-base border-primary-base/20"
+                              ? "bg-primary-subtle text-primary-base border-primary-base/20 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-800"
                               : "bg-surface-muted text-content-subtle border-border-base",
                           )}
                         >
@@ -769,7 +769,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                               {(team.teamStyle ?? []).map((tag) => (
                                 <span
                                   key={`${team.teamCode}-team-style-${tag}`}
-                                  className="bg-primary-subtle text-primary-base px-2 py-0.5 text-[11px] font-semibold rounded"
+                                  className="bg-primary-subtle text-primary-base px-2 py-0.5 text-[11px] font-semibold rounded dark:bg-blue-900/30 dark:text-blue-300"
                                 >
                                   {tag}
                                 </span>
@@ -791,7 +791,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                               href={team.contact.url}
                               target="_blank"
                               rel="noreferrer"
-                              className="w-full font-semibold text-primary-base hover:text-primary-hover transition-colors flex items-center justify-center gap-1.5 bg-primary-subtle hover:bg-primary-base/20 px-3 py-2 rounded-lg"
+                              className="w-full font-semibold text-primary-base hover:text-primary-hover transition-colors flex items-center justify-center gap-1.5 bg-primary-subtle hover:bg-primary-base/20 px-3 py-2 rounded-lg dark:text-blue-300 dark:bg-blue-900/30 dark:hover:bg-blue-900/50 dark:hover:text-blue-200"
                             >
                               {listText.contactLink}
                               <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true">

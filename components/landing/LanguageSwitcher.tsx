@@ -14,7 +14,7 @@ export function LanguageSwitcher() {
         type="button"
         onClick={() => setLocale("en")}
         className={`cursor-pointer text-xs font-medium transition-colors ${
-          locale === "en" ? "text-primary-base" : "text-content-muted hover:text-content-base"
+          locale === "en" ? "text-primary-base dark:text-blue-400" : "text-content-muted hover:text-content-base"
         }`}
       >
         EN
@@ -26,7 +26,7 @@ export function LanguageSwitcher() {
         type="button"
         onClick={() => setLocale("ko")}
         className={`cursor-pointer text-xs font-medium transition-colors ${
-          locale === "ko" ? "text-primary-base" : "text-content-muted hover:text-content-base"
+          locale === "ko" ? "text-primary-base dark:text-blue-400" : "text-content-muted hover:text-content-base"
         }`}
       >
         KO

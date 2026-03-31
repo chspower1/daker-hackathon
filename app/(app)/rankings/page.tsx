@@ -94,7 +94,7 @@ export default function RankingsPage() {
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full max-w-3xl h-64 bg-blue-600 opacity-[0.03] filter blur-[80px] rounded-full pointer-events-none"></div>
       
       <div className="relative z-10 flex flex-col items-center text-center mb-8">
-        <div className="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-semibold text-blue-600 shadow-sm mb-4">
+        <div className="inline-flex items-center rounded-full bg-blue-50 dark:bg-blue-900/30 px-3 py-1 text-xs font-semibold text-blue-600 dark:text-blue-300 shadow-sm mb-4">
           <span className="relative flex h-2 w-2 mr-2">
             <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
             <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
@@ -136,11 +136,11 @@ export default function RankingsPage() {
                 </thead>
                 <tbody>
                   {rankings.map((entry, idx) => (
-                    <tr key={`${entry.rank}-${entry.nickname}`} className={`group transition-colors duration-200 hover:bg-surface-muted ${idx !== rankings.length - 1 ? 'border-b border-border-muted' : ''} ${idx < 3 ? 'bg-blue-50/30' : ''}`}>
+                    <tr key={`${entry.rank}-${entry.nickname}`} className={`group transition-colors duration-200 hover:bg-surface-muted ${idx !== rankings.length - 1 ? 'border-b border-border-muted' : ''} ${idx < 3 ? 'bg-blue-50/30 dark:bg-blue-900/20' : ''}`}>
                       <td className="py-3 px-4 text-base">
                         {idx === 0 ? <span className="inline-flex items-center gap-1.5"><span aria-hidden="true" className="animate-pulse">🏆</span><span className="text-sm text-content-subtle font-semibold tabular-nums">#1</span></span> : idx === 1 ? <span className="inline-flex items-center gap-1.5"><span aria-hidden="true">🥈</span><span className="text-sm text-content-subtle font-semibold tabular-nums">#2</span></span> : idx === 2 ? <span className="inline-flex items-center gap-1.5"><span aria-hidden="true">🥉</span><span className="text-sm text-content-subtle font-semibold tabular-nums">#3</span></span> : <span className="text-content-subtle font-semibold tabular-nums">#{entry.rank}</span>}
                         </td>
-                      <td className="py-3 px-4 text-content-base font-semibold text-base group-hover:text-blue-600 transition-colors">
+                      <td className="py-3 px-4 text-content-base font-semibold text-base group-hover:text-blue-600 dark:group-hover:text-blue-400 transition-colors">
                         {entry.nickname}
                       </td>
                       <td className="py-3 px-4 font-mono text-content-muted font-medium text-right text-base tabular-nums">

@@ -63,7 +63,7 @@ export function TopHeader({ variant = "app", rightSlot }: TopHeaderProps) {
             </div>
             <div className="flex flex-col ml-1">
               <span className="hidden sm:block text-lg leading-none text-content-base font-extrabold tracking-tighter">{dict.brand.hack}</span>
-              <span className="hidden sm:block text-[0.6rem] leading-none text-blue-600 font-bold tracking-[0.2em] uppercase mt-0.5">{dict.brand.platform}</span>
+              <span className="hidden sm:block text-[0.6rem] leading-none text-blue-600 dark:text-blue-400 font-bold tracking-[0.2em] uppercase mt-0.5">{dict.brand.platform}</span>
             </div>
           </Link>
           
@@ -77,12 +77,12 @@ export function TopHeader({ variant = "app", rightSlot }: TopHeaderProps) {
                   href={item.href}
                   className={cn(
                     "relative py-2 transition-colors whitespace-nowrap group hover:text-content-base",
-                    isActive ? "text-blue-600" : ""
+                    isActive ? "text-blue-600 dark:text-blue-400" : ""
                   )}
                 >
                   {item.label}
                   <span className={cn(
-                    "absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 rounded-full transform origin-left transition-transform duration-300 ease-out",
+                    "absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 dark:bg-blue-400 rounded-full transform origin-left transition-transform duration-300 ease-out",
                     isActive ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
                   )} />
                 </Link>
@@ -121,12 +121,12 @@ export function TopHeader({ variant = "app", rightSlot }: TopHeaderProps) {
                 href={item.href}
                 className={cn(
                   "relative py-3 transition-colors whitespace-nowrap shrink-0 hover:text-content-base",
-                  isActive ? "text-blue-600" : ""
+                  isActive ? "text-blue-600 dark:text-blue-400" : ""
                 )}
               >
                 {item.label}
                 {isActive && (
-                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 rounded-full" />
+                  <span className="absolute bottom-0 left-0 w-full h-0.5 bg-blue-600 dark:bg-blue-400 rounded-full" />
                 )}
               </Link>
             );

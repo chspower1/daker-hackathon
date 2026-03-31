@@ -62,9 +62,9 @@ export function LandingPage() {
       <section className="relative min-h-screen pt-32 pb-20 px-6 max-w-[90rem] mx-auto flex flex-col justify-center overflow-visible">
         {/* Animated Background blobs and grid */}
         <div className="absolute inset-0 z-0 bg-grid-pattern [mask-image:linear-gradient(to_bottom,white_40%,transparent_100%)]"></div>
-        <div className="absolute top-0 -left-4 w-72 h-72 bg-blue-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob"></div>
-        <div className="absolute top-0 -right-4 w-72 h-72 bg-indigo-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob delay-200"></div>
-        <div className="absolute -bottom-8 left-20 w-72 h-72 bg-sky-300 rounded-full mix-blend-multiply filter blur-3xl opacity-30 animate-blob delay-400"></div>
+        <div className="absolute top-0 -left-4 w-72 h-72 bg-blue-300 dark:bg-blue-900/40 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-30 animate-blob"></div>
+        <div className="absolute top-0 -right-4 w-72 h-72 bg-indigo-300 dark:bg-indigo-900/40 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-30 animate-blob delay-200"></div>
+        <div className="absolute -bottom-8 left-20 w-72 h-72 bg-sky-300 dark:bg-sky-900/40 rounded-full mix-blend-multiply dark:mix-blend-screen filter blur-3xl opacity-30 animate-blob delay-400"></div>
         
         <div className="flex flex-col items-center text-center z-10 space-y-10 w-full mt-16">
           <div className="scroll-reveal inline-flex items-center rounded-full border border-border-base bg-surface-base/70 px-4 py-1.5 text-sm font-medium text-content-base backdrop-blur-md shadow-sm transition-all hover:shadow-md hover:bg-surface-base cursor-default">
@@ -101,7 +101,7 @@ export function LandingPage() {
           {dict.features.map((feature, idx) => (
             <Card key={feature.id} id={feature.id} className={`scroll-reveal delay-${(idx % 3) * 100} h-full border-border-muted shadow-lg hover:shadow-2xl transition-all duration-500 hover:-translate-y-3 bg-surface-base/90 backdrop-blur-sm group`}>
               <CardHeader>
-                <div className="w-14 h-14 rounded-2xl bg-blue-50 text-blue-600 flex items-center justify-center mb-6 shadow-inner transition-all duration-500 group-hover:bg-blue-600 group-hover:text-white group-hover:scale-110">
+                <div className="w-14 h-14 rounded-2xl bg-blue-50 dark:bg-blue-900/30 text-blue-600 dark:text-blue-300 flex items-center justify-center mb-6 shadow-inner transition-all duration-500 group-hover:bg-blue-600 group-hover:text-white group-hover:scale-110">
                   {/* Icon wrapper */}
                   <div>
                     {idx === 0 && (
@@ -181,7 +181,7 @@ export function LandingPage() {
       <section id="rankings" className="py-32 px-6 max-w-[90rem] mx-auto relative mb-20">
         <div className="flex flex-col xl:flex-row gap-16 items-center">
           <div className="xl:w-1/3 space-y-8 scroll-reveal">
-            <div className="inline-flex items-center rounded-full bg-blue-50 px-4 py-1.5 text-sm font-semibold text-blue-600 shadow-sm">
+            <div className="inline-flex items-center rounded-full bg-blue-50 dark:bg-blue-900/30 px-4 py-1.5 text-sm font-semibold text-blue-600 dark:text-blue-300 shadow-sm">
               <span className="relative flex h-2 w-2 mr-2">
                 <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-blue-400 opacity-75"></span>
                 <span className="relative inline-flex rounded-full h-2 w-2 bg-blue-500"></span>
@@ -216,7 +216,7 @@ export function LandingPage() {
                         <td className="p-6 text-content-base font-bold text-lg group-hover:text-blue-600 transition-colors">{row.team}</td>
                         <td className="p-6 font-mono text-content-muted font-medium">{row.score.toLocaleString(languageTag)}</td>
                         <td className="p-6">
-                          <span className="inline-flex items-center rounded-full bg-green-50 px-3 py-1 text-sm font-medium text-green-700 ring-1 ring-inset ring-green-600/20">
+                          <span className="inline-flex items-center rounded-full bg-green-50 dark:bg-green-900/30 px-3 py-1 text-sm font-medium text-green-700 dark:text-green-300 ring-1 ring-inset ring-green-600/20 dark:ring-green-800/50">
                             {row.status}
                           </span>
                         </td>

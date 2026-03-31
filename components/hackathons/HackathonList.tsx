@@ -151,7 +151,7 @@ export function HackathonList() {
     return (
       <span className={cn(
         "ml-1.5 inline-flex items-center text-[10px] transition-colors",
-        isActive ? "text-blue-600 font-bold" : "text-content-subtle group-hover:text-content-muted"
+        isActive ? "text-blue-600 dark:text-blue-400 font-bold" : "text-content-subtle group-hover:text-content-muted"
       )}>
         {isActive ? (sortOrder === "asc" ? "▲" : "▼") : "↕"}
       </span>
@@ -194,14 +194,14 @@ export function HackathonList() {
                     className={cn(
                       "flex items-center justify-between text-left px-3 py-2 rounded-lg text-sm transition-all duration-200 font-medium border",
                       isActive 
-                        ? "bg-surface-base text-blue-700 border-border-base/60 shadow-sm" 
+                        ? "bg-surface-base text-blue-700 dark:text-blue-300 border-border-base/60 shadow-sm" 
                         : "bg-transparent text-content-muted border-transparent hover:bg-surface-subtle/50 hover:text-content-base"
                     )}
                   >
                     <span>{label}</span>
                     <span className={cn(
                       "text-[10px] font-bold px-2 py-0.5 rounded-full",
-                      isActive ? "bg-blue-50 text-blue-600" : "bg-surface-subtle text-content-subtle"
+                      isActive ? "bg-blue-50 text-blue-600 dark:bg-blue-900/30 dark:text-blue-300" : "bg-surface-subtle text-content-subtle"
                     )}>
                       {statusCounts[option]}
                     </span>
@@ -262,7 +262,7 @@ export function HackathonList() {
                       }}
                       className={cn(
                         "px-2.5 py-1 rounded-md text-xs transition-all duration-200 border",
-                        isSelected ? "bg-blue-50 text-blue-700 border-blue-200 font-semibold" : "bg-surface-base text-content-muted border-border-base hover:border-border-strong hover:bg-surface-muted"
+                        isSelected ? "bg-blue-50 text-blue-700 border-blue-200 dark:bg-blue-900/30 dark:text-blue-300 dark:border-blue-800 font-semibold" : "bg-surface-base text-content-muted border-border-base hover:border-border-strong hover:bg-surface-muted"
                       )}
                     >
                       {tag}
@@ -396,7 +396,7 @@ export function HackathonList() {
                       )}
                     </TableCell>
                     <TableCell>
-                      <Link href={hackathon.links.detail} className="font-semibold text-blue-600 hover:underline">
+                      <Link href={hackathon.links.detail} className="font-semibold text-blue-600 dark:text-blue-400 hover:underline">
                         {hackathon.title}
                       </Link>
                     </TableCell>
@@ -442,7 +442,7 @@ export function HackathonList() {
                            />
                          )}
                         <div className="absolute top-3 left-3 flex gap-2">
-                          <span className={cn("rounded-full px-2.5 py-0.5 text-xs font-bold tracking-wide border whitespace-nowrap shadow-sm backdrop-blur-md", hackathon.status === "ongoing" ? "bg-primary-subtle/90 text-primary-base border-primary-base/20" : hackathon.status === "upcoming" ? "bg-surface-subtle/90 text-content-base border-border-strong" : "bg-surface-base/90 text-content-subtle border-border-base")}>
+                          <span className={cn("rounded-full px-2.5 py-0.5 text-xs font-bold tracking-wide border whitespace-nowrap shadow-sm backdrop-blur-md", hackathon.status === "ongoing" ? "bg-primary-subtle/90 text-primary-base border-primary-base/20 dark:bg-blue-900/40 dark:text-blue-300 dark:border-blue-800" : hackathon.status === "upcoming" ? "bg-surface-subtle/90 text-content-base border-border-strong" : "bg-surface-base/90 text-content-subtle border-border-base")}>
                             {listText.status[hackathon.status]}
                           </span>
                         </div>
@@ -462,7 +462,7 @@ export function HackathonList() {
                           </div>
                         )}
                         {deadlineDate && (
-                          <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-4 text-red-600">
+                          <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between sm:gap-4 text-red-600 dark:text-red-400">
                             <span className="font-semibold">{listText.labels.deadline}</span>
                             <span className="text-left sm:text-right font-bold">{deadlineDate}</span>
                           </div>
@@ -472,7 +472,7 @@ export function HackathonList() {
                           <div className="space-y-2 pt-1 border-t border-border-muted">
                             <div className="flex flex-wrap gap-1.5">
                               {hackathon.tags.slice(0, 3).map((tag) => (
-                                <span key={tag} className="bg-primary-subtle text-primary-base px-2 py-0.5 text-[11px] font-semibold rounded">
+                                <span key={tag} className="bg-primary-subtle text-primary-base px-2 py-0.5 text-[11px] font-semibold rounded dark:bg-blue-900/30 dark:text-blue-300">
                                   {tag}
                                 </span>
                               ))}

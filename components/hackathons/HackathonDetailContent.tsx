@@ -641,7 +641,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
               <Card className="rounded-2xl border border-border-base shadow-sm">
                 <CardContent className="space-y-6 pt-6">
                   {detail.sections.info.notice && detail.sections.info.notice.length > 0 ? (
-                    <ul className="space-y-3 rounded-xl border border-amber-200 bg-amber-50 p-5 text-sm leading-relaxed text-content-muted shadow-sm">
+                    <ul className="space-y-3 rounded-xl border border-amber-200 bg-amber-50 dark:border-amber-900/50 dark:bg-amber-900/20 p-5 text-sm leading-relaxed text-content-muted shadow-sm">
                       {detail.sections.info.notice.map((notice) => (
                         <li key={notice} className="flex items-start gap-3">
                           <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-amber-500" />
@@ -717,7 +717,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                   ) : null}
 
                   {detail.sections.eval.limits ? (
-                    <div className="flex flex-wrap gap-3 rounded-xl border border-blue-100 bg-blue-50/50 p-5 shadow-sm">
+                    <div className="flex flex-wrap gap-3 rounded-xl border border-blue-100 bg-blue-50/50 dark:border-blue-900/50 dark:bg-blue-900/20 p-5 shadow-sm">
                       {detail.sections.eval.limits.maxRuntimeSec ? (
                         <Badge variant="default" className="border border-border-base bg-surface-base text-sm font-medium text-content-muted shadow-sm">
                           {labelText.maxRuntime}: {detail.sections.eval.limits.maxRuntimeSec}{labelText.runtimeUnit}
@@ -757,7 +757,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                           <div className="w-[calc(100%-3.5rem)] rounded-2xl border border-border-base bg-surface-base p-5 shadow-sm transition-all group-hover:-translate-y-1 group-hover:shadow-md md:w-[calc(50%-2.5rem)]">
                             <div className="flex flex-col gap-1.5">
                               <h3 className="text-lg font-semibold text-content-base">{milestone.name}</h3>
-                              <span className="text-sm font-medium text-blue-600">{formatDateTime(milestone.at)}</span>
+                              <span className="text-sm font-medium text-blue-600 dark:text-blue-400">{formatDateTime(milestone.at)}</span>
                             </div>
                           </div>
                         </div>
@@ -777,10 +777,10 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                   <Card
                     key={`${item.place}-${item.amountKRW}`}
                     className={idx === 0
-                      ? "rounded-2xl border border-amber-200 bg-amber-50/50 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
+                      ? "rounded-2xl border border-amber-200 bg-amber-50/50 dark:border-amber-900/50 dark:bg-amber-900/20 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
                       : idx === 1
                         ? "rounded-2xl border border-border-base bg-surface-muted/50 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"
-                        : "rounded-2xl border border-orange-200 bg-orange-50/50 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"}
+                        : "rounded-2xl border border-orange-200 bg-orange-50/50 dark:border-orange-900/50 dark:bg-orange-900/20 shadow-sm transition-all hover:-translate-y-1 hover:shadow-md"}
                   >
                     <CardHeader className="border-b border-border-base/60 bg-transparent pb-4">
                       <CardTitle className="text-2xl font-bold text-content-base">{item.place}</CardTitle>
@@ -788,7 +788,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                     <CardContent className="pt-6">
                       <p className="text-3xl font-bold tracking-tight text-content-base lg:text-4xl">
                         {labelText.prizeCurrency} <br />
-                        <span className="text-blue-600">{item.amountKRW.toLocaleString(languageTag)}</span>
+                        <span className="text-blue-600 dark:text-blue-400">{item.amountKRW.toLocaleString(languageTag)}</span>
                       </p>
                     </CardContent>
                   </Card>
@@ -843,7 +843,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                         <p className="text-xs font-semibold uppercase tracking-wider text-content-subtle">{labelText.lookingFor}</p>
                         <div className="flex flex-wrap gap-2">
                           {team.lookingFor.length > 0 ? team.lookingFor.map((role) => (
-                            <span key={role} className="rounded-md border border-blue-200 bg-blue-50 px-2.5 py-0.5 text-xs font-medium text-blue-700">
+                            <span key={role} className="rounded-md border border-blue-200 bg-blue-50 dark:border-blue-800 dark:bg-blue-900/30 dark:text-blue-300 px-2.5 py-0.5 text-xs font-medium text-blue-700">
                               {role}
                             </span>
                           )) : (
@@ -876,7 +876,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
               profile === null ? (
                 <Card className="rounded-2xl border border-border-base shadow-sm">
                   <CardContent className="space-y-8 pt-8">
-                    <div className="flex items-center gap-4 rounded-2xl border border-blue-100 bg-blue-50/50 p-5 shadow-sm dark:border-blue-900/50 dark:bg-blue-900/20">
+                    <div className="flex items-center gap-4 rounded-2xl border border-blue-100 bg-blue-50/50 dark:border-blue-900/50 dark:bg-blue-900/20 p-5 shadow-sm">
                       <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-xl text-blue-600 dark:bg-blue-900/50 dark:text-blue-400">👋</div>
                       <div>
                         <p className="text-lg font-bold text-content-base">{labelText.profileRequired}</p>
@@ -909,8 +909,8 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
               ) : (
                 <Card className="rounded-2xl border border-border-base shadow-sm">
                   <CardContent className="space-y-8 pt-8">
-                    <div className="flex items-center gap-4 rounded-2xl border border-blue-100 bg-blue-50/50 p-5 shadow-sm">
-                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-xl text-blue-600">👤</div>
+                    <div className="flex items-center gap-4 rounded-2xl border border-blue-100 bg-blue-50/50 dark:border-blue-900/50 dark:bg-blue-900/20 p-5 shadow-sm">
+                      <div className="flex h-12 w-12 items-center justify-center rounded-full bg-blue-100 text-xl text-blue-600 dark:bg-blue-900/50 dark:text-blue-400">👤</div>
                       <div>
                         <p className="text-xs font-semibold uppercase tracking-wider text-content-subtle">{labelText.currentProfile}</p>
                         <p className="text-xl font-bold text-content-base">{profile.nickname}</p>
@@ -918,9 +918,9 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                     </div>
 
                     {detail.sections.submit.guide && detail.sections.submit.guide.length > 0 ? (
-                      <div className="space-y-4 rounded-2xl border border-amber-100 bg-amber-50 p-6 shadow-sm">
-                        <h3 className="mb-2 text-lg font-semibold text-amber-900">{labelText.submitGuide}</h3>
-                        <ul className="space-y-3 text-sm leading-relaxed text-amber-800">
+                      <div className="space-y-4 rounded-2xl border border-amber-100 bg-amber-50 dark:border-amber-900/50 dark:bg-amber-900/20 p-6 shadow-sm">
+                        <h3 className="mb-2 text-lg font-semibold text-amber-900 dark:text-amber-200">{labelText.submitGuide}</h3>
+                        <ul className="space-y-3 text-sm leading-relaxed text-amber-800 dark:text-amber-300">
                           {detail.sections.submit.guide.map((item) => (
                             <li key={item} className="flex items-start gap-3">
                               <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-amber-500" />
@@ -1026,7 +1026,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                     </TableHeader>
                     <TableBody>
                       {leaderboardEntries.map((entry, idx) => (
-                        <TableRow key={`${entry.teamName}-${entry.submittedAt || entry.rank || "entry"}`} className={idx < 3 ? "bg-amber-50/30" : ""}>
+                        <TableRow key={`${entry.teamName}-${entry.submittedAt || entry.rank || "entry"}`} className={idx < 3 ? "bg-amber-50/30 dark:bg-amber-900/20" : ""}>
                           <TableCell className="pl-6 text-lg font-bold text-content-muted">
                             {idx === 0 ? "🏆" : idx === 1 ? "🥈" : idx === 2 ? "🥉" : entry.rank ?? labelText.noValue}
                           </TableCell>
@@ -1042,7 +1042,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                           </TableCell>
                           <TableCell>
                             <div className="space-y-1">
-                              <div className="font-mono text-xl font-semibold text-blue-600">{formatNumber(entry.score)}</div>
+                              <div className="font-mono text-xl font-semibold text-blue-600 dark:text-blue-400">{formatNumber(entry.score)}</div>
                               {entry.scoreBreakdown ? (
                                 <div className="mt-1 space-y-1 border-l-2 border-border-base pl-2 text-xs font-medium text-content-subtle">
                                   {Object.entries(entry.scoreBreakdown).map(([key, value]) => (
@@ -1063,7 +1063,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                                   href={entry.artifacts.webUrl}
                                   target="_blank"
                                   rel="noreferrer"
-                                  className="block rounded-md border border-border-base bg-surface-base px-2.5 py-1 text-content-muted shadow-sm transition-colors hover:border-blue-200 hover:bg-surface-muted hover:text-blue-600"
+                                  className="block rounded-md border border-border-base bg-surface-base px-2.5 py-1 text-content-muted shadow-sm transition-colors hover:border-blue-200 hover:bg-surface-muted hover:text-blue-600 dark:hover:text-blue-400"
                                 >
                                   {labelText.web}
                                 </a>
@@ -1073,7 +1073,7 @@ export function HackathonDetailContent({ slug }: { slug: string }) {
                                   href={entry.artifacts.pdfUrl}
                                   target="_blank"
                                   rel="noreferrer"
-                                  className="block rounded-md border border-border-base bg-surface-base px-2.5 py-1 text-content-muted shadow-sm transition-colors hover:border-blue-200 hover:bg-surface-muted hover:text-blue-600"
+                                  className="block rounded-md border border-border-base bg-surface-base px-2.5 py-1 text-content-muted shadow-sm transition-colors hover:border-blue-200 hover:bg-surface-muted hover:text-blue-600 dark:hover:text-blue-400"
                                 >
                                   {labelText.pdf}
                                 </a>

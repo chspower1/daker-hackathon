@@ -8,10 +8,10 @@ export interface AlertProps extends React.HTMLAttributes<HTMLDivElement> {
 
 export function Alert({ className, variant = "default", title, children, ...props }: AlertProps) {
   const variants = {
-    default: "bg-blue-200 border-content-base text-content-base",
-    danger: "bg-red-400 border-content-base text-white",
-    success: "bg-green-400 border-content-base text-content-base",
-    warning: "bg-yellow-300 border-content-base text-content-base",
+    default: "bg-blue-200 border-content-base text-content-base dark:bg-blue-900/30 dark:border-blue-800 dark:text-blue-100",
+    danger: "bg-red-400 border-content-base text-white dark:bg-red-900/30 dark:border-red-800 dark:text-red-100",
+    success: "bg-green-400 border-content-base text-content-base dark:bg-green-900/30 dark:border-green-800 dark:text-green-100",
+    warning: "bg-yellow-300 border-content-base text-content-base dark:bg-yellow-900/30 dark:border-yellow-800 dark:text-yellow-100",
   };
 
   return (
