@@ -1,14 +1,14 @@
 "use client";
 
 import { startTransition, useEffect, useMemo, useRef, useState } from "react";
-import Link from "next/link";
-import { Alert } from "@/components/design-system/primitives/Alert";
+import { useRouter } from "next/navigation";
 import { Button } from "@/components/design-system/primitives/Button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/design-system/primitives/Card";
 import { DataTable, TableBody, TableCell, TableHead, TableHeader, TableRow } from "@/components/design-system/primitives/DataTable";
 import { Input } from "@/components/design-system/primitives/Input";
 import { EmptyState } from "@/components/design-system/patterns/EmptyState";
 import { LoadingState } from "@/components/design-system/patterns/LoadingState";
+import { useToast } from "@/components/design-system/patterns/ToastProvider";
 import { cn } from "@/lib/cn";
 import { toLanguageTag } from "@/lib/i18n/config";
 import { useI18n } from "@/lib/i18n/I18nProvider";
@@ -24,12 +24,6 @@ import type { HackathonSummary, TeamPost } from "@/types";
 interface CampViewProps {
   initialHackathonSlug?: string;
 }
-
-type Notice = {
-  variant: "default" | "success" | "danger";
-  title: string;
-  description: string;
-};
 
 type TeamSubmitResult =
   | { ok: true }
@@ -91,11 +85,12 @@ function matchesCampTag(team: TeamPost, selection: CampTagSelection) {
 
 export function CampView({ initialHackathonSlug }: CampViewProps) {
   const { dict, locale } = useI18n();
+  const { toast } = useToast();
+  const router = useRouter();
   const [isReady, setIsReady] = useState(false);
   const [teams, setTeams] = useState<TeamPost[]>([]);
   const [hackathons, setHackathons] = useState<HackathonSummary[]>([]);
   const [profile, setProfile] = useState<ReturnType<typeof getLocalProfile>>(null);
-  const [notice, setNotice] = useState<Notice | null>(null);
   const [isWizardOpen, setIsWizardOpen] = useState(false);
   const [statusFilter, setStatusFilter] = useState<CampStatusFilter>("all");
   const [selectedTagKeys, setSelectedTagKeys] = useState<string[]>([]);
@@ -106,6 +101,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
   const [sortOrder, setSortOrder] = useState<SortOrder>("desc");
   const triggerRef = useRef<HTMLButtonElement>(null);
   const wasModalOpen = useRef(false);
+  const hasShownFilteredToast = useRef(false);
 
   const filterHackathonSlug = initialHackathonSlug?.trim() || undefined;
   const listText = dict.campList;
@@ -164,6 +160,21 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
     () => hackathons.find((h) => h.slug === filterHackathonSlug),
     [filterHackathonSlug, hackathons],
   );
+
+  useEffect(() => {
+    if (
+      !hasShownFilteredToast.current &&
+      isReady &&
+      filterHackathonSlug !== undefined &&
+      activeHackathon !== undefined
+    ) {
+      hasShownFilteredToast.current = true;
+      toast({
+        title: dict.campList.filterTitle,
+        description: `${dict.campList.filterDesc} ${activeHackathon.title}`,
+      });
+    }
+  }, [activeHackathon, dict.campList.filterDesc, dict.campList.filterTitle, filterHackathonSlug, isReady, toast]);
 
   const pageDescription = activeHackathon !== undefined
     ? `${dict.appPages.campDesc} ${activeHackathon.title}`
@@ -372,7 +383,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
 
     setTeams(nextTeams);
     setIsWizardOpen(false);
-    setNotice({
+    toast({
       variant: "success",
       title: dict.campForm.saveSuccessTitle,
       description: dict.campForm.saveSuccessDesc,
@@ -391,19 +402,6 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
           
           {/* 1. Header/Context */}
           <div className="shrink-0 p-5 bg-surface-base border-b border-border-base/60 relative">
-            {filterHackathonSlug !== undefined && activeHackathon !== undefined && (
-              <div className="mb-4 p-3 bg-amber-50/80 dark:bg-amber-900/20 rounded-xl border border-amber-200/50 dark:border-amber-800/50">
-                <div className="flex items-start justify-between">
-                  <div>
-                    <p className="text-[10px] font-bold text-amber-800 dark:text-amber-200 uppercase tracking-wider mb-0.5">{listText.filterTitle}</p>
-                    <p className="text-xs text-amber-900 dark:text-amber-100 font-medium line-clamp-1">{activeHackathon.title}</p>
-                  </div>
-                  <Link href="/camp" className="p-1 text-amber-700 hover:text-amber-900 dark:text-amber-100 bg-amber-100/50 hover:bg-amber-100 rounded-md transition-colors" title={dict.hackathonList.filters.clear}>
-                    <svg className="w-3.5 h-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5} aria-hidden="true"><path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" /></svg>
-                  </Link>
-                </div>
-              </div>
-            )}
             <h1 className="text-xl font-extrabold tracking-tight text-content-base">{dict.appPages.campTitle}</h1>
             <p className="text-xs text-content-subtle mt-1.5 leading-relaxed">{pageDescription}</p>
             
@@ -414,7 +412,6 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                 className="w-full justify-center shadow-sm bg-blue-600 hover:bg-blue-700 font-semibold text-sm"
                 onClick={() => {
                   setIsWizardOpen(true);
-                  setNotice(null);
                 }}
               >
                 {dict.campForm.toggleOpen}
@@ -491,13 +488,16 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
                 <Button
                   variant="outline"
                   size="sm"
-                  disabled={!hasActiveSidebarFilters}
+                  disabled={!hasActiveSidebarFilters && filterHackathonSlug === undefined}
                   className="w-fit justify-center text-content-muted hover:bg-surface-subtle hover:text-content-base border-border-base text-xs font-semibold disabled:cursor-default disabled:opacity-40"
                   onClick={() => {
                     setStatusFilter("all");
                     setSelectedTagKeys([]);
                     setTagSearchQuery("");
                     setKeywordSearch("");
+                    if (filterHackathonSlug !== undefined) {
+                      router.push('/camp');
+                    }
                   }}
                 >
                   {listText.filters.clear}
@@ -552,12 +552,6 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
 
       <main className="flex-1 w-full min-w-0">
         <div className="space-y-6">
-          {notice !== null && (
-            <Alert variant={notice.variant} title={notice.title} className="!border !border-border-base/60 !shadow-sm !rounded-xl !bg-surface-base/80 backdrop-blur-sm ring-1 ring-white/50 dark:ring-white/10 !p-4 !text-content-muted !text-sm !font-normal">
-              {notice.description}
-            </Alert>
-          )}
-
           
           <div className="flex flex-col sm:flex-row gap-4 items-start sm:items-center justify-between mb-4">
             <p className="text-sm font-medium text-content-subtle whitespace-nowrap">
@@ -599,7 +593,7 @@ export function CampView({ initialHackathonSlug }: CampViewProps) {
               profile={profile}
               onProfileUpdate={(newProfile) => {
                 setProfile(newProfile);
-                setNotice({
+                toast({
                   variant: "success",
                   title: dict.campForm.createProfileSuccessTitle,
                   description: dict.campForm.createProfileSuccessDesc,
