@@ -1,37 +1,69 @@
 import { SlideShell } from '../components/SlideShell';
-import { XCircle, ArrowRight } from 'lucide-react';
+import { Eye, Edit3, ArrowRight, Save, Globe } from 'lucide-react';
 
 export function Slide06() {
   return (
-    <SlideShell title="요약 및 제외 범위" subtitle="이번 이터레이션의 범위 한계" step="05 / 결론">
-      <div className="grid grid-cols-2 gap-12 h-[500px]">
-        {/* Exclusions */}
-        <div className="bg-slate-50 rounded-3xl p-10 border border-slate-200">
-          <div className="flex items-center gap-4 mb-8">
-            <XCircle className="text-red-500 w-8 h-8" />
-            <h3 className="text-3xl font-bold text-slate-950">개발 범위 제외 (Out of Scope)</h3>
+    <SlideShell title="아키텍처: 데이터 흐름 (Read & Write)" subtitle="백엔드 없이 브라우저 로컬 스토리지와 정적 데이터를 결합한 상태 관리" step="04 / 아키텍처 (데이터 흐름)">
+      <div className="flex flex-col h-[480px] gap-8 justify-center">
+        
+        {/* Read Path */}
+        <div className="rounded-[2.5rem] border border-blue-100 bg-white p-8 shadow-sm flex items-center gap-10 relative overflow-hidden group hover:shadow-md transition-shadow">
+          <div className="absolute left-0 top-0 bottom-0 w-3 bg-blue-500" />
+          
+          <div className="flex flex-col items-center justify-center min-w-[140px] pl-4">
+            <div className="w-20 h-20 rounded-3xl bg-blue-50 text-blue-600 flex items-center justify-center mb-4">
+              <Eye size={40} strokeWidth={1.5} />
+            </div>
+            <span className="font-bold text-xl text-slate-800">읽기 (Read)</span>
           </div>
-          <ul className="space-y-6 text-lg text-slate-600">
-            <li className="flex gap-4"><span className="text-red-400 mt-1">×</span> 실시간 채팅 연동</li>
-            <li className="flex gap-4"><span className="text-red-400 mt-1">×</span> 실제 백엔드 데이터베이스 (Postgres 등)</li>
-            <li className="flex gap-4"><span className="text-red-400 mt-1">×</span> 상용 수준의 인증 (OAuth / JWT)</li>
-            <li className="flex gap-4"><span className="text-red-400 mt-1">×</span> UI 폼에서의 개인정보(PII) 수집</li>
-          </ul>
+
+          <div className="flex-1 flex items-center justify-between px-4">
+            <div className="bg-slate-50 border border-slate-200 rounded-3xl p-6 w-[240px] text-center shadow-sm">
+              <Globe className="w-8 h-8 text-slate-400 mx-auto mb-3" strokeWidth={1.5} />
+              <p className="font-bold text-lg text-slate-700">공개 시드 데이터</p>
+            </div>
+            <ArrowRight className="text-slate-300 w-10 h-10" />
+            <div className="bg-slate-50 border border-slate-200 rounded-3xl p-6 w-[240px] text-center shadow-sm">
+              <p className="font-bold text-lg text-slate-700">lib/data 정규화</p>
+              <p className="text-sm font-medium text-slate-500 mt-2">일관된 UI 형태 반환</p>
+            </div>
+            <ArrowRight className="text-blue-300 w-10 h-10" />
+            <div className="bg-blue-600 rounded-3xl p-6 w-[240px] text-center text-white shadow-xl shadow-blue-600/20">
+              <p className="font-bold text-lg">UI 렌더링</p>
+              <p className="text-sm font-medium text-blue-200 mt-2">모두에게 공개</p>
+            </div>
+          </div>
         </div>
 
-        {/* Summary */}
-        <div className="bg-blue-600 rounded-3xl p-10 text-white shadow-xl shadow-blue-600/20 flex flex-col justify-between">
-          <div>
-            <h3 className="text-3xl font-bold mb-6">핵심 제품 흐름 검증 완료</h3>
-            <p className="text-xl text-blue-100 leading-relaxed">
-              HackPlatform은 탐색, 팀 구성, 결과물 제출, 리더보드 반영, 글로벌 랭킹 조회에 이르는 공개 해커톤의 엔드투엔드 여정을 문서 주도형 프론트엔드 프로토타입으로 증명합니다.
-            </p>
+        {/* Write Path */}
+        <div className="rounded-[2.5rem] border border-indigo-100 bg-white p-8 shadow-sm flex items-center gap-10 relative overflow-hidden group hover:shadow-md transition-shadow">
+          <div className="absolute left-0 top-0 bottom-0 w-3 bg-indigo-500" />
+          
+          <div className="flex flex-col items-center justify-center min-w-[140px] pl-4">
+            <div className="w-20 h-20 rounded-3xl bg-indigo-50 text-indigo-600 flex items-center justify-center mb-4">
+              <Edit3 size={40} strokeWidth={1.5} />
+            </div>
+            <span className="font-bold text-xl text-slate-800">쓰기 (Write)</span>
           </div>
-          <div className="flex items-center gap-4 font-bold text-xl">
-            <ArrowRight className="w-8 h-8 text-blue-200" />
-            검증 및 다음 이터레이션 준비 완료
+
+          <div className="flex-1 flex items-center justify-between px-4">
+            <div className="bg-slate-50 border border-slate-200 rounded-3xl p-6 w-[240px] text-center shadow-sm">
+              <p className="font-bold text-lg text-slate-700">사용자 액션</p>
+              <p className="text-sm font-medium text-slate-500 mt-2">임시저장, 팀 모집</p>
+            </div>
+            <ArrowRight className="text-slate-300 w-10 h-10" />
+            <div className="bg-slate-50 border border-slate-200 rounded-3xl p-6 w-[240px] text-center shadow-sm">
+              <Save className="w-8 h-8 text-slate-400 mx-auto mb-3" strokeWidth={1.5} />
+              <p className="font-bold text-lg text-slate-700">로컬 스토리지</p>
+            </div>
+            <ArrowRight className="text-indigo-300 w-10 h-10" />
+            <div className="bg-indigo-600 rounded-3xl p-6 w-[240px] text-center text-white shadow-xl shadow-indigo-600/20">
+              <p className="font-bold text-lg">랭킹 및 프로필 갱신</p>
+              <p className="text-sm font-medium text-indigo-200 mt-2">UI 개인화 즉시 반영</p>
+            </div>
           </div>
         </div>
+
       </div>
     </SlideShell>
   );

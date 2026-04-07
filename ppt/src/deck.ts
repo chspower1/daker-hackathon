@@ -5,6 +5,8 @@ import { Slide03 } from './slides/Slide03';
 import { Slide04 } from './slides/Slide04';
 import { Slide05 } from './slides/Slide05';
 import { Slide06 } from './slides/Slide06';
+import { Slide07 } from './slides/Slide07';
+import { Slide08 } from './slides/Slide08';
 
 export const STAGE_WIDTH = 1400;
 export const STAGE_HEIGHT = 800;
@@ -17,6 +19,8 @@ export const SLIDES: ComponentType[] = [
   Slide04,
   Slide05,
   Slide06,
+  Slide07,
+  Slide08,
 ];
 
 export const SLIDE_COUNT = SLIDES.length;
