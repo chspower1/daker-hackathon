@@ -8,7 +8,7 @@ export function Slide01() {
         <div className="w-24 h-24 glass-panel rounded-3xl flex items-center justify-center premium-shadow mb-8 animate-float">
           <Layers className="text-slate-800 w-10 h-10" strokeWidth={1.5} />
         </div>
-        <h1 className="text-[7rem] font-extrabold tracking-tighter leading-none bg-clip-text text-transparent bg-gradient-to-br from-slate-900 via-slate-700 to-slate-500 pb-4">
+        <h1 className="text-[7rem] font-extrabold tracking-tighter leading-none bg-clip-text text-transparent bg-gradient-to-br from-slate-900 via-slate-700 to-slate-500 pb-4 print-safe-title">
           HackPlatform
         </h1>
         <p className="text-2xl text-slate-500 max-w-3xl leading-relaxed font-light">

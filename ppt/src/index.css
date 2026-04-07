@@ -166,4 +166,10 @@
     animation: none !important;
     transition: none !important;
   }
+
+  .print-safe-title {
+    background: none !important;
+    -webkit-text-fill-color: initial !important;
+    color: #0f172a !important;
+  }
 }
